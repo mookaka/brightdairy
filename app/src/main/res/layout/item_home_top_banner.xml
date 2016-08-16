@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <com.brightdairy.personal.brightdairy.view.Banner
+            android:id="@+id/banner_home_top_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="228dp"
+            app:indicator_width="8dp"
+            app:indicator_height="8dp"
+            />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="4"
+            >
+
+            <RadioButton
+                android:id="@+id/radio_top_freshmilk"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@mipmap/entry_milk"
+                android:text="新鲜牛奶"
+                android:checked="false"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhiterDarker"
+                />
+
+
+            <RadioButton
+                android:id="@+id/radio_top_yogurt"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@mipmap/entry_yogurt"
+                android:text="新鲜酸奶"
+                />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhiterDarker"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_top_dingnaibao"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@mipmap/entry_outmilk"
+                android:text="订奶宝"
+                />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhiterDarker"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_top_quick_order"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@mipmap/entry_purchase"
+                android:text="快速下单"
+                />
+
+        </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#D3D3D3"/>
+
+</LinearLayout>

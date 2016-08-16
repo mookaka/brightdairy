@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/darker_gray"
+    tools:context=".activity.MainActivity">
+
+    <com.brightdairy.personal.brightdairy.view.NoScrollViewPager
+        android:id="@+id/viewpager_home_pages_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+
+        <RadioGroup
+            android:id="@+id/radiogroup_home_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="3dp"
+            android:orientation="horizontal"
+            android:background="@android:color/white">
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_home_bottom_bar_home"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@drawable/selector_home_page_home"
+                android:checked="true"
+                android:text="首页"
+                />
+
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_home_bottom_bar_product"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@drawable/selector_home_page_product"
+                android:text="商品分类"
+                />
+
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_home_bottom_bar_activity"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@drawable/selector_home_page_activity"
+                android:text="活动专区"
+                app:badge_padding_right="20dp"/>
+
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_home_bottom_bar_order"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@drawable/selector_home_page_order"
+                android:text="订单中心"
+                app:badge_padding_right="5dp"
+                app:badge_count="10"
+                />
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_home_bottom_bar_user"
+                style="@style/home_bottom_bar"
+                android:drawableTop="@drawable/selector_home_page_user"
+                android:text="我的随心订"
+                />
+
+        </RadioGroup>
+
+
+
+</LinearLayout>
