@@ -13,4 +13,6 @@
 
     <dimen name="txt_product_info">13sp</dimen>
 
+    <dimen name="txtview_drawable_padding">4dp</dimen>
+
 </resources>

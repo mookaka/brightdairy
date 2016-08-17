@@ -84,7 +84,7 @@ public class ProductCategoryFragment extends Fragment
                     @Override
                     public void onNext(DataResult<ProductCategory> productCategoryDataResult)
                     {
-                        
+
                     }
                 });
 

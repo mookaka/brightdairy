@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="19dp"
+        android:paddingBottom="10dp"
+        android:background="#1f9bd4">
+
+        <ImageButton
+            android:id="@+id/btn_back_to_category_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/nav_back"
+            />
+
+        <TextView
+            android:id="@+id/txtview_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:text="产品详情"
+            />
+
+        <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+            android:id="@+id/radio_product_shopping_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            android:layout_gravity="right|center_vertical"
+            android:button="@null"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:text="购物车"
+            android:drawablePadding="3dp"
+            android:drawableTop="@mipmap/nav_cart"
+            />
+
+    </FrameLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.brightdairy.personal.brightdairy.view.Banner
+                android:id="@+id/banner_product_imgs"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                app:indicator_width="8dp"
+                app:indicator_height="8dp"
+                />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_gravity="center|left"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorTxtBlack"
+                            android:text="优倍随手杯"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center"
+                            android:padding="10dp"
+                            android:button="@drawable/selector_product_detail_share_bg"
+                            android:checked="false"
+                            android:text="分享"
+                            />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="随心订价：5.6元"
+                        android:paddingTop="2dp"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold"
+                        android:textColor="#0355a6"
+                        android:drawableLeft="@mipmap/product_price_app"
+                        android:drawablePadding="@dimen/txtview_drawable_padding"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="2dp"
+                        android:paddingLeft="10dp"
+                        android:text="产品规格：260ml"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="2dp"
+                        android:paddingLeft="10dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="订奶规则："/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:lines="2"
+                                android:text="当天订购酸奶，4天后配送\n当天订购鲜奶，3天后配送"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/colorWhiterLight"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingBottom="10dp"
+                        android:visibility="visible"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="促  销："/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:lines="1"
+                                android:drawableLeft="@mipmap/product_promotion_blue"
+                                android:drawablePadding="@dimen/txtview_drawable_padding"
+                                android:text="致优购满399元赠送致优随手杯一份"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:lines="1"
+                                android:drawableLeft="@mipmap/product_promotion_red"
+                                android:drawablePadding="@dimen/txtview_drawable_padding"
+                                android:text="致优购满199元减50元"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="left|top"
+                    android:textColor="@color/colorBlackLight"
+                    android:text="已    选："/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxtBlack"
+                        android:lines="1"
+                        android:text="配送时间：2016-04-01到2016-04-30"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxtBlack"
+                        android:lines="1"
+                        android:text="配送模式：每日送"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxtBlack"
+                        android:lines="1"
+                        android:text="每次配送：1份"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxtBlack"
+                        android:lines="1"
+                        android:text="总数量：共19份"/>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="right|top"
+                    android:src="@mipmap/forward"
+                    android:background="@color/colorTransparent"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@color/colorBlackLight"
+                    android:text="送    至："/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="-30dp"
+                    android:padding="10dp"
+                    android:drawableLeft="@mipmap/product_local"
+                    android:drawablePadding="@dimen/txtview_drawable_padding"
+                    android:text="上海 上海市 徐汇区"
+                    android:textColor="@color/colorTxtBlack"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@color/colorTransparent"
+                    android:padding="10dp"
+                    android:src="@mipmap/forward"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@color/colorBlackLight"
+                    android:text="配送方："/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="-30dp"
+                    android:padding="10dp"
+                    android:drawableLeft="@mipmap/product_shop"
+                    android:drawablePadding="@dimen/txtview_drawable_padding"
+                    android:text="江苏/南京/某某经销商"
+                    android:textColor="@color/colorTxtBlack"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhiterPure"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="合计金额:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorRedDarker"
+            android:text="￥5.6"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="加入购物车"
+            android:textColor="@color/colorWhiterPure"
+            android:background="@color/colorTxtBlueDarker"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="立即购买"
+            android:textColor="@color/colorWhiterPure"
+            android:background="@color/colorRedDarker"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
