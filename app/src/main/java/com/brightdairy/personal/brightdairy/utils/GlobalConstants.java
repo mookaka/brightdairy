@@ -21,4 +21,6 @@ public class GlobalConstants
 
     public static String ZONE_CODE = "CN-3101";
 
+    public static String ALL_CATEGORY = "all category";
+
 }

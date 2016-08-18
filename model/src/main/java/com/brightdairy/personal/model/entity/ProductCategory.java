@@ -1,5 +1,6 @@
 package com.brightdairy.personal.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class ProductCategory
     public String categoryName;
     public String categoryType;
     public String categoryIcon;
-    public List<ProductCategory> childCategoryList;
-    public List<ProductInfo> productList;
-    public List<Object> proList;
+    public ArrayList<ProductCategory> childCategoryList;
+    public ArrayList<ProductInfo> productList;
+    public ArrayList<Object> proList;
 }

@@ -3,19 +3,29 @@ package com.brightdairy.personal.brightdairy.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.ProductCategoryHttp;
 import com.brightdairy.personal.brightdairy.R;
+import com.brightdairy.personal.brightdairy.adapter.CategoryPageLeftListAdapter;
+import com.brightdairy.personal.brightdairy.adapter.CategoryPageRightInfoAdapter;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.entity.CategoryForTitle;
 import com.brightdairy.personal.model.entity.ProductCategory;
+import com.brightdairy.personal.model.entity.ProductInfo;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,6 +58,7 @@ public class ProductCategoryFragment extends Fragment
 
 
         rclviewProductList.setLayoutManager(new GridLayoutManager(GlobalConstants.APPLICATION_CONTEXT, 2));
+        rclviewProductList.setItemAnimator(new DefaultItemAnimator());
 
         initData();
 
@@ -72,21 +83,89 @@ public class ProductCategoryFragment extends Fragment
                     @Override
                     public void onCompleted()
                     {
-
+                        fillViewData();
                     }
 
                     @Override
                     public void onError(Throwable e)
                     {
-
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(DataResult<ProductCategory> productCategoryDataResult)
                     {
-
+                        ArrayList<ProductCategory> childCategoryList = productCategoryDataResult.result.childCategoryList;
+                        cacheCategoryToLocal(childCategoryList);
                     }
                 });
 
     }
+
+
+
+    private void cacheCategoryToLocal(ArrayList<ProductCategory> productCategories)
+    {
+        Gson localCacheParser = new Gson();
+
+        ArrayList<CategoryForTitle> categoryForTitles = new ArrayList<>();
+
+        for (int indexCategory = 0; indexCategory < productCategories.size(); indexCategory++)
+        {
+            ArrayList<ProductInfo>  productInfos = new ArrayList<>();
+
+            ProductCategory parentCategory = productCategories.get(indexCategory);
+
+            categoryForTitles.add(new CategoryForTitle(parentCategory.categoryId, parentCategory.categoryName, parentCategory.categoryIcon));
+
+            ArrayList<ProductCategory> childProductCategory = parentCategory.childCategoryList;
+
+            for(int index = 0; index < childProductCategory.size(); index++)
+            {
+                ProductCategory childCategory = childProductCategory.get(index);
+                categoryForTitles.add(new CategoryForTitle(childCategory.categoryId, childCategory.categoryName, childCategory.categoryIcon));
+
+                ArrayList<ProductInfo> childProductInfo = childCategory.productList;
+
+                for(int indexProduct = 0; indexProduct < childProductInfo.size(); indexProduct++)
+                {
+                    ProductInfo productInfo = childProductInfo.get(indexProduct);
+                    productInfos.add(productInfo);
+                    childProductInfo.add(productInfo);
+                }
+
+                String childProductInfoCache = localCacheParser.toJson(childProductInfo);
+                PrefUtil.setString(childCategory.categoryId, childProductInfoCache);
+
+            }
+
+            String productInfosCache = localCacheParser.toJson(productInfos);
+            PrefUtil.setString(parentCategory.categoryId, productInfosCache);
+
+        }
+
+        String categoryTitlesCache = localCacheParser.toJson(categoryForTitles);
+        PrefUtil.setString(GlobalConstants.ALL_CATEGORY, categoryTitlesCache);
+
+    }
+
+
+    private CategoryPageRightInfoAdapter categoryPageRightInfoAdapter;
+    private void fillViewData()
+    {
+       categoryPageRightInfoAdapter = new CategoryPageRightInfoAdapter();
+        listviewCategoryList.setAdapter(new CategoryPageLeftListAdapter());
+        rclviewProductList.setAdapter(categoryPageRightInfoAdapter);
+
+        listviewCategoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                categoryPageRightInfoAdapter.freshProductList(position);
+            }
+        });
+
+    }
+
 }
