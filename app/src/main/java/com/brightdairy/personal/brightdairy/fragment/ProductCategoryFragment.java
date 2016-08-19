@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import retrofit2.adapter.rxjava.Result;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -80,7 +81,7 @@ public class ProductCategoryFragment extends Fragment
                 , GlobalConstants.PID, GlobalConstants.UID, GlobalConstants.RID, GlobalConstants.PIN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<ProductCategory>>()
+                .subscribe(new Subscriber<Result<DataResult<ProductCategory>>>()
                 {
                     @Override
                     public void onCompleted()
@@ -95,9 +96,9 @@ public class ProductCategoryFragment extends Fragment
                     }
 
                     @Override
-                    public void onNext(DataResult<ProductCategory> productCategoryDataResult)
+                    public void onNext(Result<DataResult<ProductCategory>> productCategoryDataResult)
                     {
-                        ArrayList<ProductCategory> childCategoryList = productCategoryDataResult.result.childCategoryList;
+                        ArrayList<ProductCategory> childCategoryList = productCategoryDataResult.response().body().result.childCategoryList;
                         cacheCategoryToLocal(childCategoryList);
                     }
                 });

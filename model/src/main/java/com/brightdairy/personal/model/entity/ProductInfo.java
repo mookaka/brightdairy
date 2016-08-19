@@ -14,16 +14,4 @@ public class ProductInfo
     public String productVolUom;
     public String imageUrl;
     public String memberComments;
-
-    public ProductInfo(String crmPdtId, String imageUrl, String memberComments, String productId, String productName, String productPrice, String productVol, String productVolUom, String supplierPartyId) {
-        this.crmPdtId = crmPdtId;
-        this.imageUrl = imageUrl;
-        this.memberComments = memberComments;
-        this.productId = productId;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productVol = productVol;
-        this.productVolUom = productVolUom;
-        this.supplierPartyId = supplierPartyId;
-    }
 }
