@@ -74,9 +74,11 @@ public class ProductCategoryFragment extends Fragment
 
     private void initData()
     {
-        ProductCategoryHttp productCategoryHttp = GlobalRetrofit.getRetrofitInstance().create(ProductCategoryHttp.class);
+        ProductCategoryHttp productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductCategoryHttp.class);
 
-        productCategoryHttp.getSubCategoryList(GlobalConstants.ZONE_CODE).subscribeOn(Schedulers.io())
+        productCategoryHttp.getSubCategoryList(GlobalConstants.ZONE_CODE
+                , GlobalConstants.PID, GlobalConstants.UID, GlobalConstants.RID, GlobalConstants.PIN)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<ProductCategory>>()
                 {
@@ -116,14 +118,14 @@ public class ProductCategoryFragment extends Fragment
 
             ProductCategory parentCategory = productCategories.get(indexCategory);
 
-            categoryForTitles.add(new CategoryForTitle(parentCategory.categoryId, parentCategory.categoryName, parentCategory.categoryIcon));
+            categoryForTitles.add(new CategoryForTitle(parentCategory.categoryIcon, parentCategory.categoryId, parentCategory.categoryName));
 
             ArrayList<ProductCategory> childProductCategory = parentCategory.childCategoryList;
 
             for(int index = 0; index < childProductCategory.size(); index++)
             {
                 ProductCategory childCategory = childProductCategory.get(index);
-                categoryForTitles.add(new CategoryForTitle(childCategory.categoryId, childCategory.categoryName, childCategory.categoryIcon));
+                categoryForTitles.add(new CategoryForTitle(childCategory.categoryIcon, childCategory.categoryId, childCategory.categoryName));
 
                 ArrayList<ProductInfo> childProductInfo = childCategory.productList;
 

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/colorTransparent"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="left|top"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
+
+        <ImageView
+            android:id="@+id/imgview_popup_product_img"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:src="@mipmap/product02_312_162"
+            android:scaleType="fitCenter"/>
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhiterPure">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="top|center_horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优倍随手杯"
+                android:textSize="18sp"
+                android:layout_gravity="left|center_vertical"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlackDarker"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginTop="3dp"
+                android:text="随心订价：5.6元"
+                android:textStyle="bold"
+                android:textColor="#0355a6"
+                android:drawableLeft="@mipmap/product_price_app"
+                android:drawablePadding="@dimen/txtview_drawable_padding"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="(价格会因配送地址的不同有所差异)"
+                android:layout_gravity="left|center_vertical"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorWhiterLight"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="选择容量："/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_margin="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhiterLight"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择数量："/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（每次送奶分数）"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhiterLight"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="选择模式："/>
+
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="每日送"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="工作日送"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="双休日送"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="其它模式"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhiterLight"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="选择时间："/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:button="@drawable/selector_send_check_blue_bg"
+                    android:text="随心订"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="一个月"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="两个月"/>
+
+                <CheckBox
+                    style="@style/product_detail_popup_check"
+                    android:text="三个月"/>
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRedDarkerBtn"
+                android:text="确  定"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhiterPure"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <ImageButton
+        android:id="@+id/imgbtn_popup_exit"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="right|top"
+        android:background="@color/colorTransparent"
+        android:src="@mipmap/off"/>
+
+
+
+
+</merge>

@@ -23,4 +23,14 @@ public class GlobalConstants
 
     public static String ALL_CATEGORY = "all category";
 
+    public static String PID = "";
+    public static String UID = "";
+    public static String RID = "FAA";
+    public static String PIN = "";
+
+    public interface AppConfig
+    {
+        String FAA_KEY = "a5b1827ba615422b97f73e07dc9c602d";
+    }
+
 }

@@ -78,6 +78,8 @@ public class CategoryPageLeftListAdapter extends BaseAdapter
 
         CategoryForTitle categoryForTitle = categoryForTitles.get(position);
 
+        categoryItemVH.txtviewCategoryName.setText(categoryForTitle.categoryName);
+
         if(categoryForTitle.categoryIcon != null)
         {
             Glide.with(GlobalConstants.APPLICATION_CONTEXT)

@@ -87,9 +87,9 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
     public void freshProductList(int position)
     {
         CategoryForTitle categoryForTitle = categoryForTitles.get(position);
-        String categoryName = categoryForTitle.categoryName;
+        String categoryId = categoryForTitle.categoryId;
 
-        String productInfosCache = PrefUtil.getString(categoryName, "");
+        String productInfosCache = PrefUtil.getString(categoryId, "");
 
         if(!productInfosCache.equals(""))
         {

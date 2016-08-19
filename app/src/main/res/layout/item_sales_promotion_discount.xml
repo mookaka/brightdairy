@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/colorWhiterPure">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:textColor="@color/colorBlackDarker"
+            android:text="致优购满199元减50元"
+            android:drawableLeft="@mipmap/product_promotion_red"
+            android:drawablePadding="@dimen/txtview_drawable_padding"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:padding="10dp"
+            android:src="@mipmap/product_promotion_close"
+            android:background="@color/colorTransparent"/>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhiterLight"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="left"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:text="使用时间：2016.2.1——2016.3.5\n使用条件：全场满100"
+        />
+
+</LinearLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/colorWhiterDarker"
+              android:background="@color/colorWhiteLighter"
               android:orientation="vertical">
 
 
@@ -63,10 +63,11 @@
             android:layout_height="match_parent"
             android:listSelector="@color/colorTransparent"
             android:fastScrollEnabled="false"
+            android:scrollbars="none"
             android:choiceMode="singleChoice"
-            android:divider="@color/colorWhiterDarker"
+            android:divider="@color/colorWhiteLighter"
             android:dividerHeight="1dp"
-            android:background="@color/colorWhiterLight"
+            android:background="@color/colorWhiterPure"
             />
 
         <View
@@ -80,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorWhiterLight"
+            android:background="@color/colorWhiterPure"
             android:padding="10dp"
             />
 

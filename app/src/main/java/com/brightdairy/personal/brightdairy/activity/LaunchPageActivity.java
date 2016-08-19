@@ -9,12 +9,15 @@ import android.os.Message;
 import android.widget.ImageView;
 
 import com.brightdairy.personal.api.AdPageHttp;
+import com.brightdairy.personal.api.AppConfigHttp;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LaunchPageHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
+import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataBase;
+import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
 import com.bumptech.glide.Glide;
@@ -62,7 +65,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_page);
-        changeLaunchImg();
+        initData();
 
     }
 
@@ -87,8 +90,38 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
         pageSwitcher.removeCallbacksAndMessages(null);
     }
 
-    private void changeLaunchImg()
+    private void initData()
     {
+
+        AppConfigHttp appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigHttp.class);
+
+        appConfigHttp.getAppPid().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DataResult<String>>() {
+                    @Override
+                    public void onCompleted()
+                    {
+                        StringBuilder pinInitial = new StringBuilder();
+
+                        pinInitial.append(GlobalConstants.PID).append(GlobalConstants.UID)
+                                .append(GlobalConstants.AppConfig.FAA_KEY);
+
+                        GlobalConstants.PIN = GeneralUtils.str2HashKey(pinInitial.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(DataResult<String> stringDataResult)
+                    {
+                        GlobalConstants.PID = stringDataResult.result;
+                    }
+                });
+
         if(GeneralUtils.isDateExpired("localLaunchExpiredDare"))
         {
             LaunchPageHttp launchPageHttpService = GlobalRetrofit.getRetrofitInstance()

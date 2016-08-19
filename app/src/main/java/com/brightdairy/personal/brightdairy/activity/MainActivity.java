@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.brightdairy.personal.api.AppConfigHttp;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.HomeConfigHttp;
 import com.brightdairy.personal.brightdairy.R;
@@ -24,6 +25,7 @@ import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.brightdairy.view.NoScrollViewPager;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataBase;
+import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.HomeConfig;
 import com.brightdairy.personal.model.entity.HomeContent;
 import com.bumptech.glide.Glide;
@@ -87,6 +89,7 @@ public class MainActivity extends FragmentActivity
         FragmentPagerAdapter homePagesAdapter = new HomePagesAdapter(this.getSupportFragmentManager(), homePages);
 
         homePagesContainer.setAdapter(homePagesAdapter);
+
 
         if (GeneralUtils.isDateExpired("homeConfigExpireDate"))
         {

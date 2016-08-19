@@ -4,6 +4,7 @@ import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.entity.LaunchAd;
 
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import rx.Observable;
 
 /**
