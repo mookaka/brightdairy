@@ -11,7 +11,7 @@
     <dimen name="txt_category_name">18sp</dimen>
     <dimen name="txt_category_type_name">15sp</dimen>
 
-    <dimen name="txt_product_info">13sp</dimen>
+    <dimen name="txt_product_info">10sp</dimen>
 
     <dimen name="txtview_drawable_padding">4dp</dimen>
 

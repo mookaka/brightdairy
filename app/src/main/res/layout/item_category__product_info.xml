@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_width="102dp"
+              android:layout_height="102dp"
               android:orientation="vertical"
               android:gravity="center"
               android:padding="5dp"
-              android:background="@color/colorWhiterPure">
+              android:background="@drawable/shape_rectangle_line">
 
     <ImageView
         android:id="@+id/imgview_item_product_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
+        android:layout_marginTop="10dp"
         />
 
     <TextView
         android:id="@+id/txtview_item_product_namne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_gravity="left"
         android:textSize="@dimen/txt_product_info"
         android:textColor="@color/colorTxtBlack"
@@ -27,6 +29,7 @@
         android:id="@+id/txtview_item_product_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:layout_gravity="left"
         android:textSize="@dimen/txt_product_info"
         android:textColor="@color/colorTxtBlack"
@@ -37,6 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="10dp"
         android:textSize="@dimen/txt_product_info"
         android:textColor="@color/colorTxtBlueLight"
         />

@@ -80,13 +80,14 @@ public class CategoryPageLeftListAdapter extends BaseAdapter
 
         categoryItemVH.txtviewCategoryName.setText(categoryForTitle.categoryName);
 
-        if(categoryForTitle.categoryIcon != null)
+        if(categoryForTitle.categoryIcon != null && categoryForTitle.categoryId.equals("freshMilk") || categoryForTitle.categoryId.equals("freshYogurt"))
         {
             Glide.with(GlobalConstants.APPLICATION_CONTEXT)
                     .load(categoryForTitle.categoryIcon)
                     .asBitmap()
-                    .centerCrop()
                     .into(categoryItemVH.imgviewCategoryImg);
+
+            categoryItemVH.imgviewCategoryImg.setVisibility(View.VISIBLE);
         }
 
         return convertView;

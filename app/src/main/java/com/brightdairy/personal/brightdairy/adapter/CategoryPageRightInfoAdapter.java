@@ -60,7 +60,6 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
 
         Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(productInfo.imageUrl)
                 .asBitmap()
-                .centerCrop()
                 .into(holder.imgviewProductImg);
 
         holder.txtviewProductName.setText(productInfo.productName);

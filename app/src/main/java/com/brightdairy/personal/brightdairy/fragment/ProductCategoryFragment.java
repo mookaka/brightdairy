@@ -1,11 +1,13 @@
 package com.brightdairy.personal.brightdairy.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,11 +114,12 @@ public class ProductCategoryFragment extends Fragment
         Gson localCacheParser = new Gson();
 
         ArrayList<CategoryForTitle> categoryForTitles = new ArrayList<>();
+        ArrayList<ProductInfo>  productInfos = new ArrayList<>();
+        ArrayList<ProductInfo> childProductInfos = new ArrayList<>();
 
         for (int indexCategory = 0; indexCategory < productCategories.size(); indexCategory++)
         {
-            ArrayList<ProductInfo>  productInfos = new ArrayList<>();
-
+            productInfos.clear();
             ProductCategory parentCategory = productCategories.get(indexCategory);
 
             categoryForTitles.add(new CategoryForTitle(parentCategory.categoryIcon, parentCategory.categoryId, parentCategory.categoryName));
@@ -125,6 +128,8 @@ public class ProductCategoryFragment extends Fragment
 
             for(int index = 0; index < childProductCategory.size(); index++)
             {
+                childProductInfos.clear();
+
                 ProductCategory childCategory = childProductCategory.get(index);
                 categoryForTitles.add(new CategoryForTitle(childCategory.categoryIcon, childCategory.categoryId, childCategory.categoryName));
 
@@ -134,10 +139,10 @@ public class ProductCategoryFragment extends Fragment
                 {
                     ProductInfo productInfo = childProductInfo.get(indexProduct);
                     productInfos.add(productInfo);
-                    childProductInfo.add(productInfo);
+                    childProductInfos.add(productInfo);
                 }
 
-                String childProductInfoCache = localCacheParser.toJson(childProductInfo);
+                String childProductInfoCache = localCacheParser.toJson(childProductInfos);
                 PrefUtil.setString(childCategory.categoryId, childProductInfoCache);
 
             }
@@ -158,6 +163,7 @@ public class ProductCategoryFragment extends Fragment
     {
        categoryPageRightInfoAdapter = new CategoryPageRightInfoAdapter();
         listviewCategoryList.setAdapter(new CategoryPageLeftListAdapter());
+        rclviewProductList.addItemDecoration(new SpaceItemDecoration(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, GlobalConstants.APPLICATION_CONTEXT.getResources().getDisplayMetrics())));
         rclviewProductList.setAdapter(categoryPageRightInfoAdapter);
 
         listviewCategoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -168,7 +174,41 @@ public class ProductCategoryFragment extends Fragment
                 categoryPageRightInfoAdapter.freshProductList(position);
             }
         });
+    }
 
+    public void refreshPageFocusState(final int position)
+    {
+        listviewCategoryList.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                listviewCategoryList.requestFocusFromTouch();
+                listviewCategoryList.setSelection(position);
+                categoryPageRightInfoAdapter.freshProductList(position);
+            }
+        }, 500);
+    }
+
+    private static class SpaceItemDecoration extends RecyclerView.ItemDecoration
+    {
+        private int space;
+
+        public SpaceItemDecoration(float space)
+        {
+            this.space = (int) space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
+        {
+            outRect.bottom = space;
+
+            if(parent.getChildAdapterPosition(view)%2 ==0)
+            {
+                outRect.right = space;
+            }
+        }
     }
 
 }

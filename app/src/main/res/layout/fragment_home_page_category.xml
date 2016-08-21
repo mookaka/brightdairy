@@ -61,7 +61,7 @@
             android:id="@+id/rclview_category_page_category_list"
             android:layout_width="83dp"
             android:layout_height="match_parent"
-            android:listSelector="@color/colorTransparent"
+            android:listSelector="@color/colorWhiteLighter"
             android:fastScrollEnabled="false"
             android:scrollbars="none"
             android:choiceMode="singleChoice"

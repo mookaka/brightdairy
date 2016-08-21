@@ -49,12 +49,6 @@ public class MainActivity extends FragmentActivity
     private Gson homeConfigParser;
     private ArrayList<BadgeRadioButton> bottomBar;
 
-    private static final int HOME_PAGE = 0;
-    private static final int CATEGORY_PAGE = 1;
-    private static final int ACTIVITY_PAGE = 2;
-    private static final int ORDER_CENTER_PAGE = 3;
-    private static final int USER_PAGE = 4;
-
 
 
     @Override
@@ -75,6 +69,8 @@ public class MainActivity extends FragmentActivity
 
         initData();
         initListener();
+
+        GlobalConstants.HOME_MANAGER = this;
     }
 
     private void initData()
@@ -163,27 +159,27 @@ public class MainActivity extends FragmentActivity
                 switch (checkedId) {
                     case R.id.radio_home_bottom_bar_home:
 
-                        homePagesContainer.setCurrentItem(HOME_PAGE, true);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.HOME_PAGE, true);
 
                         break;
                     case R.id.radio_home_bottom_bar_product:
 
-                        homePagesContainer.setCurrentItem(CATEGORY_PAGE, true);
+                        jumpRefreshNextPage(0);
 
                         break;
                     case R.id.radio_home_bottom_bar_activity:
 
-                        homePagesContainer.setCurrentItem(ACTIVITY_PAGE, true);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.ACTIVITY_PAGE, true);
 
                         break;
                     case R.id.radio_home_bottom_bar_order:
 
-                        homePagesContainer.setCurrentItem(ORDER_CENTER_PAGE, true);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.ORDER_CENTER_PAGE, true);
 
                         break;
                     case R.id.radio_home_bottom_bar_user:
 
-                        homePagesContainer.setCurrentItem(USER_PAGE, true);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.USER_PAGE, true);
 
                         break;
                 }
@@ -196,16 +192,21 @@ public class MainActivity extends FragmentActivity
     {
         if(activity != null && !activity.equals(""))
         {
-            bottomBar.get(ACTIVITY_PAGE).setBadgeCount(0);
-            bottomBar.get(ACTIVITY_PAGE).setBadgeShown(true);
+            bottomBar.get(GlobalConstants.PageRelatedType.ACTIVITY_PAGE).setBadgeCount(0);
+            bottomBar.get(GlobalConstants.PageRelatedType.ACTIVITY_PAGE).setBadgeShown(true);
         }
 
         if(orderCenter != null)
         {
-            bottomBar.get(ORDER_CENTER_PAGE).setBadgeCount(orderCenter.orderNum);
+            bottomBar.get(GlobalConstants.PageRelatedType.ORDER_CENTER_PAGE).setBadgeCount(orderCenter.orderNum);
         }
 
+    }
 
+    public void jumpRefreshNextPage(int initData)
+    {
+        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.CATEGORY_PAGE);
+        ((ProductCategoryFragment)homePages.get(GlobalConstants.PageRelatedType.CATEGORY_PAGE)).refreshPageFocusState(initData);
     }
 
 }
