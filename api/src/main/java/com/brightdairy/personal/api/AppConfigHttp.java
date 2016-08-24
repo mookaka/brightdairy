@@ -3,6 +3,7 @@ package com.brightdairy.personal.api;
 import com.brightdairy.personal.model.DataResult;
 
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import rx.Observable;
 
 /**
@@ -12,4 +13,7 @@ public interface AppConfigHttp
 {
     @GET("commonStore/getPid")
     Observable<DataResult<String>> getAppPid();
+
+    @GET("commonStore/getImageUrl")
+    Observable<DataResult<String>> getImgBaseUrl(@Header("rid") String headerRid);
 }

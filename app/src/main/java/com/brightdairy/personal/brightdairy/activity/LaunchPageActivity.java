@@ -122,6 +122,25 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     }
                 });
 
+
+        appConfigHttp.getImgBaseUrl(GlobalConstants.RID).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DataResult<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(DataResult<String> stringDataResult) {
+                        GlobalConstants.IMG_URL_BASR = stringDataResult.result;
+                    }
+                });
+
         if(GeneralUtils.isDateExpired("localLaunchExpiredDare"))
         {
             LaunchPageHttp launchPageHttpService = GlobalRetrofit.getRetrofitInstance()

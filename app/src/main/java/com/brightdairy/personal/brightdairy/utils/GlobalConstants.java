@@ -41,6 +41,9 @@ public class GlobalConstants
     public static String RID = "FAA";
     public static String PIN = "";
 
+
+    public static String IMG_URL_BASR;
+
     public interface AppConfig
     {
         String FAA_KEY = "a5b1827ba615422b97f73e07dc9c602d";

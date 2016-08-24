@@ -1,5 +1,6 @@
 package com.brightdairy.personal.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class ProductDetail
     public boolean beenCollected;
     public String[] picScrollUrls;
     public List<ProductAssocBean> productAssoc;
-    public List<?> promoInfos;
+    public List<PromoInfos> promoInfos;
 
     public static class PricesBean {
         public double basePrice;
@@ -51,7 +52,7 @@ public class ProductDetail
         public boolean validPriceFound;
         public boolean isSale;
         public String currencyUsed;
-        public List<?> orderItemPriceInfos;
+        public ArrayList<?> orderItemPriceInfos;
     }
 
 
@@ -59,5 +60,14 @@ public class ProductDetail
         public String AsscProdVolume;
         public String AsscProd;
         public String AsscProdImage;
+    }
+
+    public static class PromoInfos {
+        public String productPromoId;
+        public String promoName;
+        public String promoText;
+        public String productId;
+        public String useLimitPerCustomer;
+        public String promoRules;
     }
 }

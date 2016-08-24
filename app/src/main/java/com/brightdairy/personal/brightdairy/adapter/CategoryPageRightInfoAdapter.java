@@ -1,6 +1,7 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
 import android.content.Intent;
+import android.support.v4.util.LruCache;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
     private LayoutInflater layoutInflater;
     private Gson gson;
     private StringBuilder fussStrBuilder;
+
 
     public CategoryPageRightInfoAdapter()
     {
@@ -89,10 +91,12 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
         return productInfos.size();
     }
 
+    private CategoryForTitle categoryForTitle;
+    private String categoryId;
     public void freshProductList(int position)
     {
-        CategoryForTitle categoryForTitle = categoryForTitles.get(position);
-        String categoryId = categoryForTitle.categoryId;
+        categoryForTitle = categoryForTitles.get(position);
+        categoryId = categoryForTitle.categoryId;
 
         String productInfosCache = PrefUtil.getString(categoryId, "");
 
@@ -110,6 +114,7 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
     public void onClick(View v)
     {
         String productId = String.valueOf(v.getTag());
+
         jumpToDetail = new Intent(GlobalConstants.APPLICATION_CONTEXT, ProductDetailActivity.class);
         jumpToDetail.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         jumpToDetail.putExtra("productId", productId);

@@ -69,7 +69,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="5dp"
+                app:cardElevation="0dp"
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
@@ -91,7 +91,6 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:textColor="@color/colorTxtBlack"
-                            android:text="优倍随手杯"
                             />
 
                         <View
@@ -105,6 +104,7 @@
                             android:layout_gravity="right|center"
                             android:padding="10dp"
                             android:button="@drawable/selector_product_detail_share_bg"
+                            android:textColor="@drawable/selector_product_detail_share_txt"
                             android:checked="false"
                             android:text="分享"
                             />
@@ -115,7 +115,6 @@
                         android:id="@+id/txtview_product_detail_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="随心订价：5.6元"
                         android:paddingTop="2dp"
                         android:paddingLeft="10dp"
                         android:textStyle="bold"
@@ -130,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="2dp"
                         android:paddingLeft="10dp"
-                        android:text="产品规格：260ml"
                         />
 
                     <LinearLayout
@@ -152,14 +150,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="left"
-                                android:lines="2"
-                                android:text="当天订购酸奶，4天后配送\n当天订购鲜奶，3天后配送"/>
+                                android:lines="2"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="@color/colorWhiterLight"/>
 
                     <LinearLayout
@@ -175,6 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:textColor="@color/colorBlackLight"
                             android:text="促  销："/>
 
                         <LinearLayout
@@ -183,20 +181,20 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txtview_product_detail_promo_give"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lines="1"
                                 android:drawableLeft="@mipmap/product_promotion_blue"
-                                android:drawablePadding="@dimen/txtview_drawable_padding"
-                                android:text="致优购满399元赠送致优随手杯一份"/>
+                                android:drawablePadding="@dimen/txtview_drawable_padding"/>
 
                             <TextView
+                                android:id="@+id/txtview_product_detail_promo_discount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lines="1"
                                 android:drawableLeft="@mipmap/product_promotion_red"
-                                android:drawablePadding="@dimen/txtview_drawable_padding"
-                                android:text="致优购满199元减50元"/>
+                                android:drawablePadding="@dimen/txtview_drawable_padding"/>
 
                         </LinearLayout>
 
@@ -222,7 +220,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="5dp"
+                app:cardElevation="0dp"
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -269,6 +267,7 @@
                 </LinearLayout>
 
                 <ImageButton
+                    android:id="@+id/imgbtn_select_send_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -282,7 +281,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="5dp"
+                app:cardElevation="0dp"
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -320,7 +319,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="5dp"
+                app:cardElevation="0dp"
                 android:layout_marginTop="10dp"
                 >
 
@@ -351,6 +350,11 @@
 
 
     </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorTransparent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
