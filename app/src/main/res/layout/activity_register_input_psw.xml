@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#1f9bd4">
+
+        <ImageButton
+            android:id="@+id/btn_back_to_category_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/nav_back"
+            />
+
+        <TextView
+            android:id="@+id/txtview_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:text="登录"
+            />
+
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="验证码已发送到"
+        android:textColor="@color/colorBlackLight"
+        android:textSize="15sp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:text="15026623734"
+        android:textColor="@color/colorBlackDarker"
+        android:textSize="25sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_line_lineout_ets_bg"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorTransparent"
+            android:padding="10dp"
+            android:inputType="number"
+            android:textSize="15sp"
+            android:hint="验证码"
+            android:textColorHint="@color/colorBlackLight"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorBlackLight"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlackLight"
+            android:text="60秒重新获取"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlackLight"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorTransparent"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:hint="密码"
+            android:textSize="15sp"
+            android:textColorHint="@color/colorBlackLight"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlackLight"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorTransparent"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            android:hint="再次输入密码"
+            android:textColorHint="@color/colorBlackLight"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_line_lineout_btn_bg"
+        android:gravity="center"
+        android:text="立即注册"
+        android:textSize="15sp"
+        android:textColor="@color/colorWhiterPure"/>
+
+
+</LinearLayout>
