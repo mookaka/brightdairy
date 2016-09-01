@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:padding="10dp">
 
                 <TextView
@@ -117,10 +117,16 @@
                     android:layout_height="wrap_content"
                     android:text="选择数量："/>
 
+                <com.brightdairy.personal.brightdairy.view.AddSubtractionBtn
+                    android:id="@+id/addsubbtn_popup_per_nums"
+                    android:layout_width="90dp"
+                    android:layout_height="25dp"
+                    app:min_value="1"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="份 （每次送奶分数）"
+                    android:text=" 份（每次送奶分数）"
                     />
 
             </LinearLayout>

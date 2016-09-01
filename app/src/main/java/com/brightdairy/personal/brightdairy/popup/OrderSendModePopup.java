@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.ProductDetailActivity;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.bumptech.glide.Glide;
 
@@ -31,6 +32,7 @@ public class OrderSendModePopup extends DialogFragment
     private TextView productName;
     private TextView productPrice;
     private ProductDetail productDetail;
+    private AddSubtractionBtn addSubtractionBtn;
 
     @Nullable
     @Override
@@ -42,6 +44,7 @@ public class OrderSendModePopup extends DialogFragment
         productImg = (ImageView)sendModeSelectorView.findViewById(R.id.imgview_popup_product_img);
         productName = (TextView)sendModeSelectorView.findViewById(R.id.txtview_popup_product_name);
         productPrice = (TextView)sendModeSelectorView.findViewById(R.id.txtview_popup_product_price);
+        addSubtractionBtn = (AddSubtractionBtn)sendModeSelectorView.findViewById(R.id.addsubbtn_popup_per_nums);
 
         return sendModeSelectorView;
     }
@@ -60,6 +63,12 @@ public class OrderSendModePopup extends DialogFragment
         super.onResume();
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        addSubtractionBtn.unSubscribe();
+        super.onDestroyView();
+    }
 
     private void initData()
     {

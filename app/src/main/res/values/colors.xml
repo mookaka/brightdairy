@@ -11,12 +11,15 @@
     <color name="colorWhiterDarker">#D3D3D3</color>
     <color name="colorWhiterLight">#F5F5F5</color>
     <color name="colorWhiteLighter">#ebebeb</color>
+    <color name="colorWhiteOpacity">#5affffff</color>
 
+    <color name="colorBlackOpacity">#32000000</color>
     <color name="colorBlackDarker">#ee000000</color>
     <color name="colorBlackLight">@android:color/darker_gray</color>
     <color name="colorTxtBlack">#323232</color>
     <color name="colorTxtBlueLight">#0055a8</color>
     <color name="colorTxtBlueDarker">#0054a7</color>
+    <color name="colorGeneralBg">#1f9bd4</color>
 
     <color name="colorTransparent">@android:color/transparent</color>
 

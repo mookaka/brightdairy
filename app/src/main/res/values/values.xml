@@ -14,4 +14,8 @@
         <attr name="badge_none_show" format="boolean" />
         <attr name="badge_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="AddSubtractionBtn">
+        <attr name="min_value" format="integer"/>
+    </declare-styleable>
+
 </resources>
