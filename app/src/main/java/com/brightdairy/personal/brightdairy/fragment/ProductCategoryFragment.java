@@ -79,8 +79,7 @@ public class ProductCategoryFragment extends Fragment
     {
         ProductCategoryHttp productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductCategoryHttp.class);
 
-        productCategoryHttp.getSubCategoryList(GlobalConstants.ZONE_CODE
-                , GlobalConstants.PID, GlobalConstants.UID, GlobalConstants.RID, GlobalConstants.PIN)
+        productCategoryHttp.getSubCategoryList(GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Result<DataResult<ProductCategory>>>()

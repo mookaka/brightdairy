@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:textColor="#ffffff"
             android:textSize="22sp"
-            android:text="登录"
+            android:text="注册"
             />
 
     </FrameLayout>
@@ -44,6 +44,7 @@
         android:textSize="25sp"/>
 
     <EditText
+        android:id="@+id/edit_input_register_phone_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -60,6 +61,7 @@
 
 
     <Button
+        android:id="@+id/btn_get_register_validation_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -78,6 +80,7 @@
         android:layout_margin="10dp">
 
         <CheckBox
+            android:id="@+id/checkbox_register_protocol_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"

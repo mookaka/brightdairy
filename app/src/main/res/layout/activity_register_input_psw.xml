@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:textColor="#ffffff"
             android:textSize="22sp"
-            android:text="登录"
+            android:text="注册"
             />
 
     </FrameLayout>
@@ -45,6 +45,7 @@
 
 
     <TextView
+        android:id="@+id/txtview_register_get_validation_phone_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -67,6 +68,7 @@
             android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/edit_input_register_validation_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -77,12 +79,6 @@
             android:hint="验证码"
             android:textColorHint="@color/colorBlackLight"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/colorBlackLight"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,6 +95,7 @@
             android:background="@color/colorBlackLight"/>
 
         <EditText
+            android:id="@+id/edit_input_register_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -117,6 +114,7 @@
             android:background="@color/colorBlackLight"/>
 
         <EditText
+            android:id="@+id/edit_input_register_confirm_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -132,6 +130,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_user_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

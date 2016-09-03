@@ -40,7 +40,26 @@ public class GlobalRetrofit
     {
         if (retrofitDev == null)
         {
-            retrofitDev = new Retrofit.Builder().baseUrl(BASE_URL_DEV)
+            OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor()
+            {
+                @Override
+                public Response intercept(Chain chain) throws IOException
+                {
+                    Request originalReq = chain.request();
+
+                    Request.Builder newReqBuilder = originalReq.newBuilder()
+                            .addHeader("pid", GlobalHttpConfig.PID)
+                            .addHeader("uid", GlobalHttpConfig.UID)
+                            .addHeader("rid", GlobalHttpConfig.RID)
+                            .addHeader("pin", GlobalHttpConfig.PIN)
+                            .addHeader("tid", GlobalHttpConfig.TID);
+
+                    return null;
+                }
+            }).build();
+
+            retrofitDev = new Retrofit.Builder().client(httpClient)
+                    .baseUrl(BASE_URL_DEV)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();

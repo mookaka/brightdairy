@@ -52,6 +52,7 @@
         android:layout_margin="10dp">
 
         <EditText
+            android:id="@+id/edit_input_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -70,6 +71,7 @@
             android:background="@color/colorBlackLight"/>
 
         <EditText
+            android:id="@+id/edit_input_user_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -86,6 +88,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_user_login_by_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -97,6 +100,7 @@
         android:textColor="@color/colorWhiterPure"/>
 
     <Button
+        android:id="@+id/btn_find_psw_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorTransparent"

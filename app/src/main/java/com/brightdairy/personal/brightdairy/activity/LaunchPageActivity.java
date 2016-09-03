@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.brightdairy.personal.api.AdPageHttp;
 import com.brightdairy.personal.api.AppConfigHttp;
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LaunchPageHttp;
 import com.brightdairy.personal.brightdairy.R;
@@ -22,6 +23,10 @@ import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
 import com.bumptech.glide.Glide;
 
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -103,10 +108,10 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     {
                         StringBuilder pinInitial = new StringBuilder();
 
-                        pinInitial.append(GlobalConstants.PID).append(GlobalConstants.UID)
+                        pinInitial.append(GlobalHttpConfig.PID).append(GlobalHttpConfig.UID)
                                 .append(GlobalConstants.AppConfig.FAA_KEY);
 
-                        GlobalConstants.PIN = GeneralUtils.str2HashKey(pinInitial.toString());
+                        GlobalHttpConfig.PIN = GeneralUtils.str2HashKey(pinInitial.toString());
                     }
 
                     @Override
@@ -118,12 +123,44 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     @Override
                     public void onNext(DataResult<String> stringDataResult)
                     {
-                        GlobalConstants.PID = stringDataResult.result;
+                        GlobalHttpConfig.PID = stringDataResult.result;
+                    }
+                });
+
+        appConfigHttp.getCurrCityCode().subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<DataResult<ArrayList<JSONObject>>>()
+                {
+                    @Override
+                    public void onCompleted()
+                    {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(DataResult<ArrayList<JSONObject>> arrayListDataResult)
+                    {
+                        ArrayList<JSONObject> result = arrayListDataResult.result;
+
+                        for (int index = 0; index < result.size(); index++)
+                        {
+                            JSONObject city = result.get(index);
+
+                            if(city.has(GlobalConstants.CURR_ZONE_CN_NAME))
+                                GlobalConstants.ZONE_CODE = city.optString(GlobalConstants.CURR_ZONE_CN_NAME);
+
+                        }
                     }
                 });
 
 
-        appConfigHttp.getImgBaseUrl(GlobalConstants.RID).subscribeOn(Schedulers.io())
+        appConfigHttp.getImgBaseUrl(GlobalHttpConfig.RID).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<String>>() {
                     @Override

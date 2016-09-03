@@ -16,9 +16,5 @@ import rx.Observable;
 public interface ProductCategoryHttp
 {
     @GET("productStore/getSubCategoryList/bdroot/{zonecode}")
-    Observable<Result<DataResult<ProductCategory>>> getSubCategoryList(@Path("zonecode") String zonecode
-                                                               , @Header("pid") String headerPid
-                                                                , @Header("uid") String headerUid
-                                                                , @Header("rid") String headerRid
-                                                                , @Header("pin") String headerPin);
+    Observable<Result<DataResult<ProductCategory>>> getSubCategoryList(@Path("zonecode") String zonecode);
 }

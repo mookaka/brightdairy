@@ -28,10 +28,11 @@
             android:layout_gravity="center"
             android:textColor="#ffffff"
             android:textSize="22sp"
-            android:text="登录"
+            android:text="找回密码"
             />
 
     </FrameLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,6 +45,7 @@
 
 
     <TextView
+        android:id="@+id/txtview_find_psw_back_get_validation_phone_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -53,47 +55,91 @@
         android:textColor="@color/colorBlackDarker"
         android:textSize="25sp"/>
 
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:background="@drawable/shape_line_lineout_transparent"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical"
+        android:background="@drawable/shape_line_lineout_ets_bg"
+        android:layout_margin="10dp">
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_input_find_psw_back_validation_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/colorTransparent"
+            android:padding="10dp"
             android:inputType="number"
             android:textSize="15sp"
             android:hint="验证码"
             android:textColorHint="@color/colorBlackLight"/>
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
+            android:padding="10dp"
             android:textSize="15sp"
             android:textColor="@color/colorBlackLight"
             android:text="60秒重新获取"/>
+        </LinearLayout>
 
-    </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlackLight"/>
 
+        <EditText
+            android:id="@+id/edit_input_new_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorTransparent"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:hint="新密码"
+            android:textSize="15sp"
+            android:textColorHint="@color/colorBlackLight"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlackLight"/>
+
+        <EditText
+            android:id="@+id/edit_input_confirm_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorTransparent"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            android:hint="再次输入新密码"
+            android:textColorHint="@color/colorBlackLight"/>
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/btn_confirm_psw_modification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="10dp"
         android:background="@drawable/shape_line_lineout_btn_bg"
         android:gravity="center"
-        android:text="登录"
+        android:text="确认修改"
         android:textSize="15sp"
         android:textColor="@color/colorWhiterPure"/>
+
 
 </LinearLayout>

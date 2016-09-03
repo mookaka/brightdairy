@@ -38,7 +38,7 @@ public class ProductDetail
     public String minOrderDuration;
     public boolean beenCollected;
     public String[] picScrollUrls;
-    public List<ProductAssocBean> productAssoc;
+    public ArrayList<ProductAssocBean> productAssoc;
     public List<PromoInfos> promoInfos;
 
     public static class PricesBean {

@@ -140,44 +140,84 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
                 android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:textSize="12sp"
                     android:text="选择模式："/>
+
 
                 <RadioGroup
                     android:id="@+id/rdgroup_popup_send_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/radio_popup_everyday"
-                        style="@style/product_detail_popup_check"
-                        android:checked="true"
-                        android:text="每日送"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_popup_workday"
-                        style="@style/product_detail_popup_check"
-                        android:text="工作日送"/>
+                        <RadioButton
+                            android:id="@+id/radio_popup_everyday"
+                            style="@style/product_detail_popup_check"
+                            android:checked="true"
+                            android:text="每日送"/>
 
-                    <RadioButton
-                        android:id="@+id/radio_popup_weekend"
-                        style="@style/product_detail_popup_check"
-                        android:text="双休日送"/>
+                        <RadioButton
+                            android:id="@+id/radio_popup_singleday"
+                            style="@style/product_detail_popup_check"
+                            android:text="单日送"/>
 
-                    <RadioButton
-                        android:id="@+id/radio_popup_other"
-                        style="@style/product_detail_popup_check"
-                        android:text="其它模式"/>
+                        <RadioButton
+                            android:id="@+id/radio_popup_triday"
+                            style="@style/product_detail_popup_check"
+                            android:text="三日送"/>
+
+                        <RadioButton
+                            android:id="@+id/radio_popup_other"
+                            style="@style/product_detail_popup_check"
+                            android:text="其它模式"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="2dp"/>
+
+                        <RadioButton
+                            android:id="@+id/radio_popup_twiceday"
+                            style="@style/product_detail_popup_check"
+                            android:text="双日送"/>
+
+                        <RadioButton
+                            android:id="@+id/radio_popup_workday"
+                            style="@style/product_detail_popup_check"
+                            android:text="工作日送"/>
+
+                        <RadioButton
+                            android:id="@+id/radio_popup_weekenday"
+                            style="@style/product_detail_popup_check"
+                            android:text="周末送"/>
+
+                    </LinearLayout>
 
                 </RadioGroup>
+
+
 
 
             </LinearLayout>

@@ -32,14 +32,11 @@ public class GlobalConstants
     public static Context APPLICATION_CONTEXT;
     public static MainActivity HOME_MANAGER;
 
-    public static String ZONE_CODE = "CN-3101";
-
     public static String ALL_CATEGORY = "all category";
 
-    public static String PID = "";
-    public static String UID = "";
-    public static String RID = "FAA";
-    public static String PIN = "";
+
+    public static String CURR_ZONE_CN_NAME = "上海市";
+    public static String ZONE_CODE = "CN-3101";
 
 
     public static String IMG_URL_BASR;
