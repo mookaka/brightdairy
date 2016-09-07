@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="10dp"
+              android:orientation="vertical"
+              android:background="@color/colorWhiterPure">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/txtview_item_address_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/address_user"
+            android:textSize="13sp"
+            android:text="李响"/>
+
+        <TextView
+            android:id="@+id/txtview_item_address_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/address_mobile"
+            android:singleLine="true"
+            android:maxLength="11"
+            android:textSize="13sp"
+            android:text="15253636545"/>
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/txtview_item_address_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@mipmap/address_local"
+        android:singleLine="true"
+        android:maxLength="25"
+        android:textSize="13sp"
+        android:text="中山西路1800号兆丰环球大厦27楼C座"/>
+
+
+    <View
+        android:id="@+id/view_item_address_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhiteLighter"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/checkbox_item_address_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:button="@drawable/selector_checkbox_btn"
+            android:textSize="13sp"
+            android:text="设为默认"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorTransparent"/>
+
+        <TextView
+            android:id="@+id/btn_item_address_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            android:drawableLeft="@mipmap/address_edit"
+            android:drawablePadding="5dp"
+            android:textColor="@color/colorBlackLight"
+            android:textSize="13sp"
+            android:text="修改"/>
+
+        <TextView
+            android:id="@+id/btn_item_address_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/address_delet"
+            android:textColor="@color/colorBlackLight"
+            android:textSize="13sp"
+            android:text="删除"/>
+
+    </LinearLayout>
+
+</LinearLayout>
