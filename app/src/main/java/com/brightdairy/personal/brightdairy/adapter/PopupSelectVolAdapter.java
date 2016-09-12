@@ -31,7 +31,7 @@ public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> 
     @Override
     public PopSelectVolVH onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View volView = popVolInflater.inflate(R.layout.item_popup_select_vol, null);
+        View volView = popVolInflater.inflate(R.layout.item_popup_select_vol, parent, true);
 
         return new PopSelectVolVH(volView);
     }

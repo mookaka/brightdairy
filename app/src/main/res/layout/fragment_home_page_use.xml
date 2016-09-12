@@ -81,9 +81,16 @@
                 android:textSize="18sp"
                 android:textColor="@color/colorWhiterPure"
                 android:textStyle="bold"
-                android:drawableRight="@mipmap/product_promotion_open"
-                android:drawablePadding="10dp"
                 android:text="1489分"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhiterPure"
+                android:textStyle="bold"
+                android:text=" > "/>
 
         </LinearLayout>
 

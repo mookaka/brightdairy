@@ -81,12 +81,13 @@
 
 
         <TextView
+            android:id="@+id/txtview_resend_find_pwd_back_valid_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="15sp"
             android:textColor="@color/colorBlackLight"
-            android:text="60秒重新获取"/>
+            android:text="重新获取"/>
         </LinearLayout>
 
         <View

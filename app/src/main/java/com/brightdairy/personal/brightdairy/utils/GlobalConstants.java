@@ -44,6 +44,9 @@ public class GlobalConstants
     public interface AppConfig
     {
         String FAA_KEY = "a5b1827ba615422b97f73e07dc9c602d";
+        String UID_LOCAL = "userLoginIdLocal";
+        String TID_LOCAL = "tidLocal";
+        String PID_LOCAL = "pidLocal";
     }
 
 

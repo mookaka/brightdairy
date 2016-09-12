@@ -13,17 +13,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.AdPageActivity"></activity>
-        <activity android:name=".activity.LaunchPageActivity">
+        <activity android:name=".activity.MainActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.AdPageActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.LaunchPageActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.WebBrowserContainerActivity"></activity>
+        <activity android:name=".activity.WebBrowserContainerActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.ProductDetailActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.FindBackPwdActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.FindPwdBackValideCodeActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.LoginPwdActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.LoginSmsActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.RegisterInputPwdActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.RegisterActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.LoginValidationActivity" android:launchMode="singleTask"/>
     </application>
 
 </manifest>

@@ -6,8 +6,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -15,8 +17,8 @@ import rx.Observable;
  */
 public interface AppConfigHttp
 {
-    @GET("commonStore/getPid")
-    Observable<DataResult<String>> getAppPid();
+    @POST("commonStore/getPid")
+    Observable<DataResult<String>> getAppPid(@Body String oldPid);
 
     @GET("commonStore/getImageUrl")
     Observable<DataResult<String>> getImgBaseUrl(@Header("rid") String headerRid);

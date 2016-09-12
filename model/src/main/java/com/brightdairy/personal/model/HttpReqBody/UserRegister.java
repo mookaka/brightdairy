@@ -10,8 +10,8 @@ public class UserRegister
     public String confirmPassword;
     public String phone;
     public String inputCode;
-    public String sendSmsId;
 
+    public String sendSmsId = "";
     public String mailType = "";
     public boolean requireEmail = false;
     public String usernamereg = "usernamereg";
@@ -22,14 +22,12 @@ public class UserRegister
 
     public UserRegister(String userName, String passWord
             , String confirmPassword
-            , String phone
-            , String inputCode, String sendSmsId)
+            , String phone, String inputCode)
     {
         this.userName = userName;
         this.passWord = passWord;
         this.confirmPassword = confirmPassword;
         this.phone = phone;
         this.inputCode = inputCode;
-        this.sendSmsId = sendSmsId;
     }
 }

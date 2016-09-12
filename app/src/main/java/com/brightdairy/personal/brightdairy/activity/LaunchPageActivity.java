@@ -100,7 +100,9 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
 
         AppConfigHttp appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigHttp.class);
 
-        appConfigHttp.getAppPid().subscribeOn(Schedulers.io())
+        String oldPid = PrefUtil.getString(GlobalConstants.AppConfig.PID_LOCAL, "");
+
+        appConfigHttp.getAppPid(oldPid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<String>>() {
                     @Override
@@ -124,6 +126,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     public void onNext(DataResult<String> stringDataResult)
                     {
                         GlobalHttpConfig.PID = stringDataResult.result;
+                        PrefUtil.setString(GlobalConstants.AppConfig.PID_LOCAL, GlobalHttpConfig.PID);
                     }
                 });
 

@@ -33,195 +33,108 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="短信登录"
+            android:textColor="@color/colorBlackDarker"
+            android:textSize="25sp"/>
+
+        <EditText
+            android:id="@+id/edit_login_input_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_line_lineout_transparent"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:inputType="phone"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/setting_mail"
+            android:hint="手机号"
+            android:textColorHint="@color/colorBlackLight"/>
+
+
+        <Button
+            android:id="@+id/btn_login_get_validation_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@drawable/shape_line_lineout_btn_bg"
+            android:gravity="center"
+            android:text="获取短信验证码"
+            android:textSize="15sp"
+            android:textColor="@color/colorWhiterPure"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <Button
+                android:id="@+id/btn_login_jumpto_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="center"
+                android:text="立即注册"
+                />
+
+            <Button
+                android:id="@+id/btn_login_jumpto_psw_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center"
+                android:text="密码登录"
+                />
+
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <LinearLayout
-            android:id="@+id/rl_login_input_validation_code_layout"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:text="验证码已发送到"
                 android:textColor="@color/colorBlackLight"
-                android:textSize="15sp"/>
-
-
-            <TextView
-                android:id="@+id/txtview_get_code_phone_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:text="15026623734"
-                android:textColor="@color/colorBlackDarker"
-                android:textSize="25sp"/>
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:background="@drawable/shape_line_lineout_transparent"
-                android:layout_gravity="center_horizontal">
-
-                <EditText
-                    android:id="@+id/edit_input_login_valid_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_vertical|left"
-                    android:background="@color/colorTransparent"
-                    android:inputType="number"
-                    android:textSize="15sp"
-                    android:hint="验证码"
-                    android:textColorHint="@color/colorBlackLight"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:textSize="15sp"
-                    android:textColor="@color/colorBlackLight"
-                    android:text="60秒重新获取"/>
-
-            </FrameLayout>
-
-
-
-            <Button
-                android:id="@+id/btn_user_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:background="@drawable/shape_line_lineout_btn_bg"
-                android:gravity="center"
-                android:text="登录"
-                android:textSize="15sp"
-                android:textColor="@color/colorWhiterPure"/>
-
-        </LinearLayout
-            >
-
-        <LinearLayout
-            android:id="@+id/rl_login_get_validation_code_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+                android:textSize="10sp"
+                android:text="未注册的手机将自动创建随心订账户，且代表您已同意"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:padding="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="短信登录"
-                android:textColor="@color/colorBlackDarker"
-                android:textSize="25sp"/>
-
-            <EditText
-                android:id="@+id/edit_login_input_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_line_lineout_transparent"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:inputType="phone"
-                android:drawablePadding="5dp"
-                android:drawableLeft="@mipmap/setting_mail"
-                android:hint="手机号"
-                android:textColorHint="@color/colorBlackLight"/>
-
-
-            <Button
-                android:id="@+id/btn_login_get_validation_num"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:background="@drawable/shape_line_lineout_btn_bg"
-                android:gravity="center"
-                android:text="获取短信验证码"
-                android:textSize="15sp"
-                android:textColor="@color/colorWhiterPure"/>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <Button
-                    android:id="@+id/btn_login_jumpto_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorTransparent"
-                    android:layout_gravity="center_vertical|left"
-                    android:gravity="center"
-                    android:text="立即注册"
-                    />
-
-                <Button
-                    android:id="@+id/btn_login_jumpto_psw_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorTransparent"
-                    android:layout_gravity="center_vertical|right"
-                    android:gravity="center"
-                    android:text="密码登录"
-                    />
-
-
-            </FrameLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlackLight"
-                    android:textSize="10sp"
-                    android:text="未注册的手机将自动创建随心订账户，且代表您已同意"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorGeneralBg"
-                    android:textSize="10sp"
-                    android:text="《用户协议》"
-                    />
-
-            </LinearLayout>
+                android:textColor="@color/colorGeneralBg"
+                android:textSize="10sp"
+                android:text="《用户协议》"
+                />
 
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 
-</LinearLayout>
+

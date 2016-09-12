@@ -173,6 +173,8 @@ public class ProductCategoryFragment extends Fragment
                 categoryPageRightInfoAdapter.freshProductList(position);
             }
         });
+
+        refreshPageFocusState(0);
     }
 
     public void refreshPageFocusState(final int position)

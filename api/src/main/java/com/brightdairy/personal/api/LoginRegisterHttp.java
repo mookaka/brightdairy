@@ -2,6 +2,7 @@ package com.brightdairy.personal.api;
 
 import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.HttpReqBody.ModifyPwdBySms;
 import com.brightdairy.personal.model.HttpReqBody.SendSms;
 import com.brightdairy.personal.model.HttpReqBody.UserLogin;
 import com.brightdairy.personal.model.HttpReqBody.UserLoginBySms;
@@ -42,6 +43,10 @@ public interface LoginRegisterHttp
 
     @POST("user/createCustomer")
     @Headers("Content Type: application/json")
-    Observable<DataResult<Object>> userRegister(@Body UserRegister userRegister);
+    Observable<DataResult<LoginResult>> userRegister(@Body UserRegister userRegister);
+
+    @POST("user/modifyPasswordBySmsCode")
+    @Headers("Content Type: application/json")
+    Observable<DataResult<Object>> modifyPasswordBySmsCode(@Body ModifyPwdBySms modifyPwdBySms);
 
 }

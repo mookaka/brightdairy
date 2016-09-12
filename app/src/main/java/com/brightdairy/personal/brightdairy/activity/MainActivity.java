@@ -1,15 +1,14 @@
 package com.brightdairy.personal.brightdairy.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 import android.widget.RadioGroup;
 
-import com.brightdairy.personal.api.AppConfigHttp;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.HomeConfigHttp;
 import com.brightdairy.personal.brightdairy.R;
@@ -19,13 +18,13 @@ import com.brightdairy.personal.brightdairy.fragment.HomeFragment;
 import com.brightdairy.personal.brightdairy.fragment.OrderCenterFragment;
 import com.brightdairy.personal.brightdairy.fragment.ProductCategoryFragment;
 import com.brightdairy.personal.brightdairy.fragment.UserFragment;
+import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.brightdairy.view.NoScrollViewPager;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataBase;
-import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.HomeConfig;
 import com.brightdairy.personal.model.entity.HomeContent;
 import com.bumptech.glide.Glide;
@@ -164,7 +163,7 @@ public class MainActivity extends FragmentActivity
                         break;
                     case R.id.radio_home_bottom_bar_product:
 
-                        jumpRefreshNextPage(0);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.CATEGORY_PAGE);
 
                         break;
                     case R.id.radio_home_bottom_bar_activity:
@@ -179,7 +178,15 @@ public class MainActivity extends FragmentActivity
                         break;
                     case R.id.radio_home_bottom_bar_user:
 
-                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.USER_PAGE, true);
+                        if (AppLocalUtils.isLogin())
+                        {
+                            homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.USER_PAGE, true);
+
+                        } else {
+                            Intent loginIntent = new Intent(MainActivity.this, LoginSmsActivity.class);
+                            startActivity(loginIntent);
+                            finish();
+                        }
 
                         break;
                 }
@@ -203,10 +210,6 @@ public class MainActivity extends FragmentActivity
 
     }
 
-    public void jumpRefreshNextPage(int initData)
-    {
-        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.CATEGORY_PAGE);
-        ((ProductCategoryFragment)homePages.get(GlobalConstants.PageRelatedType.CATEGORY_PAGE)).refreshPageFocusState(initData);
-    }
+
 
 }

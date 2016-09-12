@@ -54,7 +54,7 @@ public class GlobalRetrofit
                             .addHeader("pin", GlobalHttpConfig.PIN)
                             .addHeader("tid", GlobalHttpConfig.TID);
 
-                    return null;
+                    return chain.proceed(newReqBuilder.build());
                 }
             }).build();
 
