@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -7,11 +8,73 @@
             android:id="@+id/rclview_home_page_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <include
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_gravity="top"
-            layout="@layout/activity_home_top_search_widget"/>
+
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:paddingTop="10dp"
+                      android:paddingBottom="10dp"
+                      android:gravity="center"
+                      android:orientation="horizontal"
+                      app:layout_behavior="com.brightdairy.personal.brightdairy.view.Behavior.HomeTopSearchBg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:text="上海"
+                    android:textSize="15dp"
+                    android:drawableRight="@mipmap/nav_addressarrow"
+                    android:drawablePadding="5dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/shape_general_search_bg"
+                    >
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="请输入搜索关键字"
+                            android:singleLine="true"
+                            android:textSize="@dimen/txt_hint"
+                            android:background="@null"
+                            android:drawableLeft="@mipmap/nav_search"
+                            android:drawablePadding="5dp"
+                            />
+
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/nav_code"
+                            android:background="@android:color/transparent"
+                            />
+
+                </LinearLayout>
+
+                <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                    android:id="@+id/search_shopping_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="7dp"
+                    android:button="@null"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:text="购物车"
+                    android:drawablePadding="3dp"
+                    android:drawableTop="@mipmap/nav_cart"/>
+
+        </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -209,7 +209,7 @@ public class RegisterInputPwdActivity extends Activity {
     {
         switch (result.msgCode)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 GlobalHttpConfig.UID = result.result.userLoginId;
                 PrefUtil.setString(GlobalConstants.AppConfig.UID_LOCAL, GlobalHttpConfig.UID);
@@ -223,8 +223,8 @@ public class RegisterInputPwdActivity extends Activity {
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.VALID_CODE_EXPIRED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.VALID_CODE_EXPIRED:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_FAILED:
 
                 SuperActivityToast.create(RegisterInputPwdActivity.this, "验证码好像有问题唉，点击重新获取验证码吧:)", Style.DURATION_LONG).show();
                 resendSms.setText("重新获取验证码");
@@ -232,7 +232,7 @@ public class RegisterInputPwdActivity extends Activity {
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.PHONE_NUM_DOUBLE_REGISTER:
+            case GlobalHttpConfig.API_MSGCODE.PHONE_NUM_DOUBLE_REGISTER:
 
                 SuperActivityToast.create(RegisterInputPwdActivity.this, "这个手机号已经注册过了:)", Style.DURATION_LONG).show();
                 Intent RegisterIntent = new Intent(RegisterInputPwdActivity.this, RegisterActivity.class);
@@ -276,8 +276,8 @@ public class RegisterInputPwdActivity extends Activity {
         switch (code)
         {
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(RegisterInputPwdActivity.this, "验证码发送失败，再试试:)", Style.DURATION_LONG).show();
                 resendSms.setEnabled(true);

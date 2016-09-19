@@ -3,7 +3,6 @@ package com.brightdairy.personal.brightdairy.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -163,7 +162,7 @@ public class RegisterActivity extends Activity
     {
         switch (code)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 Intent InputPwdIntent = new Intent(RegisterActivity.this, RegisterInputPwdActivity.class);
                 InputPwdIntent.putExtra("phonenum", phoneNum);
@@ -172,8 +171,8 @@ public class RegisterActivity extends Activity
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(RegisterActivity.this, "验证码发送失败，检查号码再试试:)", Style.DURATION_LONG).show();
                 getValidCode.setEnabled(true);

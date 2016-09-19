@@ -164,7 +164,7 @@ public class LoginPwdActivity extends Activity
     {
         switch (result.msgCode)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 GlobalHttpConfig.UID = result.result.userLoginId;
                 PrefUtil.setString(GlobalConstants.AppConfig.UID_LOCAL, GlobalHttpConfig.UID);
@@ -176,7 +176,7 @@ public class LoginPwdActivity extends Activity
                 finish();
 
                 break;
-            case GlobalHttpConfig.LOGIN_MSGCODE.LOGIN_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.LOGIN_FAILED:
 
                 SuperActivityToast.create(LoginPwdActivity.this, "登录失败，检查用户名或密码，再试试看:(", Style.DURATION_LONG).show();
                 loginByUsrName.setEnabled(true);

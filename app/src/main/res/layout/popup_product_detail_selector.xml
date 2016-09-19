@@ -115,6 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:text="选择数量："/>
 
                 <com.brightdairy.personal.brightdairy.view.AddSubtractionBtn
@@ -126,6 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:text=" 份（每次送奶分数）"
                     />
 
@@ -150,46 +152,50 @@
                     android:textSize="12sp"
                     android:text="选择模式："/>
 
-
-                <RadioGroup
-                    android:id="@+id/rdgroup_popup_send_mode"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <LinearLayout
+
+                    <RadioGroup
+                        android:id="@+id/rdgroup_popup_send_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/radio_popup_everyday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_mode"
                             android:checked="true"
                             android:text="每日送"/>
 
                         <RadioButton
                             android:id="@+id/radio_popup_singleday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_mode"
                             android:text="单日送"/>
 
                         <RadioButton
                             android:id="@+id/radio_popup_triday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_mode"
                             android:text="三日送"/>
 
                         <RadioButton
                             android:id="@+id/radio_popup_other"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_mode"
                             android:text="其它模式"/>
 
-                    </LinearLayout>
+                    </RadioGroup>
 
-                    <LinearLayout
+                    <RadioGroup
+                        android:id="@+id/rdgroup_popup_send_mode_other"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:visibility="gone"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <View
@@ -200,24 +206,22 @@
 
                         <RadioButton
                             android:id="@+id/radio_popup_twiceday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_other_mode"
                             android:text="双日送"/>
 
                         <RadioButton
                             android:id="@+id/radio_popup_workday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_other_mode"
                             android:text="工作日送"/>
 
                         <RadioButton
                             android:id="@+id/radio_popup_weekenday"
-                            style="@style/product_detail_popup_check"
+                            style="@style/product_detail_popup_check_send_other_mode"
                             android:text="周末送"/>
 
-                    </LinearLayout>
+                    </RadioGroup>
 
-                </RadioGroup>
-
-
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -251,23 +255,23 @@
                     <RadioButton
                         android:id="@+id/radio_popup_arbitrary"
                         android:checked="true"
-                        style="@style/product_detail_popup_check"
-                        android:background="@drawable/selector_send_check_blue_bg"
+                        style="@style/product_detail_popup_check_send_mode"
+                        android:background="@drawable/selector_send_mode_check_blue_bg"
                         android:text="随心订"/>
 
                     <RadioButton
                         android:id="@+id/radio_popup_everyonemonth"
-                        style="@style/product_detail_popup_check"
+                        style="@style/product_detail_popup_check_send_mode"
                         android:text="一个月"/>
 
                     <RadioButton
                         android:id="@+id/radio_popup_everytwomonth"
-                        style="@style/product_detail_popup_check"
+                        style="@style/product_detail_popup_check_send_mode"
                         android:text="两个月"/>
 
                     <RadioButton
                         android:id="@+id/radio_popup_everythreemonth"
-                        style="@style/product_detail_popup_check"
+                        style="@style/product_detail_popup_check_send_mode"
                         android:text="三个月"/>
 
                 </RadioGroup>

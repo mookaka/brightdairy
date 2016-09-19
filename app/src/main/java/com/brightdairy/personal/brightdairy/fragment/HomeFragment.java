@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.HomeConfigHttp;
-import com.brightdairy.personal.api.HomeContentHttp;
+import com.brightdairy.personal.api.HomePageHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.MainActivity;
 import com.brightdairy.personal.brightdairy.adapter.HomePageAdapter;
+import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataBase;
+import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.HomeContent;
 
 
@@ -56,11 +57,12 @@ public class HomeFragment extends Fragment
     private void initData()
     {
 
-        HomeContentHttp homeHttpService = GlobalRetrofit.getRetrofitInstance().create(HomeContentHttp.class);
+        HomePageHttp homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
 
-        homeHttpService.getHomeContent("vddfdf", "rer").subscribeOn(Schedulers.io())
+        homeHttpService.getHomeContent(GlobalConstants.ZONE_CODE)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataBase<HomeContent>>() {
+                .subscribe(new Subscriber<DataResult<HomeContent>>() {
                     @Override
                     public void onCompleted()
                     {
@@ -74,9 +76,9 @@ public class HomeFragment extends Fragment
                     }
 
                     @Override
-                    public void onNext(DataBase<HomeContent> homeContentDataBase)
+                    public void onNext(DataResult<HomeContent> homeContentDataBase)
                     {
-                        homeContent = homeContentDataBase.data;
+                        homeContent = homeContentDataBase.result;
                     }
                 });
     }
@@ -85,7 +87,7 @@ public class HomeFragment extends Fragment
     {
         ((MainActivity)this.getActivity()).updateHomeIcon(homeContent.activity, homeContent.orderCenter);
 
-        if(homeContent.shoppingCart != null)
+        if(homeContent.shoppingCart != null && !homeContent.shoppingCart.equals(""))
         {
             homeTopSearchCart.setBadgeShown(true);
         }

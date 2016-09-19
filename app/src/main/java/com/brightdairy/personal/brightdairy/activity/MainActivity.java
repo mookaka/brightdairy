@@ -9,8 +9,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.RadioGroup;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.HomeConfigHttp;
+import com.brightdairy.personal.api.HomePageHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.HomePagesAdapter;
 import com.brightdairy.personal.brightdairy.fragment.ActivityFragment;
@@ -25,6 +26,7 @@ import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.brightdairy.view.NoScrollViewPager;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataBase;
+import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.HomeConfig;
 import com.brightdairy.personal.model.entity.HomeContent;
 import com.bumptech.glide.Glide;
@@ -86,13 +88,12 @@ public class MainActivity extends FragmentActivity
         homePagesContainer.setAdapter(homePagesAdapter);
 
 
-        if (GeneralUtils.isDateExpired("homeConfigExpireDate"))
-        {
-            HomeConfigHttp homeHttpService = GlobalRetrofit.getRetrofitInstance().create(HomeConfigHttp.class);
+            HomePageHttp homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
 
-            homeHttpService.getHomeConfigByZone(null).subscribeOn(Schedulers.io())
+            homeHttpService.getHomeConfigByZone(GlobalConstants.ZONE_CODE)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<DataBase<HomeConfig>>() {
+                    .subscribe(new Subscriber<DataResult<HomeConfig>>() {
                         @Override
                         public void onCompleted() {
                             initView();
@@ -105,21 +106,18 @@ public class MainActivity extends FragmentActivity
                         }
 
                         @Override
-                        public void onNext(DataBase<HomeConfig> homeConfigDataBase) {
-                            if (homeConfigDataBase.msgCode == 11) {
-                                PrefUtil.setLong("homeConfigExpireDate", 0);
-                                PrefUtil.setString("homeConfig", null);
-                            } else if (homeConfigDataBase.msgCode == 10) {
-                                PrefUtil.setLong("homeConfigExpireDate", homeConfigDataBase.data.expire);
+                        public void onNext(DataResult<HomeConfig> homeConfigDataBase) {
+                            if (GlobalHttpConfig.API_MSGCODE.REQUST_OK.equals(homeConfigDataBase.msgCode))
+                            {
                                 homeConfigParser = new Gson();
-                                String homeConfig = homeConfigParser.toJson(homeConfigDataBase.data);
+                                String homeConfig = homeConfigParser.toJson(homeConfigDataBase.result);
                                 PrefUtil.setString("homeConfig", homeConfig);
+                            } else
+                            {
+                                PrefUtil.setString("homeConfig", null);
                             }
                         }
                     });
-        } else {
-            initView();
-        }
 
 
     }
@@ -195,7 +193,7 @@ public class MainActivity extends FragmentActivity
     }
 
 
-    public void updateHomeIcon(String activity, HomeContent.OrderCenter orderCenter)
+    public void updateHomeIcon(String activity, String orderCenterNum)
     {
         if(activity != null && !activity.equals(""))
         {
@@ -203,9 +201,9 @@ public class MainActivity extends FragmentActivity
             bottomBar.get(GlobalConstants.PageRelatedType.ACTIVITY_PAGE).setBadgeShown(true);
         }
 
-        if(orderCenter != null)
+        if(orderCenterNum != null && !orderCenterNum.equals(""))
         {
-            bottomBar.get(GlobalConstants.PageRelatedType.ORDER_CENTER_PAGE).setBadgeCount(orderCenter.orderNum);
+            bottomBar.get(GlobalConstants.PageRelatedType.ORDER_CENTER_PAGE).setBadgeCount(Integer.parseInt(orderCenterNum));
         }
 
     }

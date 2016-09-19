@@ -1,5 +1,7 @@
 package com.brightdairy.personal.api;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,24 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class GlobalRetrofit
 {
-    private static Retrofit retrofit;
-    private static final String BASE_URL = "http://172.16.11.25:3000/api/";
-
-
-    public static Retrofit getRetrofitInstance()
-    {
-        if(retrofit == null)
-        {
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-        }
-
-        return retrofit;
-    }
-
-
     private static Retrofit retrofitDev;
     private static final String BASE_URL_DEV = "http://172.16.4.58:8180/api/";
 
@@ -56,7 +40,7 @@ public class GlobalRetrofit
 
                     return chain.proceed(newReqBuilder.build());
                 }
-            }).build();
+            }).addNetworkInterceptor(new StethoInterceptor()).build();
 
             retrofitDev = new Retrofit.Builder().client(httpClient)
                     .baseUrl(BASE_URL_DEV)

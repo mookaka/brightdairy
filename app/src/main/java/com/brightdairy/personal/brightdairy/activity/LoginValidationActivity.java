@@ -20,7 +20,6 @@ import com.brightdairy.personal.model.HttpReqBody.UserLoginBySms;
 import com.brightdairy.personal.model.entity.LoginResult;
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperActivityToast;
-import com.github.johnpersano.supertoasts.library.SuperToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -180,7 +179,7 @@ public class LoginValidationActivity extends Activity
     {
         switch (result.msgCode)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 GlobalHttpConfig.UID = result.result.userLoginId;
                 GlobalHttpConfig.TID = result.result.tid;
@@ -193,7 +192,7 @@ public class LoginValidationActivity extends Activity
                 finish();
 
                 break;
-            case GlobalHttpConfig.LOGIN_MSGCODE.LOGIN_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.LOGIN_FAILED:
 
                 SuperActivityToast.create(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)", Style.DURATION_LONG).show();
                 resendSms.setText("重新获取验证码:)");
@@ -236,12 +235,12 @@ public class LoginValidationActivity extends Activity
     {
         switch (code)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
                 login.setEnabled(true);
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)", Style.DURATION_LONG).show();
                 resendSms.setEnabled(true);

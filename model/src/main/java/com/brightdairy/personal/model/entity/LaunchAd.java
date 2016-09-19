@@ -8,5 +8,4 @@ public class LaunchAd
     public String adImg;
     public String adAction;
     public String adActionUrl;
-    public long expire;
 }

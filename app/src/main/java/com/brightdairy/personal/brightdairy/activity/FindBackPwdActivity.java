@@ -194,7 +194,7 @@ public class FindBackPwdActivity extends Activity
         switch (result.msgCode)
         {
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 SuperActivityToast.create(FindBackPwdActivity.this, "已经重置密码了，这次要记牢哦:)", Style.DURATION_LONG).show();
                 Intent loginPwdIntent = new Intent(FindBackPwdActivity.this, LoginPwdActivity.class);
@@ -203,8 +203,8 @@ public class FindBackPwdActivity extends Activity
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.BAD_VALID_CODE:
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.BAD_VALID_CODE:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_FAILED:
             default:
 
                 SuperActivityToast.create(FindBackPwdActivity.this, "验证码好像有问题唉，点击重新获取验证码吧:)", Style.DURATION_LONG).show();
@@ -247,8 +247,8 @@ public class FindBackPwdActivity extends Activity
         switch (code)
         {
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(FindBackPwdActivity.this, "验证码发送失败，再试试:)", Style.DURATION_LONG).show();
                 resendSms.setEnabled(true);

@@ -16,37 +16,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.ProductDetailActivity;
 import com.brightdairy.personal.brightdairy.adapter.PopupSelectVolAdapter;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.widget.RxCheckedTextView;
+import com.jakewharton.rxbinding.widget.RxRadioGroup;
 
 import java.util.ArrayList;
+
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by shuangmusuihua on 2016/8/23.
  */
-public class OrderSendModePopup extends DialogFragment
+public class OrderSendModePopup extends BasePopup
 {
 
     private ImageView productImg;
     private TextView productName;
     private TextView productPrice;
     private RecyclerView volSelectors;
-
-    private ProductDetail productDetail;
+    private RadioGroup radiogpSendMode;
+    private RadioGroup radiogpSendModeOther;
+    private RadioGroup radiogpSendTime;
     private AddSubtractionBtn addSubtractionBtn;
 
-    @Nullable
+    private ProductDetail productDetail;
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View sendModeSelectorView = inflater.inflate(R.layout.popup_product_detail_selector, container, true);
 
         productImg = (ImageView)sendModeSelectorView.findViewById(R.id.imgview_popup_product_img);
@@ -54,53 +62,48 @@ public class OrderSendModePopup extends DialogFragment
         productPrice = (TextView)sendModeSelectorView.findViewById(R.id.txtview_popup_product_price);
         volSelectors = (RecyclerView)sendModeSelectorView.findViewById(R.id.rclview_popup_vol_selector);
         addSubtractionBtn = (AddSubtractionBtn)sendModeSelectorView.findViewById(R.id.addsubbtn_popup_per_nums);
+        radiogpSendMode = (RadioGroup) sendModeSelectorView.findViewById(R.id.rdgroup_popup_send_mode);
+        radiogpSendModeOther = (RadioGroup) sendModeSelectorView.findViewById(R.id.rdgroup_popup_send_mode_other);
+        radiogpSendTime = (RadioGroup) sendModeSelectorView.findViewById(R.id.rdgroup_popup_send_time);
 
         volSelectors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         volSelectors.addItemDecoration(new SpaceItemDecoration(20));
         volSelectors.hasFixedSize();
 
+
         return sendModeSelectorView;
     }
 
 
-    @Override
-    public void onResume()
-    {
-        Window thisWindow = getDialog().getWindow();
-        thisWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        thisWindow.setLayout((int) (displayMetrics.widthPixels * 0.9), (int) (displayMetrics.heightPixels * 0.8));
-        thisWindow.setGravity(Gravity.BOTTOM);
-        initData();
-        super.onResume();
-    }
 
+    private PopupSelectVolAdapter mPopupSelectVolAdapter;
     @Override
-    public void onDestroyView()
-    {
-        addSubtractionBtn.unSubscribe();
-        super.onDestroyView();
-    }
-
-    private void initData()
+    protected void initData()
     {
         productDetail = ((ProductDetailActivity)getActivity()).productDetail;
+        mPopupSelectVolAdapter = new PopupSelectVolAdapter(productDetail.productAssoc);
+        fillViewWithData(productDetail);
+    }
 
+    @Override
+    protected void clearResOnDestroyView()
+    {
+        super.clearResOnDestroyView();
+        addSubtractionBtn.unSubscribe();
+    }
 
+    private void fillViewWithData(ProductDetail productDetail)
+    {
         if(productDetail != null)
         {
             productName.setText(productDetail.productName);
-            productPrice.setText("随心订价：" + productDetail.prices.basePrice);
+            productPrice.setText("随心订价：" + productDetail.prices.basePrice + "元");
             Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASR + productDetail.guessImgUrl).asBitmap().into(productImg);
 
-            ArrayList<ProductDetail.ProductAssocBean> productVols = productDetail.productAssoc;
-            volSelectors.setAdapter(new PopupSelectVolAdapter(productVols));
+            volSelectors.setAdapter(mPopupSelectVolAdapter);
 
         }
-
     }
-
 
     private static class SpaceItemDecoration extends RecyclerView.ItemDecoration
     {
@@ -116,6 +119,15 @@ public class OrderSendModePopup extends DialogFragment
         {
             outRect.right = space;
         }
+    }
+
+
+    public void freshPopupData(ProductDetail productDetail)
+    {
+        fillViewWithData(productDetail);
+
+        if (mPopupSelectVolAdapter != null && productDetail != null)
+            mPopupSelectVolAdapter.setCanChooseVol(true);
     }
 
 

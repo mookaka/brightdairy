@@ -7,13 +7,8 @@ public class HomeContent
 {
     public String activity;
     public String shoppingCart;
-    public OrderCenter orderCenter;
+    public String orderCenter;
     public CarouselItem[] carousel;
     public HomePageItem[] homepageItems;
 
-    public class OrderCenter
-    {
-        public int orderNum;
-        public String orderInfo;
-    }
 }

@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.ProductCategoryHttp;
+import com.brightdairy.personal.api.ProductHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.CategoryPageLeftListAdapter;
 import com.brightdairy.personal.brightdairy.adapter.CategoryPageRightInfoAdapter;
@@ -77,7 +77,7 @@ public class ProductCategoryFragment extends Fragment
 
     private void initData()
     {
-        ProductCategoryHttp productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductCategoryHttp.class);
+        ProductHttp productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
 
         productCategoryHttp.getSubCategoryList(GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())

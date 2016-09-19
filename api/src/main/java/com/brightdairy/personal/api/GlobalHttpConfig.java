@@ -12,9 +12,10 @@ public class GlobalHttpConfig
     public static String TID = "";
 
 
-    public interface LOGIN_MSGCODE
+    public interface API_MSGCODE
     {
         String REQUST_OK = "000";
+        String REQUST_OK_NO_CONTENT = "010";
         String REQUST_FAILED = "104";
         String SEND_SMS_FAILED = "142";
         String SEND_SMS_INVALID_PHONE_NUM = "143";

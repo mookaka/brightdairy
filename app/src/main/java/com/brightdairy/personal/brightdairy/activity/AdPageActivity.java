@@ -26,7 +26,6 @@ public class AdPageActivity extends Activity
 {
     private TextView adTimeLeft;
     private ImageView adImgContainer;
-    private Bitmap adImg;
     private Timer adPageJumpTimer;
 
     private Handler pageConfig = new Handler()
@@ -64,8 +63,6 @@ public class AdPageActivity extends Activity
 
     private void ConfigAdPage()
     {
-//        adImg = LocalStoreUtil.getLocalBitmap(PrefUtil.getString("adImgUrl", null));
-//        adImgContainer.setImageBitmap(adImg);
         String usrl = PrefUtil.getString("adImgUrl", null);
         Glide.with(this).load(usrl).asBitmap().into(adImgContainer);
         adPageJumpTimer = new Timer();

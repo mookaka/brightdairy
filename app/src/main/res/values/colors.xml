@@ -25,4 +25,7 @@
 
     <color name="colorRedDarker">#e50010</color>
     <color name="colorRedDarkerBtn">#e60111</color>
+    <color name="colorRedOpacityLight">#30e60111</color>
+    <color name="colorRedOpacityDarker">#6ee60111</color>
+
 </resources>

@@ -8,22 +8,23 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 
-import com.brightdairy.personal.api.AdPageHttp;
 import com.brightdairy.personal.api.AppConfigHttp;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.LaunchPageHttp;
+import com.brightdairy.personal.api.LaunchHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
 import com.bumptech.glide.Glide;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -95,6 +97,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
         pageSwitcher.removeCallbacksAndMessages(null);
     }
 
+    private LaunchHttp launchPageHttpService;
     private void initData()
     {
 
@@ -132,7 +135,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
 
         appConfigHttp.getCurrCityCode().subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Subscriber<DataResult<ArrayList<JSONObject>>>()
+                .subscribe(new Subscriber<DataResult<ArrayList<CityZoneCode>>>()
                 {
                     @Override
                     public void onCompleted()
@@ -147,16 +150,18 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     }
 
                     @Override
-                    public void onNext(DataResult<ArrayList<JSONObject>> arrayListDataResult)
+                    public void onNext(DataResult<ArrayList<CityZoneCode>> cityZoneCodeResult)
                     {
-                        ArrayList<JSONObject> result = arrayListDataResult.result;
+                        ArrayList<CityZoneCode> cityZoneCodess = cityZoneCodeResult.result;
 
-                        for (int index = 0; index < result.size(); index++)
+                        for (int index = 0; index < cityZoneCodess.size(); index++)
                         {
-                            JSONObject city = result.get(index);
+                            CityZoneCode cityCode = cityZoneCodess.get(index);
 
-                            if(city.has(GlobalConstants.CURR_ZONE_CN_NAME))
-                                GlobalConstants.ZONE_CODE = city.optString(GlobalConstants.CURR_ZONE_CN_NAME);
+                            if(cityCode.cityName.equals(GlobalConstants.CURR_ZONE_CN_NAME))
+                            {
+                                GlobalConstants.ZONE_CODE = cityCode.cityCode;
+                            }
 
                         }
                     }
@@ -181,15 +186,13 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     }
                 });
 
-        if(GeneralUtils.isDateExpired("localLaunchExpiredDare"))
-        {
-            LaunchPageHttp launchPageHttpService = GlobalRetrofit.getRetrofitInstance()
-                    .create(LaunchPageHttp.class);
 
-            launchPageHttpService.getLaunchPageConfig()
+            launchPageHttpService = GlobalRetrofit.getRetrofitDev().create(LaunchHttp.class);
+
+            launchPageHttpService.getLaunchPageConfig(GlobalConstants.ZONE_CODE)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<DataBase<LaunchPage>>()
+                    .subscribe(new Subscriber<DataResult<LaunchPage>>()
                     {
                         @Override
                         public void onCompleted()
@@ -204,42 +207,33 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                         }
 
                         @Override
-                        public void onNext(DataBase<LaunchPage> launchPageDataBase)
+                        public void onNext(DataResult<LaunchPage> launchPageDataBase)
                         {
-                            if(launchPageDataBase.msgCode == 11)
-                            {
-                                PrefUtil.setLong("localLaunchExpiredDare", 0);
-                                PrefUtil.setString("launchImgUrl", null);
-                            } else if (launchPageDataBase.msgCode == 10)
-                            {
-                                PrefUtil.setLong("localLaunchExpiredDare", launchPageDataBase.data.expire);
-                                PrefUtil.setString("launchImgUrl", launchPageDataBase.data.lancherImg);
-//                                LocalStoreUtil.storeBitmapByKey(launchPageDataBase.data.lancherImg);
-                            }
+                            changeLaunchPage(launchPageDataBase);
                         }
                     });
-
-        } else {
-            ImageView launchImgContainer = (ImageView) findViewById(R.id.imgview_launch_img_container);
-//            launchImgContainer.setImageBitmap(LocalStoreUtil.getLocalBitmap(PrefUtil.getString("launchImgUrl", null)));
-            Glide.with(this).load(PrefUtil.getString("launchImgUrl", null)).asBitmap().into(launchImgContainer);
-            changeAdPage();
-        }
     }
 
 
+
+    private void changeLaunchPage(DataResult<LaunchPage> LaunchPageConfig)
+    {
+        if(GlobalHttpConfig.API_MSGCODE.REQUST_OK.equals(LaunchPageConfig.msgCode))
+        {
+            ImageView launchImgContainer  = (ImageView) findViewById(R.id.imgview_launch_img_container);
+
+            String launchImg = GlobalConstants.IMG_URL_BASR + LaunchPageConfig.result.lancherImg;
+            Glide.with(this).load(launchImg).asBitmap().into(launchImgContainer);
+        }
+    }
+
     private void changeAdPage()
     {
-        if(GeneralUtils.isDateExpired("localAdExpireDate"))
-        {
-            AdPageHttp adPageHttpService = GlobalRetrofit.getRetrofitInstance()
-                    .create(AdPageHttp.class);
 
-            adPageHttpService.getLaunchPageConfig()
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<DataBase<LaunchAd>>() {
-                        @Override
-                        public void onCompleted()
+        launchPageHttpService.getLaunchAdConfig(GlobalConstants.ZONE_CODE)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<DataResult<LaunchAd>>() {
+                        @Override public void onCompleted()
                         {
                             if(PrefUtil.getString("adAction", null) != null) {
                                 pageSwitcher.sendEmptyMessageDelayed(0x002, 1000);
@@ -248,35 +242,27 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                             }
                         }
 
-                        @Override
-                        public void onError(Throwable e)
+                        @Override public void onError(Throwable e)
                         {
                             pageSwitcher.sendEmptyMessageDelayed(0x001, 1000);
                         }
 
-                        @Override
-                        public void onNext(DataBase<LaunchAd> launchAdDataBase)
+                        @Override public void onNext(DataResult<LaunchAd> launchAdDataBase)
                         {
-                            if(launchAdDataBase.msgCode == 11)
+                            if(GlobalHttpConfig.API_MSGCODE.REQUST_OK_NO_CONTENT.equals(launchAdDataBase.msgCode))
                             {
-                                PrefUtil.setLong("localAdExpireDate", 0);
                                 PrefUtil.setString("adImgUrl", null);
                                 PrefUtil.setString("adActionUrl", null);
                                 PrefUtil.setString("adAction", null);
-                            } else if (launchAdDataBase.msgCode == 10)
+                            } else if (GlobalHttpConfig.API_MSGCODE.REQUST_OK.equals(launchAdDataBase.msgCode))
                             {
-                                PrefUtil.setLong("localAdExpireDate", launchAdDataBase.data.expire);
-                                PrefUtil.setString("adImgUrl", launchAdDataBase.data.adImg);
-                                PrefUtil.setString("adActionUrl", launchAdDataBase.data.adActionUrl);
-                                PrefUtil.setString("adAction", launchAdDataBase.data.adAction);
-//                                LocalStoreUtil.storeBitmapByKey(launchAdDataBase.data.adImg);
+                                PrefUtil.setString("adImgUrl", GlobalConstants.IMG_URL_BASR + launchAdDataBase.result.adImg);
+                                PrefUtil.setString("adActionUrl", launchAdDataBase.result.adActionUrl);
+                                PrefUtil.setString("adAction", launchAdDataBase.result.adAction);
                             }
                         }
                     });
 
-        } else{
-            pageSwitcher.sendEmptyMessageDelayed(0x002, 2000);
-        }
     }
 
     @Override

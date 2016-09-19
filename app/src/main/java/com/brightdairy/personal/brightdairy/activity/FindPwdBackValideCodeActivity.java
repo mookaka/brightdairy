@@ -126,7 +126,7 @@ public class FindPwdBackValideCodeActivity extends Activity
     {
         switch (result.msgCode)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 Intent findPwdBackIntent = new Intent(FindPwdBackValideCodeActivity.this, FindBackPwdActivity.class);
                 findPwdBackIntent.putExtra("phonenum", phoneNum);
@@ -135,8 +135,8 @@ public class FindPwdBackValideCodeActivity extends Activity
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(FindPwdBackValideCodeActivity.this, "验证码发送失败，检查号码再试试:)", Style.DURATION_LONG).show();
                 getFindPwdBackValidCode.setEnabled(true);

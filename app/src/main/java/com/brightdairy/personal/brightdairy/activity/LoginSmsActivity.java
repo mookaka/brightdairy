@@ -162,7 +162,7 @@ public class LoginSmsActivity extends Activity
     {
         switch (code)
         {
-            case GlobalHttpConfig.LOGIN_MSGCODE.REQUST_OK:
+            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                 Intent loginIntent = new Intent(LoginSmsActivity.this, LoginValidationActivity.class);
                 loginIntent.putExtra("phonenum", phoneNum);
@@ -171,8 +171,8 @@ public class LoginSmsActivity extends Activity
 
                 break;
 
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.LOGIN_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
+            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
                 SuperActivityToast.create(LoginSmsActivity.this, "验证码发送失败，检查号码再试试:)", Style.DURATION_LONG).show();
                 getValidNum.setEnabled(true);

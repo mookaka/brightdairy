@@ -226,8 +226,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
                     android:layout_gravity="left|top"
+                    android:padding="10dp"
                     android:textColor="@color/colorBlackLight"
                     android:text="已    选："/>
 
@@ -235,8 +235,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="left"
                     android:padding="10dp"
+                    android:gravity="left|top"
                     android:orientation="vertical">
 
                     <TextView
@@ -270,8 +270,8 @@
                     android:id="@+id/imgbtn_select_send_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
                     android:layout_gravity="right|top"
+                    android:padding="10dp"
                     android:src="@mipmap/forward"
                     android:background="@color/colorTransparent"
                     />
@@ -284,34 +284,46 @@
                 app:cardElevation="0dp"
                 android:layout_marginTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/colorBlackLight"
-                    android:text="送    至："/>
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginLeft="-30dp"
-                    android:padding="10dp"
-                    android:drawableLeft="@mipmap/product_local"
-                    android:drawablePadding="@dimen/txtview_drawable_padding"
-                    android:text="上海 上海市 徐汇区"
-                    android:textColor="@color/colorTxtBlack"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:textColor="@color/colorBlackLight"
+                        android:text="送    至："/>
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:background="@color/colorTransparent"
-                    android:padding="10dp"
-                    android:src="@mipmap/forward"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:drawableLeft="@mipmap/product_local"
+                        android:drawablePadding="@dimen/txtview_drawable_padding"
+                        android:text="上海 上海市 徐汇区"
+                        android:textColor="@color/colorTxtBlack"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorTransparent"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@color/colorTransparent"
+                        android:src="@mipmap/forward"
+                        />
+
+                </LinearLayout>
+
 
             </android.support.v7.widget.CardView>
 
@@ -323,28 +335,42 @@
                 android:layout_marginTop="10dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="@color/colorBlackLight"
-                    android:text="配送方："/>
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txtview_companny_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginLeft="-30dp"
-                    android:padding="10dp"
-                    android:drawableLeft="@mipmap/product_shop"
-                    android:drawablePadding="@dimen/txtview_drawable_padding"
-                    android:textColor="@color/colorTxtBlack"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:textColor="@color/colorBlackLight"
+                        android:text="配送方："/>
+
+                    <TextView
+                        android:id="@+id/txtview_companny_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:drawableLeft="@mipmap/product_shop"
+                        android:drawablePadding="@dimen/txtview_drawable_padding"
+                        android:textColor="@color/colorTxtBlack"
+                        />
+
+                </LinearLayout>
+
 
             </android.support.v7.widget.CardView>
+
+
+            <ImageView
+                android:id="@+id/imgview_product_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"/>
 
         </LinearLayout>
 
@@ -366,9 +392,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_marginLeft="10dp"
-            android:textStyle="bold"
             android:text="合计金额:"
             />
         <TextView
@@ -376,11 +401,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             android:layout_marginRight="10dp"
             android:textColor="@color/colorRedDarker"
-            android:text="￥5.6"/>
+            android:text="￥125.6"/>
 
         <Button
             android:layout_width="0dp"
@@ -389,7 +413,6 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:text="加入购物车"
             android:textColor="@color/colorWhiterPure"
             android:background="@color/colorTxtBlueDarker"
@@ -401,7 +424,6 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:text="立即购买"
             android:textColor="@color/colorWhiterPure"
             android:background="@color/colorRedDarker"

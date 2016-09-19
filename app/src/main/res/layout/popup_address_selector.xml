@@ -20,6 +20,7 @@
             />
 
         <ImageButton
+            android:id="@+id/imgbtn_address_selector_popup_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"

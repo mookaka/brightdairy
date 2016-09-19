@@ -48,6 +48,16 @@ public class AppLocalUtils
     }
 
 
+
+    public static final int DATE_NOW = 0;
+    public static final int DATE_NEXT_MONTH = 1;
+    public static String getDateWithOffset(int offset)
+    {
+        return "";
+    }
+
+
+
     private static final byte[] iv = "12345678".getBytes();
     private static final String encryptKey = "babayeye";
     public static String encyptPwd(String pwd)

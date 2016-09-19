@@ -36,10 +36,12 @@ public class GlobalConstants
 
 
     public static String CURR_ZONE_CN_NAME = "上海市";
-    public static String ZONE_CODE = "CN-3101";
+    public static String ZONE_CODE = "CN-320600";
 
 
     public static String IMG_URL_BASR;
+    public static String PRODUCT_DETAIL_IMG_URL_BASE = "http://img.4008117117.com/imgs/";
+    public static String PRODUCT_DETAIL_SUFIXX = ".jpg";
 
     public interface AppConfig
     {

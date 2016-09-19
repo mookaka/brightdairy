@@ -45,7 +45,7 @@ public interface LoginRegisterHttp
     @Headers("Content Type: application/json")
     Observable<DataResult<LoginResult>> userRegister(@Body UserRegister userRegister);
 
-    @POST("user/modifyPasswordBySmsCode")
+    @GET("user/modifyPasswordBySmsCode")
     @Headers("Content Type: application/json")
     Observable<DataResult<Object>> modifyPasswordBySmsCode(@Body ModifyPwdBySms modifyPwdBySms);
 
