@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sml="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.tubb.smrv.SwipeHorizontalMenuLayout
+        android:id="@+id/swl_item_shop_cart_swiper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhiterPure"
+        sml:sml_auto_open_percent="0.2"
+        sml:sml_scroller_duration="250">
+
+
+        <include android:id="@id/smContentView" layout="@layout/item_shop_cart_content"/>
+
+        <FrameLayout
+            android:id="@id/smMenuViewRight"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_item_shop_cart_delete_product"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/colorRedDarkerBtn"
+                android:textColor="@color/colorWhiterPure"
+                android:textSize="18sp"
+                android:text="删除"/>
+
+        </FrameLayout>
+
+    </com.tubb.smrv.SwipeHorizontalMenuLayout>
+
+</LinearLayout>
+
+

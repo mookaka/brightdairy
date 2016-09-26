@@ -58,7 +58,6 @@
                 android:drawableTop="@drawable/selector_home_page_order"
                 android:text="订单中心"
                 app:badge_padding_right="5dp"
-                app:badge_count="10"
                 />
 
             <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton

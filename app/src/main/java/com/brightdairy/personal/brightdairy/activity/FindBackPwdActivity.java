@@ -158,8 +158,11 @@ public class FindBackPwdActivity extends Activity
         }
 
 
-        mCompositeSubscription.add(mLoginRegisterApi
-                .modifyPasswordBySmsCode(new ModifyPwdBySms(AppLocalUtils.encyptPwd(newPwd)
+        mCompositeSubscription.add(mLoginRegisterApi.modifyPasswordBySmsCode(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                new ModifyPwdBySms(AppLocalUtils.encyptPwd(newPwd)
                 , validCode
                 , AppLocalUtils.encyptPwd(newPwdConfirm)
                 , AppLocalUtils.encyptPwd(newPwd)
@@ -217,7 +220,10 @@ public class FindBackPwdActivity extends Activity
 
     private void resendSms()
     {
-        mCompositeSubscription.add(mLoginRegisterApi.sendSmsCodeForReg(new SendSms(phoneNum, "GETPSW"))
+        mCompositeSubscription.add(mLoginRegisterApi.sendSmsCodeForReg(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms(phoneNum, "GETPSW"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

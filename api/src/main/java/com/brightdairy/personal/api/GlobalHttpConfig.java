@@ -11,11 +11,19 @@ public class GlobalHttpConfig
     public static String PIN = "";
     public static String TID = "";
 
+    public interface HTTP_HEADER
+    {
+        String PID = "pid";
+        String UID = "uid";
+        String PIN = "pin";
+        String TID = "tid";
+    }
 
     public interface API_MSGCODE
     {
         String REQUST_OK = "000";
         String REQUST_OK_NO_CONTENT = "010";
+        String SHOP_CART_EMPTY = "401";
         String REQUST_FAILED = "104";
         String SEND_SMS_FAILED = "142";
         String SEND_SMS_INVALID_PHONE_NUM = "143";

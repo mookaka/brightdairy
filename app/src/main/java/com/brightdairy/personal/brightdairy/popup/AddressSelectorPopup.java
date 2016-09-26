@@ -22,6 +22,11 @@ public class AddressSelectorPopup extends BasePopup
     }
 
     @Override
+    protected void initListener() {
+
+    }
+
+    @Override
     protected void initData()
     {
 

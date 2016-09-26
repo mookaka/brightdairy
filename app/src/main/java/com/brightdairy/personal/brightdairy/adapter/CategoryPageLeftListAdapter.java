@@ -59,10 +59,10 @@ public class CategoryPageLeftListAdapter extends BaseAdapter
         return position;
     }
 
+    private CategoryItemVH categoryItemVH = null;
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        CategoryItemVH categoryItemVH = null;
 
         if(convertView == null)
         {

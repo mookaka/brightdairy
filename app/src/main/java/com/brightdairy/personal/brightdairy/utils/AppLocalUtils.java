@@ -5,10 +5,16 @@ import android.util.Base64;
 
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LoginRegisterHttp;
+import com.brightdairy.personal.model.entity.ProductSendInfo;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -50,10 +56,38 @@ public class AppLocalUtils
 
 
     public static final int DATE_NOW = 0;
-    public static final int DATE_NEXT_MONTH = 1;
+    public static final int DATE_NEXT_MONTH_FROM_NOW = 1;
+    public static final int DATE_NEXT_MONTH = 2;
+    public static final int DATE_NEXT_TWO_MONTH = 3;
+    public static final int DATE_NEXT_THREE_MONTH = 4;
     public static String getDateWithOffset(int offset)
     {
-        return "";
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        switch (offset)
+        {
+            default:
+            case DATE_NOW:
+                return simpleDateFormat.format(calendar.getTime());
+            case DATE_NEXT_MONTH_FROM_NOW:
+                calendar.add(Calendar.MONTH, DATE_NEXT_MONTH_FROM_NOW);
+                return simpleDateFormat.format(calendar.getTime());
+            case DATE_NEXT_MONTH:
+                calendar.add(Calendar.MONTH, DATE_NEXT_MONTH);
+                return simpleDateFormat.format(calendar.getTime());
+            case DATE_NEXT_TWO_MONTH:
+                calendar.add(Calendar.MONTH, DATE_NEXT_TWO_MONTH);
+                return simpleDateFormat.format(calendar.getTime());
+            case DATE_NEXT_THREE_MONTH:
+                calendar.add(Calendar.MONTH, DATE_NEXT_THREE_MONTH);
+                return simpleDateFormat.format(calendar.getTime());
+
+
+
+        }
     }
 
 
@@ -102,5 +136,29 @@ public class AppLocalUtils
         return "";
     }
 
+
+    public static String getTotalAmount(ProductSendInfo info)
+    {
+        return String.valueOf(new Random().nextInt(10));
+    }
+
+
+    public static String[] fussImgUrl(String[] initImgUrls)
+    {
+
+        if(initImgUrls != null && initImgUrls.length > 0)
+        {
+            StringBuilder fussImgUrl = new StringBuilder().append(GlobalConstants.IMG_URL_BASR);
+            final int IMG_URL_BASE_LEN = GlobalConstants.IMG_URL_BASR.length() -1;
+
+            for (int index = 0; index < initImgUrls.length; index++)
+            {
+                fussImgUrl.delete(IMG_URL_BASE_LEN, fussImgUrl.length());
+                initImgUrls[index] = fussImgUrl.append(initImgUrls[index]).toString();
+            }
+        }
+
+        return initImgUrls;
+    }
 
 }

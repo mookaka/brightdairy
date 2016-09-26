@@ -176,7 +176,10 @@ public class RegisterInputPwdActivity extends Activity {
 
 
         mCompositeSubscription.add(loginRegisterApi
-                .userRegister(new UserRegister(phoneNum,
+                .userRegister(GlobalHttpConfig.PID,
+                        GlobalHttpConfig.UID,
+                        GlobalHttpConfig.TID,
+                        GlobalHttpConfig.PIN,new UserRegister(phoneNum,
                         AppLocalUtils.encyptPwd(passWord),
                         AppLocalUtils.encyptPwd(comfirmPwd),
                         phoneNum, validCode))
@@ -246,7 +249,10 @@ public class RegisterInputPwdActivity extends Activity {
 
     private void resendSms()
     {
-        mCompositeSubscription.add(loginRegisterApi.sendSmsCodeForReg(new SendSms(phoneNum, "REGISTE"))
+        mCompositeSubscription.add(loginRegisterApi.sendSmsCodeForReg(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms(phoneNum, "REGISTE"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

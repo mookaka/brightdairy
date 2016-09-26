@@ -43,6 +43,13 @@
                 android:id="@+id/txtview_popup_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:scrollHorizontally="true"
+                android:focusableInTouchMode="true"
                 android:text="优倍随手杯"
                 android:textSize="18sp"
                 android:layout_gravity="left|center_vertical"
@@ -260,19 +267,19 @@
                         android:text="随心订"/>
 
                     <RadioButton
-                        android:id="@+id/radio_popup_everyonemonth"
+                        android:id="@+id/radio_popup_nextmonth"
                         style="@style/product_detail_popup_check_send_mode"
-                        android:text="一个月"/>
+                        android:text="下个月"/>
 
                     <RadioButton
-                        android:id="@+id/radio_popup_everytwomonth"
+                        android:id="@+id/radio_popup_nexttwomonth"
                         style="@style/product_detail_popup_check_send_mode"
-                        android:text="两个月"/>
+                        android:text="下两个月"/>
 
                     <RadioButton
-                        android:id="@+id/radio_popup_everythreemonth"
+                        android:id="@+id/radio_popup_nextthreemonth"
                         style="@style/product_detail_popup_check_send_mode"
-                        android:text="三个月"/>
+                        android:text="下三个月"/>
 
                 </RadioGroup>
 

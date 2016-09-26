@@ -31,6 +31,8 @@
         <activity android:name=".activity.RegisterInputPwdActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.RegisterActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.LoginValidationActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.ShopCartActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.ConfirmOrderActivity" android:launchMode="singleTask"/>
     </application>
 
 </manifest>

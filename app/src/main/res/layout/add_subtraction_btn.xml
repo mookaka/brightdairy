@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/txtview_btn_subtraction"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
         android:textColor="@color/colorBlackLight"
         android:textSize="18sp"
         android:text="-"
@@ -19,10 +19,12 @@
 
     <EditText
         android:id="@+id/edit_input_show_num"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:minWidth="30dp"
         android:layout_height="match_parent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:gravity="center"
         android:maxLength="3"
         android:minEms="1"
@@ -32,7 +34,7 @@
 
     <TextView
         android:id="@+id/txtview_btn_add"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -97,7 +97,10 @@ public class FindPwdBackValideCodeActivity extends Activity
             return;
         }
 
-        mCompositeSubscription.add(mLoginRegisterApi.sendSms(new SendSms("GETPSW", num))
+        mCompositeSubscription.add(mLoginRegisterApi.sendSms(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms("GETPSW", num))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

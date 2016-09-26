@@ -23,19 +23,35 @@ public interface LoginRegisterHttp
 {
     @POST("sms/sendSms")
     @Headers("Content Type: application/json")
-    Observable<DataResult<Object>> sendSms(@Body SendSms sendSmsBody);
+    Observable<DataResult<Object>> sendSms(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                           @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                           @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                           @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                           @Body SendSms sendSmsBody);
 
     @POST("sms/getSmsCodeForReg")
     @Headers("Content Type: application/json")
-    Observable<DataResult<Object>> sendSmsCodeForReg(@Body SendSms sendSmsBody);
+    Observable<DataResult<Object>> sendSmsCodeForReg(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                     @Body SendSms sendSmsBody);
 
     @POST("user/userLogin")
     @Headers("Content Type: application/json")
-    Observable<DataResult<LoginResult>> userLogin(@Body UserLogin userLogin);
+    Observable<DataResult<LoginResult>> userLogin(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                  @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                  @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                  @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                  @Body UserLogin userLogin);
 
     @POST("user/userLoginBySms")
     @Headers("Content Type: application/json")
-    Observable<DataResult<LoginResult>> userLoginBySms(@Body UserLoginBySms userLoginBySms);
+    Observable<DataResult<LoginResult>> userLoginBySms(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                       @Body UserLoginBySms userLoginBySms);
 
     @GET("user/logout")
     @Headers("Content Type: application/json")
@@ -43,10 +59,18 @@ public interface LoginRegisterHttp
 
     @POST("user/createCustomer")
     @Headers("Content Type: application/json")
-    Observable<DataResult<LoginResult>> userRegister(@Body UserRegister userRegister);
+    Observable<DataResult<LoginResult>> userRegister(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                     @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                     @Body UserRegister userRegister);
 
     @GET("user/modifyPasswordBySmsCode")
     @Headers("Content Type: application/json")
-    Observable<DataResult<Object>> modifyPasswordBySmsCode(@Body ModifyPwdBySms modifyPwdBySms);
+    Observable<DataResult<Object>> modifyPasswordBySmsCode(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                           @Body ModifyPwdBySms modifyPwdBySms);
 
 }

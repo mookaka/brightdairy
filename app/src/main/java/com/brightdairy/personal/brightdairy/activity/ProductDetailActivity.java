@@ -1,14 +1,14 @@
 package com.brightdairy.personal.brightdairy.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.ProductHttp;
 import com.brightdairy.personal.brightdairy.R;
@@ -16,16 +16,18 @@ import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
-import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.brightdairy.view.Banner;
+import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataResult;
-import com.brightdairy.personal.model.Event.ProductInfoChangeEvet;
+import com.brightdairy.personal.model.Event.SendModeChangeEvent;
+import com.brightdairy.personal.model.Event.SendTimeChangeEvent;
+import com.brightdairy.personal.model.Event.UnitQuantityChangeEvent;
 import com.brightdairy.personal.model.Event.VolChangeEvent;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.bumptech.glide.Glide;
 
-import java.util.Arrays;
+import org.w3c.dom.Text;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,8 +50,15 @@ public class ProductDetailActivity extends Activity
     private ImageButton popupSendModeSelector;
     private ImageView imgviewProductDetail;
 
+    private TextView txtviewSendTime;
+    private TextView txtviewSendMode;
+    private TextView txtviewUnitQuantity;
+    private TextView txtviewTotalAmount;
+
+    private BadgeRadioButton bdbtnShopCart;
+
     public ProductDetail productDetail;
-    private ProductSendInfo mProductSendModeInfo;
+    public ProductSendInfo mProductSendModeInfo;
     private CompositeSubscription mCompositeSubscription;
 
 
@@ -75,6 +84,13 @@ public class ProductDetailActivity extends Activity
         txtviewCampannyName = (TextView) findViewById(R.id.txtview_companny_name);
         popupSendModeSelector = (ImageButton)findViewById(R.id.imgbtn_select_send_mode);
         imgviewProductDetail = (ImageView) findViewById(R.id.imgview_product_detail);
+
+        txtviewSendTime = (TextView) findViewById(R.id.txtview_product_detail_send_time);
+        txtviewSendMode = (TextView) findViewById(R.id.txtview_product_detail_send_mode);
+        txtviewUnitQuantity = (TextView) findViewById(R.id.txtview_product_detail_unit_quantity);
+        txtviewTotalAmount = (TextView) findViewById(R.id.txtview_product_detail_total_amount);
+
+        bdbtnShopCart = (BadgeRadioButton) findViewById(R.id.radio_product_shopping_cart);
 
         bannerProductImgs.setDelayTime(5000);
         bannerProductImgs.setIndicatorGravity(Banner.CENTER);
@@ -108,19 +124,61 @@ public class ProductDetailActivity extends Activity
             @Override
             public void call(Object Event)
             {
-                if (Event instanceof VolChangeEvent)
-                {
-                    VolChangeEvent volChangeEvent = ((VolChangeEvent) Event);
-                    initProductDetailById(volChangeEvent.productId);
-                }
+                handleRxEvent(Event);
             }
         }));
+
+
+
+    }
+
+    private void handleRxEvent(Object event)
+    {
+        if (event instanceof VolChangeEvent)
+        {
+            VolChangeEvent volChangeEvent = ((VolChangeEvent) event);
+            initProductDetailById(volChangeEvent.productId);
+        } else if (event instanceof SendModeChangeEvent)
+        {
+            SendModeChangeEvent sendModeChangeEvent = (SendModeChangeEvent) event;
+            mProductSendModeInfo.shipModuleName = sendModeChangeEvent.shipModuleName;
+            mProductSendModeInfo.shipModuleId = sendModeChangeEvent.shipModuleId;
+            mProductSendModeInfo.shipModuleType = sendModeChangeEvent.shipModuleType;
+
+            refreshSendModeViewWithNewData();
+
+        } else if (event instanceof SendTimeChangeEvent)
+        {
+            SendTimeChangeEvent sendTimeChangeEvent = (SendTimeChangeEvent) event;
+            mProductSendModeInfo.startDate = sendTimeChangeEvent.startTime;
+            mProductSendModeInfo.endate = sendTimeChangeEvent.endTime;
+
+            refreshSendModeViewWithNewData();
+
+        } else if (event instanceof UnitQuantityChangeEvent)
+        {
+            UnitQuantityChangeEvent unitQuantityChangeEvent = (UnitQuantityChangeEvent) event;
+            mProductSendModeInfo.unitQuantity = unitQuantityChangeEvent.unitQuantity;
+
+            refreshSendModeViewWithNewData();
+        }
+    }
+
+    private void refreshSendModeViewWithNewData()
+    {
+        txtviewSendTime.setText("配送时间：" + mProductSendModeInfo.startDate + " 到 " + mProductSendModeInfo.endate);
+        txtviewSendMode.setText("配送模式：" + mProductSendModeInfo.shipModuleName);
+        txtviewUnitQuantity.setText("每次配送：" + mProductSendModeInfo.unitQuantity + "份");
+        txtviewTotalAmount.setText("总份数：" + AppLocalUtils.getTotalAmount(mProductSendModeInfo) + "份");
     }
 
 
     private void initProductDetailById(String productId)
     {
-        mCompositeSubscription.add(productHttp.getProductDetailById(productId)
+        mCompositeSubscription.add(productHttp.getProductDetailById(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,productId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<ProductDetail>>()
@@ -154,14 +212,16 @@ public class ProductDetailActivity extends Activity
         mProductSendModeInfo.shipModuleType = "M";
         mProductSendModeInfo.shipModuleName = "每日送";
         mProductSendModeInfo.startDate = AppLocalUtils.getDateWithOffset(AppLocalUtils.DATE_NOW);
-        mProductSendModeInfo.endate = AppLocalUtils.getDateWithOffset(AppLocalUtils.DATE_NEXT_MONTH);
+        mProductSendModeInfo.endate = AppLocalUtils.getDateWithOffset(AppLocalUtils.DATE_NEXT_MONTH_FROM_NOW);
         mProductSendModeInfo.unitQuantity = 1;
+
+        refreshSendModeViewWithNewData();
     }
 
 
     private void fillViewWithData()
     {
-        bannerProductImgs.setImages(fussImgUrl(productDetail.picScrollUrls));
+        bannerProductImgs.setImages(AppLocalUtils.fussImgUrl(productDetail.picScrollUrls));
         txtviewProductName.setText(productDetail.productName);
         txtviewProductPrice.setText(String.valueOf("随心订价：￥" + productDetail.prices.basePrice));
         txtviewProductVol.setText("产品规格：" + productDetail.productVol + productDetail.productVolUom);
@@ -198,31 +258,24 @@ public class ProductDetailActivity extends Activity
                 orderSendModePopup.show(ProductDetailActivity.this.getFragmentManager(), "orderSendModePopup");
             }
         });
+
+        bdbtnShopCart.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent ToShopCartIntent = new Intent(ProductDetailActivity.this, ShopCartActivity.class);
+                startActivity(ToShopCartIntent);
+            }
+        });
     }
 
     private void freshSendModePopup(ProductDetail detail)
     {
         if (orderSendModePopup != null && orderSendModePopup.isVisible())
-            orderSendModePopup.freshPopupData(detail);
+            orderSendModePopup.freshPopupData(detail, mProductSendModeInfo);
     }
 
-    private String[] fussImgUrl(String[] initImgUrls)
-    {
-
-        if(initImgUrls != null && initImgUrls.length > 0)
-        {
-            StringBuilder fussImgUrl = new StringBuilder().append(GlobalConstants.IMG_URL_BASR);
-            final int IMG_URL_BASE_LEN = GlobalConstants.IMG_URL_BASR.length() -1;
-
-            for (int index = 0; index < initImgUrls.length; index++)
-            {
-                fussImgUrl.delete(IMG_URL_BASE_LEN, fussImgUrl.length());
-                initImgUrls[index] = fussImgUrl.append(initImgUrls[index]).toString();
-            }
-        }
-
-        return initImgUrls;
-    }
 
     @Override
     protected void onDestroy()

@@ -31,6 +31,12 @@ public class AddSubtractionBtn extends FrameLayout
     private TextView addBtn;
     private TextView subtractionBtn;
     private EditText showInputNum;
+    private AddSubBtnListener mAddSubBtnListener;
+
+    public interface AddSubBtnListener
+    {
+        void addSubBtnClick(int curValue);
+    }
 
     private CompositeSubscription compositeSubscription;
 
@@ -58,8 +64,7 @@ public class AddSubtractionBtn extends FrameLayout
         showInputNum = (EditText)addSubBtn.findViewById(R.id.edit_input_show_num);
 
 
-        currentValue = minValue;
-        showInputNum.setText(String.valueOf(minValue));
+       setCurrentValue(minValue);
         showInputNum.setInputType(InputType.TYPE_CLASS_NUMBER);
         initListener();
     }
@@ -80,6 +85,11 @@ public class AddSubtractionBtn extends FrameLayout
                         currentValue = currentValue +1;
                         showInputNum.setText(String.valueOf(currentValue));
                         subtractionBtn.setEnabled(true);
+
+                        if(mAddSubBtnListener != null)
+                        {
+                            mAddSubBtnListener.addSubBtnClick(currentValue);
+                        }
                     }
                 }));
 
@@ -96,6 +106,11 @@ public class AddSubtractionBtn extends FrameLayout
                         {
                             currentValue = minValue;
                             subtractionBtn.setEnabled(false);
+                        }
+
+                        if(mAddSubBtnListener != null)
+                        {
+                            mAddSubBtnListener.addSubBtnClick(currentValue);
                         }
 
                         showInputNum.setText(String.valueOf(currentValue));
@@ -122,6 +137,10 @@ public class AddSubtractionBtn extends FrameLayout
 
     }
 
+    public void setAddSubBtnListener(AddSubBtnListener addSubBtnListener)
+    {
+        this.mAddSubBtnListener = addSubBtnListener;
+    }
 
     public void unSubscribe()
     {
@@ -129,6 +148,12 @@ public class AddSubtractionBtn extends FrameLayout
         {
             compositeSubscription.unsubscribe();
         }
+    }
+
+    public void setCurrentValue(int currentValue)
+    {
+        this.currentValue = currentValue;
+        showInputNum.setText(String.valueOf(currentValue));
     }
 
     public int  getCurrentValue()

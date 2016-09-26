@@ -64,6 +64,7 @@ public class AdPageActivity extends Activity
     private void ConfigAdPage()
     {
         String usrl = PrefUtil.getString("adImgUrl", null);
+
         Glide.with(this).load(usrl).asBitmap().into(adImgContainer);
         adPageJumpTimer = new Timer();
 

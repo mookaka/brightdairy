@@ -13,6 +13,7 @@ import com.brightdairy.personal.brightdairy.ViewHolder.HomeItemSingleVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.HomeItemsBannerVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.HomeTopBannerVH;
 import com.brightdairy.personal.brightdairy.activity.WebBrowserContainerActivity;
+import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
@@ -123,7 +124,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     homeTopBannerVH.topBars.get(topbarIndex).setText(config.topBar[topbarIndex].titleText);
 
                     Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                            .load(config.topBar[topbarIndex].iconUrl)
+                            .load(GlobalConstants.IMG_URL_BASR + config.topBar[topbarIndex].iconUrl)
                             .asBitmap()
                             .into(new SimpleTarget<Bitmap>() {
                                 @Override
@@ -136,7 +137,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             }
 
-            homeTopBannerVH.topCarousel.setImages(imgUrls.toArray(new String[0]));
+            String[] imgUrlss = AppLocalUtils.fussImgUrl(imgUrls.toArray(new String[0]));
+            homeTopBannerVH.topCarousel.setImages(imgUrlss);
 
 
             homeTopBannerVH.topCarousel.setOnBannerClickListener(new Banner.OnBannerClickListener()
@@ -169,7 +171,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 homeItemsBannerVH.itemCarouselTitle.setText(homePageItem.titleText);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(homePageItem.leftIcon)
+                        .load(GlobalConstants.IMG_URL_BASR + homePageItem.leftIcon)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>()
                         {
@@ -229,7 +231,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 homeItemSingleVH.itemSingleTitle.setText(homePageItem.titleText);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(homePageItem.leftIcon)
+                        .load(GlobalConstants.IMG_URL_BASR + homePageItem.leftIcon)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>()
                         {
@@ -266,19 +268,19 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(imgUrls.get(0))
+                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(0))
                         .asBitmap()
                         .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgLeft);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(imgUrls.get(1))
+                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(1))
                         .asBitmap()
                         .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgTop);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(imgUrls.get(2))
+                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(2))
                         .asBitmap()
                         .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgBottom);

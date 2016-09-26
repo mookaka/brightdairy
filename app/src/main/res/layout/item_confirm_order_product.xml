@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorWhiterPure">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        
+        <ImageView
+            android:id="@+id/imgview_item_confirm_order_product_img"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_line_lineout"
+            android:src="@mipmap/product02_312_162"
+            android:scaleType="centerInside"/>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:gravity="left"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtview_item_confirm_order_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorTxtBlack"
+                android:textSize="14sp"
+                android:text="优倍全家共享装（950ML）"/>
+
+            <TextView
+                android:id="@+id/txtview_item_confirm_order_send_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorBlackLight"
+                android:textSize="12sp"
+                android:text="配送模式：每日送"/>
+
+            <TextView
+                android:id="@+id/txtview_item_confirm_order_send_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorBlackLight"
+                android:textSize="12sp"
+                android:text="配送时间：2016-03-03到2016-03-31"/>
+
+            <TextView
+                android:id="@+id/txtview_item_confirm_order_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorBlackLight"
+                android:textSize="12sp"
+                android:text="总数量：40份"/>
+
+            <TextView
+                android:id="@+id/txtview_item_confirm_order_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorRedDarkerBtn"
+                android:textSize="12sp"
+                android:text="价格：5.0元"/>
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhiteLighter"/>
+
+    <LinearLayout
+        android:id="@+id/ll_item_confirm_order_promotion"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/colorTxtBlack"
+            android:text="使用红包"/>
+
+        <EditText
+            android:id="@+id/edit_item_confirm_order_input_promotion_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@drawable/shape_line_lineout"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textColorHint="@color/colorBlackLight"
+            android:textColor="@color/colorBlackLight"
+            android:textSize="10sp"
+            android:hint="请输入红包码"/>
+
+        <Button
+            android:id="@+id/btn_item_confirm_order_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_blue_radius_bg"
+            android:textSize="12sp"
+            android:textColor="@color/colorWhiterPure"
+            android:text="验证"/>
+
+    </LinearLayout>
+
+</LinearLayout>

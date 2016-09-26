@@ -32,11 +32,7 @@ public class GlobalRetrofit
                     Request originalReq = chain.request();
 
                     Request.Builder newReqBuilder = originalReq.newBuilder()
-                            .addHeader("pid", GlobalHttpConfig.PID)
-                            .addHeader("uid", GlobalHttpConfig.UID)
-                            .addHeader("rid", GlobalHttpConfig.RID)
-                            .addHeader("pin", GlobalHttpConfig.PIN)
-                            .addHeader("tid", GlobalHttpConfig.TID);
+                            .addHeader("rid", GlobalHttpConfig.RID);
 
                     return chain.proceed(newReqBuilder.build());
                 }
@@ -50,5 +46,21 @@ public class GlobalRetrofit
         }
 
         return retrofitDev;
+    }
+
+    private static Retrofit retrofitTest;
+    public static Retrofit getRetrofitTest()
+    {
+        if (retrofitTest == null)
+        {
+
+            retrofitTest = new Retrofit.Builder()
+                    .baseUrl("http://172.16.11.25:3000/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        }
+
+        return retrofitTest;
     }
 }

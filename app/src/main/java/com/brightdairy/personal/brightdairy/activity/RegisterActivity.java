@@ -132,7 +132,10 @@ public class RegisterActivity extends Activity
             return;
         }
 
-        observerComposition.add(loginRegisterApi.sendSmsCodeForReg(new SendSms(phoneNum, "REGISTE"))
+        observerComposition.add(loginRegisterApi.sendSmsCodeForReg(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms(phoneNum, "REGISTE"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

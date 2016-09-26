@@ -131,7 +131,10 @@ public class LoginSmsActivity extends Activity
     private void login(final String num)
     {
 
-        compositeObsever.add(loginRegisterHttp.sendSms(new SendSms("LOGIN", num))
+        compositeObsever.add(loginRegisterHttp.sendSms(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms("LOGIN", num))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

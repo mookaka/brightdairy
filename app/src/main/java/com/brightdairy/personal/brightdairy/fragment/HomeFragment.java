@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.HomePageHttp;
 import com.brightdairy.personal.brightdairy.R;
@@ -59,7 +60,10 @@ public class HomeFragment extends Fragment
 
         HomePageHttp homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
 
-        homeHttpService.getHomeContent(GlobalConstants.ZONE_CODE)
+        homeHttpService.getHomeContent(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<HomeContent>>() {

@@ -23,7 +23,10 @@ public abstract class BasePopup extends DialogFragment
     {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        return initView(inflater, container, savedInstanceState);
+        View popupView = initView(inflater, container, savedInstanceState);
+        initData();
+        initListener();
+        return popupView;
     }
 
 
@@ -43,14 +46,13 @@ public abstract class BasePopup extends DialogFragment
         thisWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        thisWindow.setLayout((int) (displayMetrics.widthPixels * 0.9), (int) (displayMetrics.heightPixels * 0.8));
+        thisWindow.setLayout((int) (displayMetrics.widthPixels * 1.0), (int) (displayMetrics.heightPixels * 0.8));
         thisWindow.setGravity(Gravity.BOTTOM);
-        initData();
         super.onResume();
     }
 
     protected abstract void initData();
     protected abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle state);
-    protected void clearResOnDestroyView() {
-    }
+    protected abstract void initListener();
+    protected void clearResOnDestroyView() {}
 }

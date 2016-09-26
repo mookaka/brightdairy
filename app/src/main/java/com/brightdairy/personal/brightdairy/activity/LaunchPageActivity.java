@@ -18,6 +18,7 @@ import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.HttpReqBody.GetPid;
 import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
@@ -98,16 +99,22 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
     }
 
     private LaunchHttp launchPageHttpService;
+    private AppConfigHttp appConfigHttp;
     private void initData()
     {
 
-        AppConfigHttp appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigHttp.class);
+        appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigHttp.class);
 
         String oldPid = PrefUtil.getString(GlobalConstants.AppConfig.PID_LOCAL, "");
 
-        appConfigHttp.getAppPid(oldPid).subscribeOn(Schedulers.io())
+        appConfigHttp.getAppPid(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new GetPid(oldPid))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<String>>() {
+                .subscribe(new Subscriber<DataResult<String>>()
+                {
                     @Override
                     public void onCompleted()
                     {
@@ -117,6 +124,8 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                                 .append(GlobalConstants.AppConfig.FAA_KEY);
 
                         GlobalHttpConfig.PIN = GeneralUtils.str2HashKey(pinInitial.toString());
+
+                        getCityCode();
                     }
 
                     @Override
@@ -133,7 +142,14 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     }
                 });
 
-        appConfigHttp.getCurrCityCode().subscribeOn(Schedulers.io())
+    }
+
+    private void getCityCode()
+    {
+        appConfigHttp.getCurrCityCode(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Subscriber<DataResult<ArrayList<CityZoneCode>>>()
                 {
@@ -164,11 +180,18 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                             }
 
                         }
+
+                        getImgBaseUrl();
                     }
                 });
+    }
 
-
-        appConfigHttp.getImgBaseUrl(GlobalHttpConfig.RID).subscribeOn(Schedulers.io())
+    private void getImgBaseUrl()
+    {
+        appConfigHttp.getImgBaseUrl(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<String>>() {
                     @Override
@@ -183,62 +206,74 @@ public class LaunchPageActivity extends Activity implements LaunchPageI
                     @Override
                     public void onNext(DataResult<String> stringDataResult) {
                         GlobalConstants.IMG_URL_BASR = stringDataResult.result;
+
+                        freshLaunPage();
                     }
                 });
+    }
 
+    private void freshLaunPage()
+    {
+        launchPageHttpService = GlobalRetrofit.getRetrofitDev().create(LaunchHttp.class);
 
-            launchPageHttpService = GlobalRetrofit.getRetrofitDev().create(LaunchHttp.class);
-
-            launchPageHttpService.getLaunchPageConfig(GlobalConstants.ZONE_CODE)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<DataResult<LaunchPage>>()
+        launchPageHttpService.getLaunchPageConfig(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DataResult<LaunchPage>>()
+                {
+                    @Override
+                    public void onCompleted()
                     {
-                        @Override
-                        public void onCompleted()
-                        {
-                            changeAdPage();
-                        }
+                        changeAdPage();
+                    }
 
-                        @Override
-                        public void onError(Throwable e)
-                        {
-                            changeAdPage();
-                        }
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        changeAdPage();
+                    }
 
-                        @Override
-                        public void onNext(DataResult<LaunchPage> launchPageDataBase)
-                        {
-                            changeLaunchPage(launchPageDataBase);
-                        }
-                    });
+                    @Override
+                    public void onNext(DataResult<LaunchPage> launchPageDataBase)
+                    {
+                        changeLaunchPage(launchPageDataBase);
+                    }
+                });
     }
 
 
-
+    private ImageView launchImgContainer;
     private void changeLaunchPage(DataResult<LaunchPage> LaunchPageConfig)
     {
+        launchImgContainer  = (ImageView) findViewById(R.id.imgview_launch_img_container);
         if(GlobalHttpConfig.API_MSGCODE.REQUST_OK.equals(LaunchPageConfig.msgCode))
         {
-            ImageView launchImgContainer  = (ImageView) findViewById(R.id.imgview_launch_img_container);
-
             String launchImg = GlobalConstants.IMG_URL_BASR + LaunchPageConfig.result.lancherImg;
             Glide.with(this).load(launchImg).asBitmap().into(launchImgContainer);
+        } else
+        {
+            launchImgContainer.setImageResource(R.mipmap.lanch_ad_img);
         }
     }
 
     private void changeAdPage()
     {
 
-        launchPageHttpService.getLaunchAdConfig(GlobalConstants.ZONE_CODE)
+        launchPageHttpService.getLaunchAdConfig(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<DataResult<LaunchAd>>() {
                         @Override public void onCompleted()
                         {
                             if(PrefUtil.getString("adAction", null) != null) {
-                                pageSwitcher.sendEmptyMessageDelayed(0x002, 1000);
+                                pageSwitcher.sendEmptyMessageDelayed(0x002, 2000);
                             } else {
-                                pageSwitcher.sendEmptyMessageDelayed(0x001, 1000);
+                                pageSwitcher.sendEmptyMessageDelayed(0x001, 2000);
                             }
                         }
 

@@ -6,6 +6,7 @@ import com.brightdairy.personal.model.entity.HomeConfig;
 import com.brightdairy.personal.model.entity.HomeContent;
 
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -16,8 +17,16 @@ import rx.Observable;
 public interface HomePageHttp
 {
     @GET("homepage/content/{cityCode}")
-    Observable<DataResult<HomeContent>> getHomeContent(@Path("cityCode") String cityCode);
+    Observable<DataResult<HomeContent>> getHomeContent(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                       @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                       @Path("cityCode") String cityCode);
 
-    @GET("homepage/conconfig/{cityCode}")
-    Observable<DataResult<HomeConfig>> getHomeConfigByZone(@Path("cityCode") String cityCode);
+    @GET("homepage/config/{cityCode}")
+    Observable<DataResult<HomeConfig>> getHomeConfigByZone(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                           @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                           @Path("cityCode") String cityCode);
 }

@@ -145,6 +145,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         if (imagesUrl==null||imagesUrl.length<=0)
             return;
         count = imagesUrl.length;
+        imageViews.clear();
         createIndicator();
         for (int i = 0; i <= count + 1; i++) {
             ImageView iv = new ImageView(context);
@@ -185,6 +186,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     private void createIndicator() {
+
+
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mIndicatorWidth,mIndicatorHeight);

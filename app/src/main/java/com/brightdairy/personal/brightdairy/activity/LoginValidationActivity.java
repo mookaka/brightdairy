@@ -149,7 +149,10 @@ public class LoginValidationActivity extends Activity
             return;
         }
 
-        compositeSubscription.add(loginRegisterApi.userLoginBySms(new UserLoginBySms(validatioCode, phoneNum))
+        compositeSubscription.add(loginRegisterApi.userLoginBySms(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new UserLoginBySms(validatioCode, phoneNum))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<LoginResult>>()
@@ -205,7 +208,10 @@ public class LoginValidationActivity extends Activity
 
     private void resendValidCode()
     {
-        compositeSubscription.add(loginRegisterApi.sendSms(new SendSms("LOGIN", phoneNum))
+        compositeSubscription.add(loginRegisterApi.sendSms(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new SendSms("LOGIN", phoneNum))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<Object>>()

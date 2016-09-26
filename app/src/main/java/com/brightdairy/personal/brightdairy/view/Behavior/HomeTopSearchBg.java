@@ -30,14 +30,14 @@ public class HomeTopSearchBg extends CoordinatorLayout.Behavior<LinearLayout>
     {
         if(velocityY > 0 && alphaOffset < 255)
         {
-            alphaOffset += 50;
+            alphaOffset += 51;
 
             if(alphaOffset > 255)
                 alphaOffset = 255;
 
         } else if (velocityY < 0 && alphaOffset > 0)
         {
-            alphaOffset -= 50;
+            alphaOffset -= 51;
 
             if(alphaOffset < 0)
                 alphaOffset = 0;
@@ -53,14 +53,14 @@ public class HomeTopSearchBg extends CoordinatorLayout.Behavior<LinearLayout>
     {
         if(dy > 20 && alphaOffset < 255)
         {
-            alphaOffset += 10;
+            alphaOffset += 51;
 
             if(alphaOffset > 255)
                 alphaOffset = 255;
 
         } else if (dy < -20 && alphaOffset > 0)
         {
-            alphaOffset -= 10;
+            alphaOffset -= 51;
 
             if(alphaOffset < 0)
                 alphaOffset = 0;

@@ -90,7 +90,10 @@ public class MainActivity extends FragmentActivity
 
             HomePageHttp homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
 
-            homeHttpService.getHomeConfigByZone(GlobalConstants.ZONE_CODE)
+            homeHttpService.getHomeConfigByZone(GlobalHttpConfig.PID,
+                    GlobalHttpConfig.UID,
+                    GlobalHttpConfig.TID,
+                    GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<DataResult<HomeConfig>>() {
@@ -135,7 +138,7 @@ public class MainActivity extends FragmentActivity
                 final int finalI = i;
                 bottomBar.get(finalI).setText(homeConfig.bottomBar[i].titleText);
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(homeConfig.bottomBar[i].iconUrl)
+                        .load(GlobalConstants.IMG_URL_BASR + homeConfig.bottomBar[i].iconUrl)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>() {
                             @Override

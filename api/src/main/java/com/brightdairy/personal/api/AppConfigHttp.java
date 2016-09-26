@@ -1,6 +1,7 @@
 package com.brightdairy.personal.api;
 
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.HttpReqBody.GetPid;
 import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.brightdairy.personal.model.entity.DeliverMethod;
 import com.brightdairy.personal.model.entity.DeliverZone;
@@ -23,19 +24,37 @@ import rx.Observable;
 public interface AppConfigHttp
 {
     @POST("commonStore/getPid")
-    Observable<DataResult<String>> getAppPid(@Body String oldPid);
+    @Headers("Content Type: application/json")
+    Observable<DataResult<String>> getAppPid(
+            @Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+            @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+            @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+            @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+            @Body GetPid oldPid);
 
     @GET("commonStore/getImageUrl")
-    Observable<DataResult<String>> getImgBaseUrl(@Header("rid") String headerRid);
+    Observable<DataResult<String>> getImgBaseUrl(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                 @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                 @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                 @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin);
 
-    @GET("geoStore/getAllCities")
-    Observable<DataResult<ArrayList<CityZoneCode>>> getCurrCityCode();
+    @GET("geoStore/getAllCity")
+    Observable<DataResult<ArrayList<CityZoneCode>>> getCurrCityCode(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                                    @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                                    @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                                    @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin);
 
     @GET("productStore/getDeliverMethodList")
     @Headers("Content Type: application/json")
-    Observable<DataResult<ArrayList<DeliverMethod>>> getDeliverMethodList();
+    Observable<DataResult<ArrayList<DeliverMethod>>> getDeliverMethodList(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                                          @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                                          @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                                          @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin);
 
     @GET("geoStore/getGeoBySupplierPartyId/{supplierPartyId}")
     @Headers("Content Type: application/json")
-    Observable<DataResult<DeliverZone>> getGeoInfoChn(@Path("supplierPartyId") String supplierPartyId);
+    Observable<DataResult<DeliverZone>> getGeoInfoChn(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                      @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                      @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                      @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,@Path("supplierPartyId") String supplierPartyId);
 }

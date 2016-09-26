@@ -25,16 +25,18 @@ import java.util.ArrayList;
 public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> implements View.OnClickListener
 {
     private ArrayList<ProductDetail.ProductAssocBean> productVols;
+    private String curProductId;
+
     private LayoutInflater popVolInflater;
     private int currentChecked = -1;
     private int tmpPosition = -1;
     private boolean canChooseVol = true;
     private RxBus mRxBus;
 
-    public PopupSelectVolAdapter(ArrayList<ProductDetail.ProductAssocBean> productVols)
+    public PopupSelectVolAdapter(ArrayList<ProductDetail.ProductAssocBean> productVols, String curProductId)
     {
         this.productVols = productVols;
-        this.productVols.addAll(productVols);
+        this.curProductId = curProductId;
         this.popVolInflater = LayoutInflater.from(GlobalConstants.APPLICATION_CONTEXT);
         this.mRxBus = RxBus.EventBus();
     }
@@ -53,12 +55,16 @@ public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> 
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(holder);
 
-        String volImgUrl = GlobalConstants.IMG_URL_BASR + productVols.get(position).AsscProdImage;
+        ProductDetail.ProductAssocBean productVol = productVols.get(position);
+
+        String volImgUrl = GlobalConstants.IMG_URL_BASR + productVol.AsscProdImage;
         Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(volImgUrl).asBitmap().into(holder.productVolImg);
 
-        if(currentChecked == position)
+
+        if(curProductId.equals(productVol.AsscProd))
         {
             holder.productVolImg.setBackgroundResource(R.mipmap.product_pop_select_l);
+            currentChecked = position;
         } else {
             holder.productVolImg.setBackgroundResource(R.drawable.shape_line_lineout);
         }
@@ -83,6 +89,7 @@ public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> 
 
             tmpPosition = currentChecked;
             currentChecked = CurrentPosition;
+            curProductId = productVols.get(currentChecked).AsscProd;
             notifyItemChanged(tmpPosition);
             notifyItemChanged(currentChecked);
 

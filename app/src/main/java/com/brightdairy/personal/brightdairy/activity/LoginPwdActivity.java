@@ -135,7 +135,10 @@ public class LoginPwdActivity extends Activity
             return;
         }
 
-        mCompositeSubscription.add(loginRegisterApi.userLogin(new UserLogin(AppLocalUtils.encyptPwd(userPwd), userName))
+        mCompositeSubscription.add(loginRegisterApi.userLogin(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,new UserLogin(AppLocalUtils.encyptPwd(userPwd), userName))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<LoginResult>>()
