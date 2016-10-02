@@ -2,6 +2,7 @@ package com.brightdairy.personal.brightdairy.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,10 +26,8 @@ import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.brightdairy.view.NoScrollViewPager;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
-import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.HomeConfig;
-import com.brightdairy.personal.model.entity.HomeContent;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -138,7 +137,7 @@ public class MainActivity extends FragmentActivity
                 final int finalI = i;
                 bottomBar.get(finalI).setText(homeConfig.bottomBar[i].titleText);
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + homeConfig.bottomBar[i].iconUrl)
+                        .load(GlobalConstants.IMG_URL_BASE + homeConfig.bottomBar[i].iconUrl)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>() {
                             @Override
@@ -179,15 +178,8 @@ public class MainActivity extends FragmentActivity
                         break;
                     case R.id.radio_home_bottom_bar_user:
 
-                        if (AppLocalUtils.isLogin())
-                        {
-                            homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.USER_PAGE, true);
+                        homePagesContainer.setCurrentItem(GlobalConstants.PageRelatedType.USER_PAGE, true);
 
-                        } else {
-                            Intent loginIntent = new Intent(MainActivity.this, LoginSmsActivity.class);
-                            startActivity(loginIntent);
-                            finish();
-                        }
 
                         break;
                 }

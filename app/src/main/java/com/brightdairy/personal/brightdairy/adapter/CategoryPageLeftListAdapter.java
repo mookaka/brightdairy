@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.CategoryItemVH;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
@@ -83,7 +84,7 @@ public class CategoryPageLeftListAdapter extends BaseAdapter
         if(categoryForTitle.categoryIcon != null && categoryForTitle.categoryId.equals("freshMilk") || categoryForTitle.categoryId.equals("freshYogurt"))
         {
             Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                    .load(categoryForTitle.categoryIcon)
+                    .load(GlobalConstants.IMG_URL_BASE + categoryForTitle.categoryIcon)
                     .asBitmap()
                     .into(categoryItemVH.imgviewCategoryImg);
 

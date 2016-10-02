@@ -32,6 +32,17 @@ public class GlobalHttpConfig
         String PWD_NOT_SAME = "134";
         String VALID_CODE_EXPIRED = "131";
         String BAD_VALID_CODE = "141";
+        String NEED_RELOGIN = "800";
+
+        String ADDRESS_EXISTED = "201";
+        String CANNOT_CREATE_CONTACT = "202";
+        String CREATE_ADDRESS_ERR = "203";
+        String ADDRESS_NUM_NOT_EXIST = "204";
+        String ADDRESS_DONT_EXIST = "205";
+        String UPDATE_ADDRESS_ERR = "206";
+        String DELETE_ADDRESS_NOT_EXIST = "207";
+        String DELETE_ADDRESS_ERR = "208";
+        String EMPTY_AVAILABLE_ADDRESS = "211";
     }
 
 }

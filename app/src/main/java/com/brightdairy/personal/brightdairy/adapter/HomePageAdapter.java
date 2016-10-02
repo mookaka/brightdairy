@@ -124,7 +124,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     homeTopBannerVH.topBars.get(topbarIndex).setText(config.topBar[topbarIndex].titleText);
 
                     Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                            .load(GlobalConstants.IMG_URL_BASR + config.topBar[topbarIndex].iconUrl)
+                            .load(GlobalConstants.IMG_URL_BASE + config.topBar[topbarIndex].iconUrl)
                             .asBitmap()
                             .into(new SimpleTarget<Bitmap>() {
                                 @Override
@@ -171,7 +171,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 homeItemsBannerVH.itemCarouselTitle.setText(homePageItem.titleText);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + homePageItem.leftIcon)
+                        .load(GlobalConstants.IMG_URL_BASE + homePageItem.leftIcon)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>()
                         {
@@ -207,7 +207,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     actionUrls.add(carouselItem.actionUrl);
                 }
 
-                homeItemsBannerVH.itemCarouselBanner.setImages(imgUrls.toArray(new String[] {}));
+                String[] imgUrlss = AppLocalUtils.fussImgUrl(imgUrls.toArray(new String[0]));
+                homeItemsBannerVH.itemCarouselBanner.setImages(imgUrlss);
 
                 homeItemsBannerVH.itemCarouselBanner.setOnBannerClickListener(new Banner.OnBannerClickListener()
                 {
@@ -231,7 +232,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 homeItemSingleVH.itemSingleTitle.setText(homePageItem.titleText);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + homePageItem.leftIcon)
+                        .load(GlobalConstants.IMG_URL_BASE + homePageItem.leftIcon)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>()
                         {
@@ -268,21 +269,18 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(0))
+                        .load(GlobalConstants.IMG_URL_BASE + imgUrls.get(0))
                         .asBitmap()
-                        .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgLeft);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(1))
+                        .load(GlobalConstants.IMG_URL_BASE + imgUrls.get(1))
                         .asBitmap()
-                        .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgTop);
 
                 Glide.with(GlobalConstants.APPLICATION_CONTEXT)
-                        .load(GlobalConstants.IMG_URL_BASR + imgUrls.get(2))
+                        .load(GlobalConstants.IMG_URL_BASE + imgUrls.get(2))
                         .asBitmap()
-                        .centerCrop()
                         .into(homeItemSingleVH.itemSingleImgBottom);
             }
         }

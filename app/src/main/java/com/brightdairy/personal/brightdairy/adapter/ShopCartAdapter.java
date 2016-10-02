@@ -11,7 +11,6 @@ import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartProductVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartSupplierVH;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.model.entity.CartItem;
-import com.brightdairy.personal.model.entity.ShopCart;
 import com.brightdairy.personal.model.entity.SupplierItem;
 import com.bumptech.glide.Glide;
 
@@ -44,13 +43,14 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         {
             case ITEM_TYPE_PRODUCT:
 
-                View productView = mInflater.inflate(R.layout.item_shop_cart_products, null);
-
+                View productView = mInflater.inflate(R.layout.item_shop_cart_products, parent, false);
+                productView.setTag(ITEM_TYPE_PRODUCT);
                 return new ShopCartProductVH(productView);
 
             default:
             case ITEM_TYPE_SUPPLIER:
-                View supplierView = mInflater.inflate(R.layout.item_shop_cart_supplier, null);
+                View supplierView = mInflater.inflate(R.layout.item_shop_cart_supplier, parent, false);
+                supplierView.setTag(ITEM_TYPE_SUPPLIER);
                 return new ShopCartSupplierVH(supplierView);
         }
 
@@ -71,7 +71,7 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             shopCartProductVH.checkboxProductSelected.setChecked(cartItem.isSelect.equals("Y"));
 
-            Glide.with(mContext).load(GlobalConstants.IMG_URL_BASR + cartItem.itemImg)
+            Glide.with(mContext).load(GlobalConstants.IMG_URL_BASE + cartItem.itemImg)
                     .asBitmap().fitCenter()
                     .into(shopCartProductVH.imgviewProductImg);
 
@@ -117,6 +117,7 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
         shopCartProductVH.swipeMenu.smoothCloseMenu();
         mShopCarts.remove(shopCartProductVH.getAdapterPosition());
-        notifyDataSetChanged();
+        notifyItemRemoved(shopCartProductVH.getAdapterPosition());
+
     }
 }

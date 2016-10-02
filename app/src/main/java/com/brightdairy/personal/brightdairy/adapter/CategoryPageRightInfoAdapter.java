@@ -66,7 +66,7 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
 
         holder.itemView.setTag(productInfo.productId);
 
-        Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(productInfo.imageUrl)
+        Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASE + productInfo.imageUrl)
                 .asBitmap()
                 .into(holder.imgviewProductImg);
 

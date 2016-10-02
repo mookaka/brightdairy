@@ -48,11 +48,13 @@
             android:text="收货人姓名"/>
 
         <EditText
+            android:id="@+id/edit_modify_address_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
             android:textSize="12sp"
+            android:textColorHint="@color/colorWhiterDarker"
             android:hint="留下您的大名吧"/>
 
     </FrameLayout>
@@ -78,10 +80,12 @@
             android:text="手机号码"/>
 
         <EditText
+            android:id="@+id/edit_modify_address_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
+            android:textColorHint="@color/colorWhiterDarker"
             android:textSize="12sp"
             android:hint="留下您的联系方式呗"/>
 
@@ -108,6 +112,7 @@
             android:text="省、市、区"/>
 
         <TextView
+            android:id="@+id/txtview_modify_address_popup_address_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
@@ -136,17 +141,37 @@
             android:drawablePadding="10dp"
             android:text="详细地址"/>
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
             android:drawablePadding="5dp"
             android:drawableLeft="@mipmap/product_local"
-            android:textSize="12sp"
-            android:hint="留下详细地址"/>
+            android:textSize="10sp"
+            android:textColorHint="@color/colorWhiterDarker"
+            android:hint="点击定位"/>
 
     </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@color/colorWhiterBgLight">
+
+        <EditText
+            android:id="@+id/edit_modify_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:textColorHint="@color/colorWhiterDarker"
+            android:textSize="12sp"
+            android:hint="在这里留下详细地址"/>
+
+    </FrameLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -168,13 +193,15 @@
             android:drawablePadding="10dp"
             android:text="门牌号"/>
 
-        <TextView
+        <EditText
+            android:id="@+id/edit_modify_address_gate_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
+            android:textColorHint="@color/colorWhiterDarker"
             android:textSize="12sp"
-            android:text="2000"/>
+            android:hint="您的门牌号"/>
 
     </FrameLayout>
 
@@ -195,6 +222,7 @@
 
 
         <CheckBox
+            android:id="@+id/checkbox_modify_address_set_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
@@ -212,6 +240,7 @@
 
 
     <Button
+        android:id="@+id/btn_modify_address_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"

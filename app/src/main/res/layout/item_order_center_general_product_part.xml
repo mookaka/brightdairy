@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorWhiterPure"
+              android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imgview_item_order_center_product_img"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_line_lineout"
+        android:scaleType="centerInside"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="left">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/txtview_item_order_center_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:textSize="15sp"
+                android:textColor="@color/colorTxtBlack"
+                android:text="新鲜优倍（200ML）"/>
+
+            <TextView
+                android:id="@+id/txtview_item_order_center_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:textSize="12sp"
+                android:textColor="@color/colorRedDarkerBtn"
+                android:text="3.8元"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/txtview_item_order_center_send_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:textSize="10sp"
+                android:textColor="@color/colorWhiterDarker"
+                android:text="配送模式：每日送"/>
+
+            <TextView
+                android:id="@+id/txtview_item_order_center_unit_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:textSize="10sp"
+                android:textColor="@color/colorWhiterDarker"
+                android:text="x1"/>
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/txtview_item_order_center_send_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textSize="10sp"
+            android:textColor="@color/colorWhiterDarker"
+            android:text="配送时间：2016-07-24到2016-08-01"
+            />
+
+        <TextView
+            android:id="@+id/txtview_item_order_center_total_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textSize="10sp"
+            android:textColor="@color/colorWhiterDarker"
+            android:text="配送总数：9件"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

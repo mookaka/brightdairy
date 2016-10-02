@@ -31,16 +31,35 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/txtview_item_shop_cart_product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="marquee"
-                android:scrollHorizontally="true"
-                android:textColor="@color/colorTxtBlack"
-                android:textSize="12sp"
-                android:text="新鲜杯（0脂）优倍（200ML）"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtview_item_shop_cart_product_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/colorTxtBlack"
+                    android:textSize="12sp"
+                    android:text="新鲜杯（0脂）优倍（200ML）"/>
+
+
+                <TextView
+                    android:id="@+id/txtview_item_shop_cart_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhiterDarker"
+                    android:layout_gravity="center_vertical"
+                    android:text="编辑"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/txtview_item_shop_cart_send_mode"
@@ -66,40 +85,35 @@
                 android:textSize="10sp"
                 android:text="每次配送：4份"/>
 
-            <TextView
-                android:id="@+id/txtview_item_shop_cart_product_total_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlackLight"
-                android:textSize="10sp"
-                android:text="总数量：88份"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtview_item_shop_cart_product_total_amount"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/colorBlackLight"
+                    android:textSize="10sp"
+                    android:text="总数量：88份"/>
+
+                <TextView
+                    android:id="@+id/txtview_item_shop_cart_total_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/colorRedDarker"
+                    android:singleLine="true"
+                    android:textSize="12sp"
+                    android:text="152元"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/txtview_item_shop_cart_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhiterDarker"
-                android:layout_gravity="top|center_horizontal"
-                android:text="编辑"/>
-
-            <TextView
-                android:id="@+id/txtview_item_shop_cart_total_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:textColor="@color/colorRedDarker"
-                android:singleLine="true"
-                android:textSize="12sp"
-                android:text="152元"/>
-
-        </FrameLayout>
 
 
 </LinearLayout>

@@ -80,6 +80,7 @@
                         android:id="@+id/imgbtn_confirm_order_modify_address_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="2dp"
                         android:layout_gravity="center_vertical"
                         android:background="@color/colorTransparent"
                         android:src="@mipmap/forward"/>
@@ -446,7 +447,7 @@
             android:padding="10dp"
             android:background="@color/colorRedDarker"
             android:textColor="@color/colorWhiterPure"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="确认订单"/>
 
     </LinearLayout>

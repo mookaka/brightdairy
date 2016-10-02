@@ -1,5 +1,6 @@
 package com.brightdairy.personal.brightdairy.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,7 +22,10 @@ import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.ConfirmOrder;
 import com.brightdairy.personal.model.entity.AddrInfo;
 import com.brightdairy.personal.model.entity.ConfirmOrderInfos;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
+
+import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -87,6 +91,7 @@ public class ConfirmOrderActivity extends BaseActivity
     private CompositeSubscription mCompositeSubscription;
     private OperateOrderApi mOperateOrderApi;
     private ConfirmOrderInfos mConfirmOrderInfos;
+    private String supplierId;
     @Override
     protected void initData()
     {
@@ -117,6 +122,7 @@ public class ConfirmOrderActivity extends BaseActivity
                     public void onNext(DataResult<ConfirmOrderInfos> result)
                     {
                         mConfirmOrderInfos = result.result;
+                        supplierId = mConfirmOrderInfos.supplierPartyId;
                     }
                 }));
 
@@ -165,6 +171,19 @@ public class ConfirmOrderActivity extends BaseActivity
                         {
                             llUserPoints.setVisibility(View.GONE);
                         }
+                    }
+                }));
+
+        mCompositeSubscription.add(RxView.clicks(imgbtnModifyAddr)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        Intent goToAddrModification = new Intent(ConfirmOrderActivity.this, ModifyAddressActivity.class);
+                        goToAddrModification.putExtra("supplierId", supplierId);
+                        startActivity(goToAddrModification);
                     }
                 }));
     }

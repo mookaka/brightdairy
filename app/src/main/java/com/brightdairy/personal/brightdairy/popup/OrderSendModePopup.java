@@ -216,7 +216,7 @@ public class OrderSendModePopup extends BasePopup {
         {
             productName.setText(this.productDetail.productName);
             productPrice.setText("随心订价：" + this.productDetail.prices.basePrice + "元");
-            Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASR + this.productDetail.guessImgUrl).asBitmap().into(productImg);
+            Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASE + this.productDetail.guessImgUrl).asBitmap().into(productImg);
 
         }
 

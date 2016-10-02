@@ -62,7 +62,7 @@
             <com.brightdairy.personal.brightdairy.view.Banner
                 android:id="@+id/banner_product_imgs"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
+                android:layout_height="228dp"
                 app:indicator_width="8dp"
                 app:indicator_height="8dp"
                 />

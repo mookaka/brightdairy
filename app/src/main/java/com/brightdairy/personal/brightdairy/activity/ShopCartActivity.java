@@ -54,7 +54,7 @@ public class ShopCartActivity extends BaseActivity
         shopCartContentView = (LinearLayout) findViewById(R.id.shop_cart_content);
 
         swipeRclShopCartProducts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        swipeRclShopCartProducts.addItemDecoration(new VerticalSpaceItemDecoration(1));
+        swipeRclShopCartProducts.addItemDecoration(new VerticalSpaceItemDecoration(2));
         swipeRclShopCartProducts.hasFixedSize();
     }
 

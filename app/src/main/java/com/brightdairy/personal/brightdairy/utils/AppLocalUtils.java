@@ -1,5 +1,6 @@
 package com.brightdairy.personal.brightdairy.utils;
 
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -11,7 +12,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -40,6 +40,12 @@ public class AppLocalUtils
         String mobileValidRegx = "^1[3|4|5|7|8][0-9]\\d{8}$";
 
         return !TextUtils.isEmpty(phoneNum) && phoneNum.matches(mobileValidRegx);
+    }
+
+    public static boolean isValidUserName(String userName)
+    {
+        String nameValidRegx = "";
+        return !TextUtils.isEmpty(userName) && userName.matches(nameValidRegx);
     }
 
     public static LoginRegisterHttp loginRegisterHttp;
@@ -148,8 +154,8 @@ public class AppLocalUtils
 
         if(initImgUrls != null && initImgUrls.length > 0)
         {
-            StringBuilder fussImgUrl = new StringBuilder().append(GlobalConstants.IMG_URL_BASR);
-            final int IMG_URL_BASE_LEN = GlobalConstants.IMG_URL_BASR.length() -1;
+            StringBuilder fussImgUrl = new StringBuilder().append(GlobalConstants.IMG_URL_BASE);
+            final int IMG_URL_BASE_LEN = GlobalConstants.IMG_URL_BASE.length();
 
             for (int index = 0; index < initImgUrls.length; index++)
             {

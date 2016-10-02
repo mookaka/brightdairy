@@ -1,12 +1,10 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.ConfirmOrderItemVH;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
@@ -16,7 +14,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 /**
@@ -45,7 +42,7 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderItemVH
     {
         CartItem cartItem = mOrderInfos.get(position).cartItem;
 
-        Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASR + cartItem.itemImg)
+        Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASE + cartItem.itemImg)
                 .asBitmap()
                 .centerCrop()
                 .into(holder.imgviewProductImg);

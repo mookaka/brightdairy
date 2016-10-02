@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/colorWhiteLighter">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorGeneralBg">
+
+            <com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton
+                android:id="@+id/radio_fragment_user_shopping_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:button="@null"
+                android:textColor="@color/colorWhiterPure"
+                android:textSize="10sp"
+                android:text="购物车"
+                android:drawablePadding="3dp"
+                android:drawableTop="@mipmap/nav_cart"/>
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleimg_fragment_user_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                app:civ_border_color="@color/colorWhiteOpacity"
+                app:civ_border_width="4dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/product02_312_162"/>
+
+
+            <TextView
+                android:id="@+id/txtview_fragment_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:maxLength="6"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:text="我是着急大王左右"
+                android:textColor="@color/colorWhiterPure"/>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="40dp"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/shape_fragment_user_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorWhiterDarker"
+                    android:text="积分："/>
+
+                <TextView
+                    android:id="@+id/txtview_fragment_user_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorWhiterPure"
+                    android:textStyle="bold"
+                    android:text="1489分"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhiterPure"
+                    android:textStyle="bold"
+                    android:text=" > "/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/colorWhiterPure">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/vip_place"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorTxtBlack"
+                        android:textSize="15sp"
+                        android:text="收货地址"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtxview_fragment_user_default_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorBlackLight"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:maxEms="12"
+                        android:textSize="12sp"
+                        android:text="这个是默认地址"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhiteLighter"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/vip_card"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorTxtBlack"
+                        android:textSize="15sp"
+                        android:text="我的卡券"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtview_fragment_user_my_coupon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorBlackLight"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:maxEms="12"
+                        android:textSize="12sp"
+                        android:text="已添加3张卡券"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/colorWhiterPure">
+
+            <LinearLayout
+                android:id="@+id/fl_fragment_user_service"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/vip_service"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorTxtBlack"
+                        android:textSize="15sp"
+                        android:text="客户服务"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorBlackLight"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:maxEms="12"
+                        android:textSize="12sp"
+                        android:text="有问题点一下"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhiteLighter"/>
+
+            <LinearLayout
+                android:id="@+id/fl_fragment_user_setting"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/vip_setting"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorTxtBlack"
+                        android:textSize="15sp"
+                        android:text="系统设置"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtview_fragment_user_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/colorBlackLight"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:maxEms="12"
+                        android:textSize="12sp"
+                        android:text="请绑定手机号"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgview_fragment_user_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/product02_312_162"/>
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

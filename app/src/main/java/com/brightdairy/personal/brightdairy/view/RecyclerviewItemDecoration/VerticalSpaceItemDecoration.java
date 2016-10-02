@@ -23,10 +23,13 @@ public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                               RecyclerView.State state)
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
     {
-        switch (parent.getAdapter().getItemViewType(parent.getChildAdapterPosition(view)))
+        Object dataPayload = view.getTag();
+        int itemType = (dataPayload == null)? 0x11 : (int)dataPayload;
+
+
+        switch (itemType)
         {
             case ITEM_TYPE_PRODUCT:
                 outRect.bottom = mVerticalSpaceHeight;

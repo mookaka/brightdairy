@@ -1,14 +1,12 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.PopSelectVolVH;
-import com.brightdairy.personal.brightdairy.fragment.HomeFragment;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.Event.VolChangeEvent;
@@ -57,7 +55,7 @@ public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> 
 
         ProductDetail.ProductAssocBean productVol = productVols.get(position);
 
-        String volImgUrl = GlobalConstants.IMG_URL_BASR + productVol.AsscProdImage;
+        String volImgUrl = GlobalConstants.IMG_URL_BASE + productVol.AsscProdImage;
         Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(volImgUrl).asBitmap().into(holder.productVolImg);
 
 

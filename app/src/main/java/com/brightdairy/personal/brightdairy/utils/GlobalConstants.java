@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.brightdairy.personal.brightdairy.activity.MainActivity;
 
 import retrofit2.http.PUT;
@@ -39,7 +41,7 @@ public class GlobalConstants
     public static String ZONE_CODE = "CN-3101";
 
 
-    public static String IMG_URL_BASR;
+    public static String IMG_URL_BASE;
     public static String PRODUCT_DETAIL_IMG_URL_BASE = "http://img.4008117117.com/imgs/";
     public static String PRODUCT_DETAIL_SUFIXX = ".jpg";
 
@@ -49,7 +51,26 @@ public class GlobalConstants
         String UID_LOCAL = "userLoginIdLocal";
         String TID_LOCAL = "tidLocal";
         String PID_LOCAL = "pidLocal";
+        String CITY_CODE_CACHE = "cityCodeCache";
     }
 
+
+    private static AMapLocationClient mAMapLocationClient;
+
+    public static AMapLocationClient getGlobalLocationClient()
+    {
+        if (mAMapLocationClient == null)
+        {
+            mAMapLocationClient = new AMapLocationClient(APPLICATION_CONTEXT);
+            AMapLocationClientOption mapLocationClientOption = new AMapLocationClientOption();
+            mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+            mapLocationClientOption.setOnceLocation(true);
+            mapLocationClientOption.setOnceLocationLatest(true);
+            mapLocationClientOption.setNeedAddress(true);
+            mapLocationClientOption.setWifiActiveScan(true);
+            mAMapLocationClient.setLocationOption(mapLocationClientOption);
+        }
+        return mAMapLocationClient;
+    }
 
 }
