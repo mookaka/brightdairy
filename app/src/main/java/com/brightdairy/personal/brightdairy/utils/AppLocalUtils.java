@@ -7,6 +7,8 @@ import android.util.Base64;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -165,6 +167,19 @@ public class AppLocalUtils
         }
 
         return initImgUrls;
+    }
+
+
+    private static Gson GlobalGson;
+
+    public static Gson getGlobalGson()
+    {
+        if (GlobalGson == null)
+        {
+            GlobalGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        }
+
+        return GlobalGson;
     }
 
 }

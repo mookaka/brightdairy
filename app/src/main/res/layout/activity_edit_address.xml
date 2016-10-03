@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:textSize="12sp"
-            android:text="上海 上海市 徐汇区"/>
+            android:text="点击选择配送区域"/>
 
     </FrameLayout>
 

@@ -93,6 +93,7 @@ public class ModifyAddressActivity extends BaseActivity
                     public void call(Void aVoid)
                     {
                         Intent gotoEditAddress = new Intent(ModifyAddressActivity.this, EditAddressActivity.class);
+                        gotoEditAddress.putExtra("supplierId", supplierId);
                         startActivity(gotoEditAddress);
                     }
                 }));
@@ -176,6 +177,7 @@ public class ModifyAddressActivity extends BaseActivity
     private void handleUpdateAddressEvent(UpdateAddressEvent event)
     {
         Intent gotoEditAddress = new Intent(ModifyAddressActivity.this, EditAddressActivity.class);
+        gotoEditAddress.putExtra("supplierId", supplierId);
         gotoEditAddress.putExtra("updateAddressInfo", PG.convertParcelable(event.mUpdateAddress));
         startActivity(gotoEditAddress);
     }

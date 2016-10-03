@@ -1,6 +1,7 @@
 package com.brightdairy.personal.brightdairy.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,9 +16,12 @@ import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.AddressSelectorPopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.Event.AddressChangeEvent;
 import com.brightdairy.personal.model.HttpReqBody.NewAddress;
 import com.brightdairy.personal.model.HttpReqBody.UpdateAddress;
+import com.brightdairy.personal.model.entity.AddressSelectorInfo;
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
@@ -65,19 +69,23 @@ public class EditAddressActivity extends BaseActivity
     private AddressApi mAddressApi;
     private NewAddress mNewAddress;
     private UpdateAddress mUpdateAddress;
+    private String supplierId;
+    private RxBus mRxBus;
     @Override
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
         mAddressApi = GlobalRetrofit.getRetrofitDev().create(AddressApi.class);
 
+        supplierId = getIntent().getStringExtra("supplierId");
+
         mUpdateAddress = getIntent().getParcelableExtra("updateAddressInfo");
 
         if (mUpdateAddress != null)
         {
-            fillViewWithData();
             mNewAddress = mUpdateAddress.mNewAddress;
             OPERATOR_TYPE = UPDATE_ADDRESS_INFO;
+            fillViewWithData();
         }
         else
         {
@@ -85,7 +93,49 @@ public class EditAddressActivity extends BaseActivity
             OPERATOR_TYPE = CREATE_ADDRESS_INFO;
         }
 
+        mRxBus = RxBus.EventBus();
+        handleRxBusEvent();
 
+    }
+
+    private void handleRxBusEvent()
+    {
+        mCompositeSubscription.add(mRxBus.EventDispatcher()
+                .subscribe(new Action1<Object>()
+                {
+                    @Override
+                    public void call(Object event)
+                    {
+                        if (event instanceof AddressChangeEvent)
+                        {
+                            AddressSelectorInfo addressSelectorInfo = ((AddressChangeEvent) event).mAddressSelectorInfo;
+
+                            switch (addressSelectorInfo.addressType)
+                            {
+                                case AddressSelectorInfo.TYPE_PROVINCE:
+                                    mNewAddress.province = addressSelectorInfo.geoName;
+                                    mNewAddress.provinceId = addressSelectorInfo.geoId;
+                                    break;
+                                case AddressSelectorInfo.TYPE_CIYT:
+                                    mNewAddress.city = addressSelectorInfo.geoName;
+                                    mNewAddress.cityId = addressSelectorInfo.geoId;
+                                    txtviewPopupAdressSelector.setText(mNewAddress.city + " " + mNewAddress.county + " " + mNewAddress.street);
+                                    break;
+                                case AddressSelectorInfo.TYPE_COUNTY:
+                                    mNewAddress.county = addressSelectorInfo.geoName;
+                                    mNewAddress.countyId = addressSelectorInfo.geoId;
+                                    txtviewPopupAdressSelector.setText(mNewAddress.city + " " + mNewAddress.county + " " + mNewAddress.street);
+                                    break;
+                                case AddressSelectorInfo.TYPE_STREET:
+                                    mNewAddress.street = addressSelectorInfo.geoName;
+                                    mNewAddress.streetId = addressSelectorInfo.geoId;
+                                    txtviewPopupAdressSelector.setText(mNewAddress.city + " " + mNewAddress.county + " " + mNewAddress.street);
+                                    editAddressDetail.setText(mNewAddress.province + "省" + mNewAddress.city + mNewAddress.county + mNewAddress.street);
+                                    break;
+                            }
+                        }
+                    }
+                }));
     }
 
 
@@ -118,6 +168,12 @@ public class EditAddressActivity extends BaseActivity
                             mAddressSelectorPopup = new AddressSelectorPopup();
                         }
 
+                        Bundle addition = new Bundle();
+                        addition.putString("supplierId", supplierId);
+                        addition.putString("currCity", mNewAddress.city);
+                        addition.putString("currCounty", mNewAddress.county);
+                        addition.putString("currStreet", mNewAddress.street);
+                        mAddressSelectorPopup.setArguments(addition);
                         mAddressSelectorPopup.show(getFragmentManager(), "addressSelector");
                     }
                 }));
@@ -165,12 +221,14 @@ public class EditAddressActivity extends BaseActivity
     {
         if (mUpdateAddress != null)
         {
-            editReceiverName.setHint(mUpdateAddress.mNewAddress.toName);
-            editReceiverMobile.setHint(mUpdateAddress.mNewAddress.mobile);
-            editAddressDetail.setHint(mUpdateAddress.mNewAddress.city
-                    + mUpdateAddress.mNewAddress.county
-                    + mUpdateAddress.mNewAddress.street
-                    + mUpdateAddress.mNewAddress.address);
+            editReceiverName.setHint(mNewAddress.toName);
+            editReceiverMobile.setHint(mNewAddress.mobile);
+            editAddressDetail.setHint(mNewAddress.city
+                    + mNewAddress.county
+                    + mNewAddress.street
+                    + mNewAddress.address);
+
+            txtviewPopupAdressSelector.setText(mNewAddress.city + " " + mNewAddress.county + " " + mNewAddress.street);
 
             checkboxSetDefault.setChecked(mUpdateAddress.mNewAddress.isDefault.equals("Y"));
         }

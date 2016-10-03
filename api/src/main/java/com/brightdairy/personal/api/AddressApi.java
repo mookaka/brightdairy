@@ -4,6 +4,7 @@ import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.DeleteAddress;
 import com.brightdairy.personal.model.HttpReqBody.NewAddress;
 import com.brightdairy.personal.model.HttpReqBody.UpdateAddress;
+import com.brightdairy.personal.model.entity.AddressBySupplierPartyId;
 import com.brightdairy.personal.model.entity.AddressInfo;
 
 import java.util.ArrayList;
@@ -48,4 +49,11 @@ public interface AddressApi
                                                      @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
                                                      @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
                                                      @Body DeleteAddress deleteAddress);
+
+    @GET("geoStore/getGeoBySupplierPartyId/{supplierPartyId}")
+    Observable<DataResult<AddressBySupplierPartyId>> getGeoBySupplierPartyId(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                                             @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                                             @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                                             @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                                             @Path("supplierPartyId") String supplierPartyId);
 }

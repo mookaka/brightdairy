@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.CitySelectorItemVH;
@@ -16,19 +15,16 @@ import com.brightdairy.personal.model.Event.CityChangedEvent;
 import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
-import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by shuangmusuihua on 2016/9/29.
  */
 
-public class CitySelectorAdapter extends RecyclerView.Adapter<CitySelectorItemVH> implements View.OnClickListener
+public class PopupCitySelectorAdapter extends RecyclerView.Adapter<CitySelectorItemVH> implements View.OnClickListener
 {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
@@ -37,7 +33,7 @@ public class CitySelectorAdapter extends RecyclerView.Adapter<CitySelectorItemVH
     private RxBus mRxBus;
     private CompositeSubscription mCompositeSubscription;
 
-    public CitySelectorAdapter(Context context)
+    public PopupCitySelectorAdapter(Context context)
     {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -56,7 +52,7 @@ public class CitySelectorAdapter extends RecyclerView.Adapter<CitySelectorItemVH
     @Override
     public CitySelectorItemVH onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View itemView = mLayoutInflater.inflate(R.layout.item_city_selector, null);
+        View itemView = mLayoutInflater.inflate(R.layout.item_city_selector, parent, false);
         CitySelectorItemVH citySelectorItemVH = new CitySelectorItemVH(itemView);
         return citySelectorItemVH;
     }

@@ -29,10 +29,13 @@ import com.brightdairy.personal.model.entity.ProductInfo;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import retrofit2.adapter.rxjava.Result;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -85,26 +88,25 @@ public class ProductCategoryFragment extends Fragment
                 GlobalHttpConfig.TID,
                 GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Result<DataResult<ProductCategory>>>()
+                .observeOn(Schedulers.io())
+                .map(new Func1<Result<DataResult<ProductCategory>>, Object>()
                 {
-                    @Override
-                    public void onCompleted()
-                    {
-                        fillViewData();
-                    }
 
                     @Override
-                    public void onError(Throwable e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Result<DataResult<ProductCategory>> productCategoryDataResult)
+                    public Object call(Result<DataResult<ProductCategory>> productCategoryDataResult)
                     {
                         ArrayList<ProductCategory> childCategoryList = productCategoryDataResult.response().body().result.childCategoryList;
                         cacheCategoryToLocal(childCategoryList);
+                        return rx.Observable.empty();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>()
+                {
+                    @Override
+                    public void call(Object o)
+                    {
+                        fillViewData();
                     }
                 });
 

@@ -1,6 +1,8 @@
 package com.brightdairy.personal.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
@@ -24,6 +26,7 @@ public class GlobalRetrofit
     {
         if (retrofitDev == null)
         {
+
             OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor()
             {
                 @Override

@@ -10,11 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.brightdairy.personal.brightdairy.R;
-import com.brightdairy.personal.brightdairy.adapter.CitySelectorAdapter;
+import com.brightdairy.personal.brightdairy.adapter.PopupCitySelectorAdapter;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.Event.CityChangedEvent;
-import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -58,7 +57,7 @@ public class CitySelectorPopup extends BasePopup
         mRxBus = RxBus.EventBus();
         handleRxBusEvent();
         txtviewCurrentSelectedCity.setText(GlobalConstants.CURR_ZONE_CN_NAME);
-        rclviewAllAvailableCities.setAdapter(new CitySelectorAdapter(getActivity()));
+        rclviewAllAvailableCities.setAdapter(new PopupCitySelectorAdapter(getActivity()));
     }
 
     private void handleRxBusEvent()

@@ -36,6 +36,7 @@
         android:background="@color/colorWhiteLighter"/>
 
     <RadioGroup
+        android:id="@+id/rg_address_selector_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -49,12 +50,13 @@
             android:layout_gravity="center_vertical"
             android:textColor="@drawable/selector_city_selector_txt_color"
             android:button="@null"
+            android:checked="true"
             android:gravity="center"
             android:textSize="15sp"
             android:text="上海市"/>
 
         <RadioButton
-            android:id="@+id/radio_address_selector_area"
+            android:id="@+id/radio_address_selector_county"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,10 +87,27 @@
         android:layout_height="1dp"
         android:background="@color/colorWhiteLighter"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.brightdairy.personal.brightdairy.view.StateLayout
+        android:id="@+id/state_address_selector_lists_wrapper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rclview_address_selector_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_data_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/shape_ring_ad_timer_bg"
+            />
+
+    </com.brightdairy.personal.brightdairy.view.StateLayout>
+
 
 </LinearLayout>

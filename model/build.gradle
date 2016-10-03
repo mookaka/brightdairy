@@ -23,4 +23,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     provided 'com.baoyz.pg:compiler:2.1.1'
     compile 'com.baoyz.pg:core:2.1.1'
+    compile 'com.google.code.gson:gson:2.7'
 }
