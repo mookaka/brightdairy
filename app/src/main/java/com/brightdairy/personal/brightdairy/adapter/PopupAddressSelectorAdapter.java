@@ -32,6 +32,7 @@ public class PopupAddressSelectorAdapter extends RecyclerView.Adapter<CitySelect
     private int currentCheckedPos = -1;
     private AddressSelectorInfo province;
     private Gson mGson;
+    private String currentAddressType;
 
     public PopupAddressSelectorAdapter(Activity activity, AddressSelectorInfo province)
     {
@@ -39,6 +40,7 @@ public class PopupAddressSelectorAdapter extends RecyclerView.Adapter<CitySelect
         mLayoutInflater = LayoutInflater.from(mContext);
         mRxBus = RxBus.EventBus();
         this.province = province;
+        currentAddressType = province.geoName;
 
         String cityInfosStr = PrefUtil.getString(province.geoName, null);
 
@@ -101,7 +103,10 @@ public class PopupAddressSelectorAdapter extends RecyclerView.Adapter<CitySelect
                 addressSelectorInfos.get(currentCheckedPos).isSelected = false;
             }
 
-            String addressSelectorInfosStr = PrefUtil.getString(addressSelectorInfo.geoName, null);
+
+            currentAddressType = addressSelectorInfo.geoName;
+
+            String addressSelectorInfosStr = PrefUtil.getString(currentAddressType, null);
 
             if (addressSelectorInfo.addressType != AddressSelectorInfo.TYPE_STREET && addressSelectorInfosStr != null)
             {
