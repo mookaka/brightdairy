@@ -416,6 +416,7 @@
             android:text="￥125.6"/>
 
         <Button
+            android:id="@+id/btn_product_detail_add_to_cart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -428,6 +429,7 @@
             />
 
         <Button
+            android:id="@+id/btn_product_detail_buy_now"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

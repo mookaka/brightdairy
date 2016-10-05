@@ -2,8 +2,11 @@ package com.brightdairy.personal.brightdairy.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,12 +14,14 @@ import android.widget.TextView;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.ProductHttp;
+import com.brightdairy.personal.api.ShopCartApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.Banner;
+import com.brightdairy.personal.brightdairy.view.TopView;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.SendModeChangeEvent;
@@ -26,8 +31,13 @@ import com.brightdairy.personal.model.Event.VolChangeEvent;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.bumptech.glide.Glide;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.jakewharton.rxbinding.view.RxView;
 
 import org.w3c.dom.Text;
+
+import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -56,11 +66,14 @@ public class ProductDetailActivity extends Activity
     private TextView txtviewTotalAmount;
 
     private BadgeRadioButton bdbtnShopCart;
+    private Button btnAddToCart;
+    private Button btnBuyNow;
 
     public ProductDetail productDetail;
     public ProductSendInfo mProductSendModeInfo;
     private CompositeSubscription mCompositeSubscription;
 
+    private TopView addToCartAnimView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,6 +89,7 @@ public class ProductDetailActivity extends Activity
 
     private void initView()
     {
+        addToCartAnimView = TopView.attach2Window(this);
         bannerProductImgs = (Banner) findViewById(R.id.banner_product_imgs);
         txtviewProductName = (TextView) findViewById(R.id.txtview_product_detail_name);
         txtviewProductPrice = (TextView) findViewById(R.id.txtview_product_detail_price);
@@ -91,6 +105,8 @@ public class ProductDetailActivity extends Activity
         txtviewTotalAmount = (TextView) findViewById(R.id.txtview_product_detail_total_amount);
 
         bdbtnShopCart = (BadgeRadioButton) findViewById(R.id.radio_product_shopping_cart);
+        btnAddToCart = (Button) findViewById(R.id.btn_product_detail_add_to_cart);
+        btnBuyNow = (Button) findViewById(R.id.btn_product_detail_buy_now);
 
         bannerProductImgs.setDelayTime(5000);
         bannerProductImgs.setIndicatorGravity(Banner.CENTER);
@@ -98,9 +114,11 @@ public class ProductDetailActivity extends Activity
     }
 
     private ProductHttp productHttp;
+    private ShopCartApi mShopCartApi;
     private RxBus mRxBus;
     private void initData()
     {
+
 
         String productId = getIntent().getStringExtra("productId");
 
@@ -110,6 +128,7 @@ public class ProductDetailActivity extends Activity
         mRxBus = RxBus.EventBus();
 
         productHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
+        mShopCartApi = GlobalRetrofit.getRetrofitDev().create(ShopCartApi.class);
 
         initProductDetailById(productId);
 
@@ -247,27 +266,114 @@ public class ProductDetailActivity extends Activity
     private OrderSendModePopup orderSendModePopup;
     private void initListener()
     {
-        popupSendModeSelector.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(orderSendModePopup == null)
+        mCompositeSubscription.add(RxView.clicks(popupSendModeSelector)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>()
                 {
-                    orderSendModePopup = new OrderSendModePopup();
-                }
-                orderSendModePopup.show(ProductDetailActivity.this.getFragmentManager(), "orderSendModePopup");
-            }
-        });
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        if(orderSendModePopup == null)
+                        {
+                            orderSendModePopup = new OrderSendModePopup();
+                        }
+                        orderSendModePopup.show(ProductDetailActivity.this.getFragmentManager(), "orderSendModePopup");
+                    }
+                }));
 
-        bdbtnShopCart.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent ToShopCartIntent = new Intent(ProductDetailActivity.this, ShopCartActivity.class);
-                startActivity(ToShopCartIntent);
-            }
-        });
+
+        mCompositeSubscription.add(RxView.clicks(bdbtnShopCart)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        Intent ToShopCartIntent = new Intent(ProductDetailActivity.this, ShopCartActivity.class);
+                        startActivity(ToShopCartIntent);
+                    }
+                }));
+
+        mCompositeSubscription.add(RxView.clicks(btnAddToCart)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        AddProductToCart();
+                    }
+                }));
+
+    }
+
+    private void AddProductToCart()
+    {
+        mCompositeSubscription.add(mShopCartApi.addCartItem(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                mProductSendModeInfo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DataResult<Object>>()
+                {
+                    @Override
+                    public void onCompleted()
+                    {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(DataResult<Object> result)
+                    {
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                showAddToCartAnim();
+                                break;
+                            default:
+                                SuperActivityToast.create(ProductDetailActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                break;
+                        }
+                    }
+                }));
+    }
+
+
+    private void showAddToCartAnim()
+    {
+        int[] start = new int[]{0, 0};
+        btnAddToCart.getLocationInWindow(start);
+        int[] end = new int[]{0, 0};
+        bdbtnShopCart.getLocationOnScreen(end);
+
+        PointF animViewStartLocatin = new PointF(start[0], start[1]);
+        PointF animViewMiddleLocation = new PointF(start[0], end[1]);
+        PointF animViewEndLocation = new PointF(end[0], end[1]);
+
+        TopView.AnimationInfo animInfo = new TopView.AnimationInfo.Builder().callback(
+                new TopView.AnimationCallback()
+                {
+                    @Override
+                    public void animationEnd()
+                    {
+                        bdbtnShopCart.setBadgeShown(true);
+                    }
+                })
+                .resId(R.mipmap.vip_newproduct)
+                .p0(animViewStartLocatin)
+                .p1(animViewMiddleLocation)
+                .p2(animViewEndLocation)
+                .create();
+
+        addToCartAnimView.add(animInfo);
     }
 
     private void freshSendModePopup(ProductDetail detail)

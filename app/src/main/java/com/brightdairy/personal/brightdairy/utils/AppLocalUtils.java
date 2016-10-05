@@ -79,6 +79,7 @@ public class AppLocalUtils
         {
             default:
             case DATE_NOW:
+                calendar.add(Calendar.DAY_OF_MONTH, 2);
                 return simpleDateFormat.format(calendar.getTime());
             case DATE_NEXT_MONTH_FROM_NOW:
                 calendar.add(Calendar.MONTH, DATE_NEXT_MONTH_FROM_NOW);
