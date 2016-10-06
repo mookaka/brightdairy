@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartProductVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartSupplierVH;
+import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.utils.RxBus;
+import com.brightdairy.personal.model.Event.DeleteCartItemEvent;
 import com.brightdairy.personal.model.entity.CartItem;
 import com.brightdairy.personal.model.entity.SupplierItem;
 import com.bumptech.glide.Glide;
@@ -25,6 +28,7 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<Object> mShopCarts;
     private LayoutInflater mInflater;
     private Context mContext;
+    private RxBus mRxBus;
 
     private final int ITEM_TYPE_SUPPLIER = 0x12;
     private final int ITEM_TYPE_PRODUCT = 0x13;
@@ -34,6 +38,7 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mShopCarts = shopCarts;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
+        mRxBus = RxBus.EventBus();
     }
 
     @Override
@@ -114,10 +119,18 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onClick(View v)
     {
-        ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
-        shopCartProductVH.swipeMenu.smoothCloseMenu();
-        mShopCarts.remove(shopCartProductVH.getAdapterPosition());
-        notifyItemRemoved(shopCartProductVH.getAdapterPosition());
+        if (mRxBus.hasObservers())
+        {
+            ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
+            int clickViewPos = shopCartProductVH.getAdapterPosition();
+            DeleteCartItemEvent deleteCartItemEvent = new DeleteCartItemEvent();
+            deleteCartItemEvent.itemSeqId = ((CartItem)mShopCarts.get(clickViewPos)).itemSeqId;
+            mRxBus.dispatchEvent(deleteCartItemEvent);
+
+            shopCartProductVH.swipeMenu.smoothCloseMenu();
+            mShopCarts.remove(clickViewPos);
+            notifyItemRemoved(clickViewPos);
+        }
 
     }
 }

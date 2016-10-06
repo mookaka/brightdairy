@@ -42,17 +42,23 @@ public abstract class BasePopup extends DialogFragment
     @Override
     public void onResume()
     {
+        super.onResume();
         Window thisWindow = getDialog().getWindow();
+        customizePopupView(thisWindow);
+    }
+
+
+    protected void customizePopupView(Window thisWindow)
+    {
         thisWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         thisWindow.setLayout((int) (displayMetrics.widthPixels * 1.0), (int) (displayMetrics.heightPixels * 0.8));
         thisWindow.setGravity(Gravity.BOTTOM);
-        super.onResume();
     }
 
-    protected abstract void initData();
     protected abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle state);
+    protected abstract void initData();
     protected abstract void initListener();
     protected void clearResOnDestroyView() {}
 }

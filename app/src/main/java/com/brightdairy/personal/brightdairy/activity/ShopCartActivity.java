@@ -1,7 +1,9 @@
 package com.brightdairy.personal.brightdairy.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,8 +14,12 @@ import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.ShopCartApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.ShopCartAdapter;
+import com.brightdairy.personal.brightdairy.popup.DialogPopup;
+import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
+import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.Event.DeleteCartItemEvent;
 import com.brightdairy.personal.model.entity.ShopCart;
 import com.brightdairy.personal.model.entity.SupplierItem;
 import com.jakewharton.rxbinding.view.RxView;
@@ -61,10 +67,14 @@ public class ShopCartActivity extends BaseActivity
     private CompositeSubscription mCompositeSubscription;
     private ShopCartApi mShopCartApi;
     private ShopCart mShopCart;
+    private RxBus mRxBus;
     @Override
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
+        mRxBus = RxBus.EventBus();
+
+        handleRxBusEvent();
 
         mShopCartApi = GlobalRetrofit.getRetrofitTest().create(ShopCartApi.class);
 
@@ -99,7 +109,9 @@ public class ShopCartActivity extends BaseActivity
                         }
                     }
                 }));
+
     }
+
 
 
     @Override
@@ -119,6 +131,65 @@ public class ShopCartActivity extends BaseActivity
                     }
                 }));
     }
+
+
+    private void handleRxBusEvent()
+    {
+        mCompositeSubscription.add(mRxBus.EventDispatcher()
+                .subscribe(new Action1<Object>()
+                {
+                    @Override
+                    public void call(Object event)
+                    {
+                        if (event instanceof DeleteCartItemEvent)
+                        {
+                            showDialogPopup();
+                        }
+                    }
+                }));
+    }
+
+
+    private GeneralLoadingPopup loadingPopup;
+    private void showLoadingPopup()
+    {
+        if (loadingPopup == null)
+        {
+            loadingPopup = new GeneralLoadingPopup();
+        }
+        loadingPopup.show(getFragmentManager(), "generalLoadingPopup");
+    }
+
+
+    private DialogPopup mDialogPopup;
+    private void showDialogPopup()
+    {
+        if (mDialogPopup == null)
+        {
+            mDialogPopup = new DialogPopup();
+
+            Bundle addtionData = new Bundle();
+            addtionData.putString("title", "一次只能选择一个供销商\n您确定更换供销商？");
+            mDialogPopup.setArguments(addtionData);
+        }
+
+
+        mDialogPopup.setDialogListener(new DialogPopup.DialogListener()
+        {
+            @Override
+            public void onConfirmClick()
+            {
+            }
+
+            @Override
+            public void onCancelClick()
+            {
+            }
+        });
+
+        mDialogPopup.show(getFragmentManager(), "dialogPopup");
+    }
+
 
     private void showEmptyShop()
     {
