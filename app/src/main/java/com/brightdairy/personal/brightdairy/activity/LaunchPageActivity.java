@@ -40,7 +40,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by shuangmusuihua on 2016/7/27.
  */
-public class LaunchPageActivity extends Activity implements LaunchPageI, AMapLocationListener
+public class LaunchPageActivity extends Activity implements AMapLocationListener
 {
     private Handler pageSwitcher = new Handler()
     {
@@ -308,23 +308,7 @@ public class LaunchPageActivity extends Activity implements LaunchPageI, AMapLoc
 
     }
 
-    @Override
-    public void jumpToHome()
-    {
 
-    }
-
-    @Override
-    public void jumpToAd()
-    {
-
-    }
-
-    @Override
-    public void setLaunchImg(Bitmap bitmap)
-    {
-
-    }
 
     @Override
     public void onLocationChanged(AMapLocation location)
