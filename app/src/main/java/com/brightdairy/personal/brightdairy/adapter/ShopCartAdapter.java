@@ -1,17 +1,22 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartProductVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartSupplierVH;
 import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
+import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
+import com.brightdairy.personal.model.Event.CheckCartItemEvent;
 import com.brightdairy.personal.model.Event.DeleteCartItemEvent;
 import com.brightdairy.personal.model.entity.CartItem;
 import com.brightdairy.personal.model.entity.SupplierItem;
@@ -27,13 +32,13 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private ArrayList<Object> mShopCarts;
     private LayoutInflater mInflater;
-    private Context mContext;
+    private Activity mContext;
     private RxBus mRxBus;
 
     private final int ITEM_TYPE_SUPPLIER = 0x12;
     private final int ITEM_TYPE_PRODUCT = 0x13;
 
-    public ShopCartAdapter(ArrayList<Object> shopCarts, Context context)
+    public ShopCartAdapter(ArrayList<Object> shopCarts, Activity context)
     {
         this.mShopCarts = shopCarts;
         this.mContext = context;
@@ -72,7 +77,11 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             CartItem cartItem = (CartItem) itemData;
 
             shopCartProductVH.btnDeleteProduct.setOnClickListener(this);
+            shopCartProductVH.checkboxProductSelected.setOnClickListener(this);
+            shopCartProductVH.txtviewSendModeEdit.setOnClickListener(this);
+            shopCartProductVH.checkboxProductSelected.setTag(shopCartProductVH);
             shopCartProductVH.btnDeleteProduct.setTag(shopCartProductVH);
+            shopCartProductVH.txtviewSendModeEdit.setTag(shopCartProductVH);
 
             shopCartProductVH.checkboxProductSelected.setChecked(cartItem.isSelect.equals("Y"));
 
@@ -119,18 +128,77 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onClick(View v)
     {
+        switch (v.getId())
+        {
+            case R.id.btn_item_shop_cart_delete_product:
+                deleteCartItem(v);
+                break;
+            case R.id.checkbox_item_shop_cart_product:
+                checkCartItem((CheckBox)v);
+                break;
+            case R.id.txtview_item_shop_cart_edit:
+                break;
+        }
+    }
+
+    private void modifyCartItem(View v)
+    {
+
+    }
+
+    private void checkCartItem(CheckBox v)
+    {
+        if (mRxBus.hasObservers())
+        {
+            v.setChecked(!v.isChecked());
+            ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
+            int clickViewPos = shopCartProductVH.getAdapterPosition();
+            CheckCartItemEvent checkCartItemEvent = new CheckCartItemEvent();
+            CartItem cartItem = (CartItem) mShopCarts.get(clickViewPos);
+            checkCartItemEvent.itemAdapterPosition = clickViewPos;
+            checkCartItemEvent.itemSeqId = cartItem.itemSeqId;
+            checkCartItemEvent.supplierId = cartItem.supplierId;
+            checkCartItemEvent.selectItem = v.isChecked();
+
+            mRxBus.dispatchEvent(checkCartItemEvent);
+        }
+    }
+
+
+    public void handleCheckCartItem(RecyclerView.ViewHolder viewHolder, boolean selectItem)
+    {
+        ShopCartProductVH shopCartProductVH = (ShopCartProductVH) viewHolder;
+        shopCartProductVH.checkboxProductSelected.setChecked(selectItem);
+    }
+
+    private void deleteCartItem(View v)
+    {
         if (mRxBus.hasObservers())
         {
             ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
             int clickViewPos = shopCartProductVH.getAdapterPosition();
             DeleteCartItemEvent deleteCartItemEvent = new DeleteCartItemEvent();
+            deleteCartItemEvent.itemAdapterPosition = clickViewPos;
             deleteCartItemEvent.itemSeqId = ((CartItem)mShopCarts.get(clickViewPos)).itemSeqId;
             mRxBus.dispatchEvent(deleteCartItemEvent);
 
-            shopCartProductVH.swipeMenu.smoothCloseMenu();
-            mShopCarts.remove(clickViewPos);
-            notifyItemRemoved(clickViewPos);
         }
-
     }
+
+    public void handleDeleteCartItem(RecyclerView.ViewHolder viewHolder)
+    {
+        ShopCartProductVH shopCartProductVH = (ShopCartProductVH) viewHolder;
+        int clickViewPos = shopCartProductVH.getAdapterPosition();
+        shopCartProductVH.swipeMenu.smoothCloseMenu();
+        mShopCarts.remove(clickViewPos);
+        notifyItemRemoved(clickViewPos);
+
+        int preItemPos = clickViewPos - 1;
+        if (mShopCarts.get(preItemPos) instanceof SupplierItem)
+        {
+            mShopCarts.remove(preItemPos);
+            notifyItemRemoved(preItemPos);
+        }
+    }
+
 }

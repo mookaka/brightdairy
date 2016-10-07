@@ -1,6 +1,7 @@
 package com.brightdairy.personal.api;
 
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.HttpReqBody.OperateCartItem;
 import com.brightdairy.personal.model.HttpReqBody.UpdateSendInfo;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.brightdairy.personal.model.entity.ShopCart;
@@ -38,7 +39,7 @@ public interface ShopCartApi
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
-                                                  @Body String itemSeqId);
+                                                  @Body OperateCartItem itemSeqId);
 
     @POST("cart/selectItem")
     @Headers("ContentType: application/json")
@@ -46,7 +47,7 @@ public interface ShopCartApi
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
-                                                  @Body String itemSeqId);
+                                                  @Body OperateCartItem itemSeqId);
 
     @POST("cart/unselectItem")
     @Headers("ContentType: application/json")
@@ -54,7 +55,8 @@ public interface ShopCartApi
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
                                                   @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
-                                                  @Body String itemSeqId);
+                                                  @Body OperateCartItem itemSeqId);
+
 
     @POST("cart/modifyItem")
     @Headers("ContentType: application/json")
@@ -63,4 +65,6 @@ public interface ShopCartApi
                                                     @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
                                                     @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
                                                     @Body UpdateSendInfo updateSendInfo);
+
+
 }

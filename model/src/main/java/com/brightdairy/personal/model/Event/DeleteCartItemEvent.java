@@ -7,4 +7,5 @@ package com.brightdairy.personal.model.Event;
 public class DeleteCartItemEvent
 {
     public String itemSeqId;
+    public int itemAdapterPosition;
 }

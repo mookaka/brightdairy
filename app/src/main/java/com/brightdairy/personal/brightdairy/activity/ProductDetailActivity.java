@@ -356,7 +356,7 @@ public class ProductDetailActivity extends Activity
 
         PointF animViewStartLocatin = new PointF(start[0], start[1]);
         PointF animViewMiddleLocation = new PointF(start[0], end[1]);
-        PointF animViewEndLocation = new PointF(end[0], end[1]);
+        PointF animViewEndLocation = new PointF(end[0], end[1]-10);
 
         TopView.AnimationInfo animInfo = new TopView.AnimationInfo.Builder().callback(
                 new TopView.AnimationCallback()
