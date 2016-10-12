@@ -5,6 +5,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -83,42 +85,42 @@ public abstract class BasePopup extends DialogFragment
 
     //avoid the exception of java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
     //when displaying dialogFragment instance after actiivty has called its onSaveState method
-//    private static final Class clz = DialogFragment.class;
-//
-//    public void showAllowingStateLoss(FragmentManager manager, String tag)
-//    {
-//        try
-//        {
-//            Field dismissed = clz.getDeclaredField("mDismissed");
-//            dismissed.setAccessible(true);
-//            dismissed.set(this, false);
-//        }
-//        catch (NoSuchFieldException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        catch (IllegalAccessException e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//        try
-//        {
-//            Field shown = clz.getDeclaredField("mShownByMe");
-//            shown.setAccessible(true);
-//            shown.set(this, true);
-//        }
-//        catch (NoSuchFieldException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        catch (IllegalAccessException e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-//        fragmentTransaction.add(this, tag);
-//        fragmentTransaction.commitAllowingStateLoss();
-//    }
+    private static final Class clz = DialogFragment.class;
+
+    public void showAllowingStateLoss(FragmentManager manager, String tag)
+    {
+        try
+        {
+            Field dismissed = clz.getDeclaredField("mDismissed");
+            dismissed.setAccessible(true);
+            dismissed.set(this, false);
+        }
+        catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            Field shown = clz.getDeclaredField("mShownByMe");
+            shown.setAccessible(true);
+            shown.set(this, true);
+        }
+        catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(this, tag);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
 }

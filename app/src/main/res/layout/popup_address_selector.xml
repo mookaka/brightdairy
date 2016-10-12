@@ -104,8 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:indeterminateDrawable="@drawable/shape_ring_ad_timer_bg"
-            />
+            android:indeterminateDrawable="@drawable/shape_ring_ad_timer_bg"/>
 
     </com.brightdairy.personal.brightdairy.view.StateLayout>
 

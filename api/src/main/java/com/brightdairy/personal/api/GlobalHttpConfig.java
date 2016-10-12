@@ -45,4 +45,16 @@ public class GlobalHttpConfig
         String EMPTY_AVAILABLE_ADDRESS = "211";
     }
 
+
+    public interface ORDER_STATUS
+    {
+        String ORDER_CREATED = "ORDER_CREATED";
+        String ORDER_PROCESSING = "ORDER_PROCESSING";
+        String ORDER_APPROVED = "ORDER_APPROVED";
+        String ORDER_COMPLETED = "ORDER_COMPLETED";
+        String ORDER_REJECTED = "ORDER_REJECTED";
+        String ORDER_CANCELLED = "ORDER_CANCELLED";
+        String ORDER_COMPLETEDOFF = "ORDER_COMPLETEDOFF";
+    }
+
 }

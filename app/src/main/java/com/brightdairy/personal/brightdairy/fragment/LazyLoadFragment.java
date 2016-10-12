@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
+
 /**
  * Created by shuangmusuihua on 2016/10/12.
  */
@@ -77,9 +79,36 @@ public abstract class LazyLoadFragment extends Fragment
         }
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        hideLoading();
+    }
+
     protected abstract void onFragmentInVisible();
 
     protected abstract void onFragmentVisible();
 
-    ;
+
+    private GeneralLoadingPopup generalLoadingPopup;
+    protected void showLoading()
+    {
+
+        if (generalLoadingPopup == null)
+        {
+            generalLoadingPopup = new GeneralLoadingPopup();
+        }
+
+        generalLoadingPopup.show(getActivity().getSupportFragmentManager(), "loadingdata");
+    }
+
+
+    protected void hideLoading()
+    {
+        if (generalLoadingPopup != null && generalLoadingPopup.isVisible())
+        {
+            generalLoadingPopup.dismiss();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
 import android.content.Intent;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.brightdairy.personal.brightdairy.view.BitmapFitScreenTransform;
 import com.brightdairy.personal.model.entity.CategoryForTitle;
 import com.brightdairy.personal.model.entity.ProductInfo;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,11 +35,13 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
     private StringBuilder fussStrBuilder;
 
 
+    private BitmapTransformation mBitmapTransformation;
     public CategoryPageRightInfoAdapter()
     {
         productInfos = new ArrayList<>();
         layoutInflater = LayoutInflater.from(GlobalConstants.APPLICATION_CONTEXT);
         gson = new Gson();
+        mBitmapTransformation = new BitmapFitScreenTransform(GlobalConstants.APPLICATION_CONTEXT);
         fussStrBuilder = new StringBuilder();
 
         String categoryTitles = PrefUtil.getString(GlobalConstants.ALL_CATEGORY, "");
@@ -69,6 +73,7 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
         Glide.with(GlobalConstants.APPLICATION_CONTEXT)
                 .load(GlobalConstants.IMG_URL_BASE + productInfo.imageUrl)
                 .asBitmap()
+                .transform(mBitmapTransformation)
                 .into(holder.imgviewProductImg);
 
         holder.txtviewProductName.setText(productInfo.productName);

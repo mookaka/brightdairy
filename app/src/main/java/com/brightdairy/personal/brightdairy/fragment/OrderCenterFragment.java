@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.OrderCenterPagesAdapter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
+
+import java.util.ArrayList;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -19,11 +22,6 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class OrderCenterFragment extends Fragment
 {
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
 
     private View orderCenterView;
     private AdvancedPagerSlidingTabStrip pagesTab;
@@ -43,11 +41,34 @@ public class OrderCenterFragment extends Fragment
 
 
     private CompositeSubscription mCompositeSubscription;
+    private ArrayList<OrderCenterPageFragment> orderCenterPageFragments;
     private void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
-        orderCenterPageContainer.setAdapter(new OrderCenterPagesAdapter(getChildFragmentManager()));
-        pagesTab.setViewPager(orderCenterPageContainer);
+
+        orderCenterPageFragments = new ArrayList<>();
+
+        orderCenterPageFragments.add(OrderCenterPageFragment
+                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_CREATED));
+
+//        orderCenterPageFragments.add(OrderCenterPageFragment
+//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_REJECTED));
+
+//        orderCenterPageFragments.add(OrderCenterPageFragment
+//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_PROCESSING));
+//
+//        orderCenterPageFragments.add(OrderCenterPageFragment
+//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_APPROVED));
+//
+//        orderCenterPageFragments.add(OrderCenterPageFragment
+//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_COMPLETED));
+//
+//        orderCenterPageFragments.add(OrderCenterPageFragment
+//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_CANCELLED));
+
+        OrderCenterPagesAdapter orderCenterPagesAdapter = new OrderCenterPagesAdapter(getChildFragmentManager(), orderCenterPageFragments);
+        orderCenterPageContainer.setAdapter(orderCenterPagesAdapter);
+//        pagesTab.setViewPager(orderCenterPageContainer);
     }
 
     @Override

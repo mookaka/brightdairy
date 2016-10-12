@@ -150,7 +150,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         createIndicator();
         for (int i = 0; i <= count + 1; i++) {
             ImageView iv = new ImageView(context);
-            iv.setScaleType(ScaleType.FIT_XY);
+            iv.setScaleType(ScaleType.FIT_CENTER);
             if (i == 0) {
                 Glide.with(context).load(imagesUrl[count - 1]).into(iv);
             } else if (i == count + 1) {

@@ -3,6 +3,7 @@ package com.brightdairy.personal.brightdairy.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -141,6 +142,7 @@ public class ShopCartActivity extends BaseActivity
                         Intent toConfirmOrder = new Intent(ShopCartActivity.this, ConfirmOrderActivity.class);
                         toConfirmOrder.putExtra("SelectedCartItemInfo", PG.convertParcelable(mSelectedCartItem));
                         startActivity(toConfirmOrder);
+
                     }
                 }));
     }
@@ -185,6 +187,8 @@ public class ShopCartActivity extends BaseActivity
                 GlobalHttpConfig.PIN,
                 event.mUpdateSendInfo)
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<DataResult<ShopCart>>()
                 {
                     @Override
@@ -208,7 +212,9 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "修改信息遇到问题哎", Style.DURATION_LONG).show();
+                        SuperActivityToast.create(ShopCartActivity.this, "修改信息遇到问题哎", Style.DURATION_LONG)
+                                .setGravity(Gravity.TOP)
+                                .show();
                         throwable.printStackTrace();
                     }
                 }));
@@ -284,7 +290,9 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "选择供应商发生问题哎", Style.DURATION_LONG).show();
+                        SuperActivityToast.create(ShopCartActivity.this, "选择供应商发生问题哎", Style.DURATION_LONG)
+                                .setGravity(Gravity.TOP)
+                                .show();
                     }
                 }));
     }
@@ -361,7 +369,9 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "选择产品发生问题哎", Style.DURATION_LONG).show();
+                        SuperActivityToast.create(ShopCartActivity.this, "选择产品发生问题哎", Style.DURATION_LONG)
+                                .setGravity(Gravity.TOP)
+                                .show();
                         throwable.printStackTrace();
                     }
                 }));
@@ -392,7 +402,9 @@ public class ShopCartActivity extends BaseActivity
                                 break;
                             default:
                                 dismissLoadingPopup();
-                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG)
+                                        .setGravity(Gravity.TOP)
+                                        .show();
                                 break;
                         }
                     }
@@ -402,7 +414,9 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "删除商品发生错误哎", Style.DURATION_LONG).show();
+                        SuperActivityToast.create(ShopCartActivity.this, "删除商品发生错误哎", Style.DURATION_LONG)
+                                .setGravity(Gravity.TOP)
+                                .show();
                         throwable.printStackTrace();
                     }
                 }));

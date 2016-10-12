@@ -35,17 +35,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
  * Created by shuangmusuihua on 2016/8/1.
  */
-public class ProductCategoryFragment extends Fragment
+public class ProductCategoryFragment extends LazyLoadFragment
 {
 
     private ListView listviewCategoryList;
     private RecyclerView rclviewProductList;
-    private View categoryPage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
@@ -53,35 +53,42 @@ public class ProductCategoryFragment extends Fragment
         super.onCreate(savedInstanceState);
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        categoryPage = inflater.inflate(R.layout.fragment_home_page_category, null);
-        listviewCategoryList = (ListView) categoryPage.findViewById(R.id.rclview_category_page_category_list);
-        rclviewProductList = (RecyclerView) categoryPage.findViewById(R.id.rclview_category_page_category_products);
+
+        if (fragmentView == null)
+        {
+            fragmentView = inflater.inflate(R.layout.fragment_home_page_category, null);
+            listviewCategoryList = (ListView) fragmentView.findViewById(R.id.rclview_category_page_category_list);
+            rclviewProductList = (RecyclerView) fragmentView.findViewById(R.id.rclview_category_page_category_products);
 
 
-        rclviewProductList.setLayoutManager(new GridLayoutManager(GlobalConstants.APPLICATION_CONTEXT, 2));
-        rclviewProductList.setItemAnimator(new DefaultItemAnimator());
+            rclviewProductList.setLayoutManager(new GridLayoutManager(GlobalConstants.APPLICATION_CONTEXT, 2));
+            rclviewProductList.addItemDecoration(new SpaceItemDecoration(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, GlobalConstants.APPLICATION_CONTEXT.getResources().getDisplayMetrics())));
+            rclviewProductList.setItemAnimator(new DefaultItemAnimator());
 
-        initData();
+            initData();
+        }
 
-        return categoryPage;
+        return fragmentView;
     }
 
 
     @Override
-    public void onDestroy()
+    protected void onFragmentInVisible()
     {
-        super.onDestroy();
+        mCompositeSubscription.clear();
     }
 
-    private void initData()
+    @Override
+    protected void onFragmentVisible()
     {
-        ProductHttp productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
+        showLoading();
 
-        productCategoryHttp.getSubCategoryList(GlobalHttpConfig.PID,
+        mCompositeSubscription.add(productCategoryHttp.getSubCategoryList(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
                 GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
@@ -105,9 +112,25 @@ public class ProductCategoryFragment extends Fragment
                     public void call(Object o)
                     {
                         fillViewData();
+                        hideLoading();
                     }
-                });
+                }));
+    }
 
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        mCompositeSubscription.clear();
+    }
+
+    private CompositeSubscription mCompositeSubscription;
+    private ProductHttp productCategoryHttp;
+    private void initData()
+    {
+        mCompositeSubscription = new CompositeSubscription();
+        productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
     }
 
 
@@ -166,7 +189,6 @@ public class ProductCategoryFragment extends Fragment
     {
        categoryPageRightInfoAdapter = new CategoryPageRightInfoAdapter();
         listviewCategoryList.setAdapter(new CategoryPageLeftListAdapter());
-        rclviewProductList.addItemDecoration(new SpaceItemDecoration(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, GlobalConstants.APPLICATION_CONTEXT.getResources().getDisplayMetrics())));
         rclviewProductList.setAdapter(categoryPageRightInfoAdapter);
 
         listviewCategoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()

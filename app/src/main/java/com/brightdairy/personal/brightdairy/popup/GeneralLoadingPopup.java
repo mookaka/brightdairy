@@ -36,7 +36,7 @@ public class GeneralLoadingPopup extends BasePopup
     protected void customizePopupView(Window thisWindow)
     {
         thisWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        this.getDialog().setCancelable(false);
+        this.getDialog().setCancelable(true);
         thisWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         thisWindow.setGravity(Gravity.CENTER);
     }

@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -32,7 +33,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by shuangmusuihua on 2016/8/1.
  */
 
-public class UserFragment extends Fragment
+public class UserFragment extends LazyLoadFragment
 {
     private BadgeRadioButton shoppingCart;
     private CircleImageView userAvatar;
@@ -49,41 +50,31 @@ public class UserFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View userFragmentView = inflater.inflate(R.layout.fragment_home_page_user, null);
 
-        shoppingCart = (BadgeRadioButton) userFragmentView.findViewById(R.id.radio_fragment_user_shopping_cart);
-        userAvatar = (CircleImageView) userFragmentView.findViewById(R.id.circleimg_fragment_user_avatar);
-        userName = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_name);
-        needLogin = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_need_login);
-        userPoints = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_points);
-        userDefaultAddress = (TextView) userFragmentView.findViewById(R.id.txtxview_fragment_user_default_address);
-        userCoupon = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_my_coupon);
-        flUserService = (LinearLayout) userFragmentView.findViewById(R.id.fl_fragment_user_service);
-        flUserSetting = (LinearLayout) userFragmentView.findViewById(R.id.fl_fragment_user_setting);
-        userBindingMobile = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_mobile);
-
-        userName.setVisibility(View.VISIBLE);
-        needLogin.setVisibility(View.GONE);
-
-        initListener();
-
-        return userFragmentView;
-    }
-
-
-    private boolean isFetchData = false;
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && !isFetchData)
+        if (fragmentView == null)
         {
-            fetchUserData();
+            fragmentView = inflater.inflate(R.layout.fragment_home_page_user, null);
+
+            shoppingCart = (BadgeRadioButton) fragmentView.findViewById(R.id.radio_fragment_user_shopping_cart);
+            userAvatar = (CircleImageView) fragmentView.findViewById(R.id.circleimg_fragment_user_avatar);
+            userName = (TextView) fragmentView.findViewById(R.id.txtview_fragment_user_name);
+            needLogin = (TextView) fragmentView.findViewById(R.id.txtview_fragment_need_login);
+            userPoints = (TextView) fragmentView.findViewById(R.id.txtview_fragment_user_points);
+            userDefaultAddress = (TextView) fragmentView.findViewById(R.id.txtxview_fragment_user_default_address);
+            userCoupon = (TextView) fragmentView.findViewById(R.id.txtview_fragment_user_my_coupon);
+            flUserService = (LinearLayout) fragmentView.findViewById(R.id.fl_fragment_user_service);
+            flUserSetting = (LinearLayout) fragmentView.findViewById(R.id.fl_fragment_user_setting);
+            userBindingMobile = (TextView) fragmentView.findViewById(R.id.txtview_fragment_user_mobile);
+
+
+            initData();
+            initListener();
         }
+
+        return fragmentView;
     }
+
+
 
     @Override
     public void onDestroy()
@@ -108,12 +99,7 @@ public class UserFragment extends Fragment
     private UserInfoLite userInfoLite;
     private void fetchUserData()
     {
-        isFetchData = true;
-
-        if (mCompositeSubscription == null || userApi == null)
-        {
-            initData();
-        }
+        showLoading();
 
         mCompositeSubscription.add(userApi.getLiteUserInfo(GlobalConstants.ZONE_CODE,
                 GlobalHttpConfig.PID,
@@ -122,38 +108,31 @@ public class UserFragment extends Fragment
                 GlobalHttpConfig.PIN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<UserInfoLite>>()
-                {
+                .subscribe(new Action1<DataResult<UserInfoLite>>() {
                     @Override
-                    public void onCompleted()
-                    {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(DataResult<UserInfoLite> result)
-                    {
-                        switch (result.msgCode)
-                        {
-                            default:
+                    public void call(DataResult<UserInfoLite> result) {
+                        switch (result.msgCode) {
                             case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
 
                                 userInfoLite = result.result;
+                                hideLoading();
                                 fillViewWithData();
 
                                 break;
                             case GlobalHttpConfig.API_MSGCODE.NEED_RELOGIN:
 
+                                hideLoading();
                                 showNeedLogin();
 
                                 break;
                         }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        throwable.printStackTrace();
                     }
                 }));
     }
@@ -161,7 +140,11 @@ public class UserFragment extends Fragment
 
     private void fillViewWithData()
     {
-        Glide.with(getActivity()).load(userInfoLite.userAvatar).asBitmap().into(userAvatar);
+
+        userName.setVisibility(View.VISIBLE);
+        needLogin.setVisibility(View.GONE);
+
+        Glide.with(getActivity()).load(GlobalConstants.IMG_URL_BASE + userInfoLite.avatar).asBitmap().into(userAvatar);
         userName.setText(userInfoLite.userName);
         userPoints.setText(userInfoLite.points);
         userDefaultAddress.setText(userInfoLite.postalAddr);
@@ -169,7 +152,7 @@ public class UserFragment extends Fragment
 
         if (userInfoLite.bindPhone != null && !userInfoLite.bindPhone.equals(""))
         {
-            userBindingMobile.setText(userInfoLite.bindPhone + "已绑定");
+            userBindingMobile.setText(userInfoLite.bindPhone);
         } else
         {
             userBindingMobile.setText("您还没有绑定手机号！");
@@ -178,7 +161,6 @@ public class UserFragment extends Fragment
         GlobalHttpConfig.UID = userInfoLite.userLoginId;
         PrefUtil.setString(GlobalHttpConfig.HTTP_HEADER.UID, GlobalHttpConfig.UID);
 
-        isFetchData = false;
     }
 
     private void showNeedLogin()
@@ -197,5 +179,18 @@ public class UserFragment extends Fragment
                 startActivity(jumpToLogin);
             }
         });
+    }
+
+
+    @Override
+    protected void onFragmentInVisible()
+    {
+        mCompositeSubscription.clear();
+    }
+
+    @Override
+    protected void onFragmentVisible()
+    {
+        fetchUserData();
     }
 }

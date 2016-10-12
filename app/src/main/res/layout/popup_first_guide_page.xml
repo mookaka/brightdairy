@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.brightdairy.personal.brightdairy.view.Banner
+        android:id="@+id/banner_first_guide_imgs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:indicator_width="8dp"
+        app:indicator_height="8dp"
+        app:indicator_drawable_selected="@drawable/shape_banner_selected_dot"
+        app:indicator_drawable_unselected="@drawable/shape_banner_unselected_dot"/>
+
+
+    <TextView
+        android:id="@+id/btn_first_guide_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/shape_red_radius_bg"
+        android:textColor="@color/colorWhiterPure"
+        android:text="立即使用"/>
+
+</FrameLayout>

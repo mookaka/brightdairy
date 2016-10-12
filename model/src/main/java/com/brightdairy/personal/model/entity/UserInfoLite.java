@@ -9,7 +9,7 @@ public class UserInfoLite
 
     public String userLoginId;
     public String userCoupons;
-    public String userAvatar;
+    public String avatar;
     public String userName;
     public String bindPhone;
     public String points;

@@ -297,7 +297,7 @@ public class AddressSelectorPopup extends BasePopup
         }
 
         String cityInfosStr = mGson.toJson(citySelectorInfos, new TypeToken<ArrayList<AddressSelectorInfo>>(){}.getType());
-        PrefUtil.setString(provinceInfo.geoName, cityInfosStr);
+        PrefUtil.setString(provinceInfo.geoName + "省", cityInfosStr);
     }
 
 }

@@ -24,6 +24,7 @@ import com.brightdairy.personal.model.Event.UnitQuantityChangeEvent;
 import com.brightdairy.personal.model.Event.UpdateSendInfoEvent;
 import com.brightdairy.personal.model.HttpReqBody.UpdateSendInfo;
 import com.brightdairy.personal.model.entity.CartItem;
+import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxRadioGroup;
@@ -92,7 +93,20 @@ public class ShopCartSendModePopup extends BasePopup
         Bundle additionData = getArguments();
 
         ShopCartEditSendModeEvent shopCartEditSendModeEvent = additionData.getParcelable("editSendInfoEvent");
+        CartItem cartItem = shopCartEditSendModeEvent.mCartItemInfo;
         mUpdateSendInfo.itemSeqId = shopCartEditSendModeEvent.itemSeqId;
+
+
+        mUpdateSendInfo.startDate = cartItem.startDate;
+        mUpdateSendInfo.endate = cartItem.endate;
+        mUpdateSendInfo.shipModuleType = cartItem.shipModuleType;
+        mUpdateSendInfo.shipModuleName = cartItem.shipModuleName;
+        mUpdateSendInfo.shipModuleId = cartItem.shipModuleId;
+        mUpdateSendInfo.unitQuantity = cartItem.unitQuantity;
+        mUpdateSendInfo.productId = cartItem.productId;
+        mUpdateSendInfo.shipModuleStr = cartItem.shipModuleStr;
+
+
         fillViewWithData(shopCartEditSendModeEvent.mCartItemInfo);
     }
 
@@ -103,7 +117,7 @@ public class ShopCartSendModePopup extends BasePopup
         addSubtractionBtn.setAddSubBtnListener(new AddSubtractionBtn.AddSubBtnListener() {
             @Override
             public void addSubBtnClick(int curValue) {
-                mUpdateSendInfo.productSendInfo.unitQuantity = curValue;
+                mUpdateSendInfo.unitQuantity = curValue;
             }
         });
 
@@ -160,6 +174,7 @@ public class ShopCartSendModePopup extends BasePopup
                             UpdateSendInfoEvent updateSendInfoEvent = new UpdateSendInfoEvent();
                             updateSendInfoEvent.mUpdateSendInfo = mUpdateSendInfo;
                             mRxBus.dispatchEvent(updateSendInfoEvent);
+                            dismiss();
                         }
                     }
                 }));
@@ -194,10 +209,10 @@ public class ShopCartSendModePopup extends BasePopup
 
     private void refreshSendModeInfo(String id, String name, String type)
     {
-        mUpdateSendInfo.productSendInfo.shipModuleType =type;
-        mUpdateSendInfo.productSendInfo.shipModuleStr = "";
-        mUpdateSendInfo.productSendInfo.shipModuleName = name;
-        mUpdateSendInfo.productSendInfo.shipModuleId = id;
+        mUpdateSendInfo.shipModuleType =type;
+        mUpdateSendInfo.shipModuleStr = "";
+        mUpdateSendInfo.shipModuleName = name;
+        mUpdateSendInfo.shipModuleId = id;
     }
 
     private void afterSendTimeChangeHandler(int checkedId)
@@ -230,8 +245,8 @@ public class ShopCartSendModePopup extends BasePopup
 
     private void refreshSendTime(String startDate, String endDate)
     {
-        mUpdateSendInfo.productSendInfo.startDate = startDate;
-        mUpdateSendInfo.productSendInfo.endate = endDate;
+        mUpdateSendInfo.startDate = startDate;
+        mUpdateSendInfo.endate = endDate;
     }
 
     @Override
