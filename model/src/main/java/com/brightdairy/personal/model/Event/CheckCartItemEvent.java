@@ -8,6 +8,5 @@ public class CheckCartItemEvent
 {
     public String supplierId;
     public String itemSeqId;
-    public int itemAdapterPosition;
     public boolean selectItem;
 }

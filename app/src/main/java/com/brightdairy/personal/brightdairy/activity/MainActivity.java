@@ -1,8 +1,6 @@
 package com.brightdairy.personal.brightdairy.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +18,6 @@ import com.brightdairy.personal.brightdairy.fragment.HomeFragment;
 import com.brightdairy.personal.brightdairy.fragment.OrderCenterFragment;
 import com.brightdairy.personal.brightdairy.fragment.ProductCategoryFragment;
 import com.brightdairy.personal.brightdairy.fragment.UserFragment;
-import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
@@ -202,7 +199,5 @@ public class MainActivity extends FragmentActivity
         }
 
     }
-
-
 
 }

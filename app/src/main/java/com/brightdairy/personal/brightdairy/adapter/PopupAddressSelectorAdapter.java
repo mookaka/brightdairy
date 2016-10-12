@@ -93,42 +93,38 @@ public class PopupAddressSelectorAdapter extends RecyclerView.Adapter<CitySelect
         CitySelectorItemVH holder = (CitySelectorItemVH) view.getTag();
         int clickViewPos = holder.getAdapterPosition();
 
-        if (currentCheckedPos != clickViewPos)
+        AddressSelectorInfo addressSelectorInfo = addressSelectorInfos.get(clickViewPos);
+        addressSelectorInfo.isSelected = true;
+
+        if (currentCheckedPos != -1)
         {
-            AddressSelectorInfo addressSelectorInfo = addressSelectorInfos.get(clickViewPos);
-            addressSelectorInfo.isSelected = true;
+            addressSelectorInfos.get(currentCheckedPos).isSelected = false;
+        }
 
-            if (currentCheckedPos != -1)
+
+        currentAddressType = addressSelectorInfo.geoName;
+
+        String addressSelectorInfosStr = PrefUtil.getString(currentAddressType, null);
+
+        if (addressSelectorInfo.addressType != AddressSelectorInfo.TYPE_STREET && addressSelectorInfosStr != null)
+        {
+            addressSelectorInfos.clear();
+            addressSelectorInfos.addAll((ArrayList<AddressSelectorInfo>)mGson.fromJson(addressSelectorInfosStr, new TypeToken<ArrayList<AddressSelectorInfo>>(){}.getType()));
+            notifyDataSetChanged();
+        }
+
+        if (mRxBus.hasObservers())
+        {
+            AddressChangeEvent addressChangeEvent = new AddressChangeEvent();
+
+            if (addressSelectorInfo.addressType == AddressSelectorInfo.TYPE_CIYT)
             {
-                addressSelectorInfos.get(currentCheckedPos).isSelected = false;
-            }
-
-
-            currentAddressType = addressSelectorInfo.geoName;
-
-            String addressSelectorInfosStr = PrefUtil.getString(currentAddressType, null);
-
-            if (addressSelectorInfo.addressType != AddressSelectorInfo.TYPE_STREET && addressSelectorInfosStr != null)
-            {
-                addressSelectorInfos.clear();
-                addressSelectorInfos.addAll((ArrayList<AddressSelectorInfo>)mGson.fromJson(addressSelectorInfosStr, new TypeToken<ArrayList<AddressSelectorInfo>>(){}.getType()));
-                notifyDataSetChanged();
-            }
-
-            if (mRxBus.hasObservers())
-            {
-                AddressChangeEvent addressChangeEvent = new AddressChangeEvent();
-
-                if (addressSelectorInfo.addressType == AddressSelectorInfo.TYPE_CIYT)
-                {
-                    addressChangeEvent.mAddressSelectorInfo = province;
-                    mRxBus.dispatchEvent(addressChangeEvent);
-                }
-
-                addressChangeEvent.mAddressSelectorInfo = addressSelectorInfo;
+                addressChangeEvent.mAddressSelectorInfo = province;
                 mRxBus.dispatchEvent(addressChangeEvent);
             }
 
+            addressChangeEvent.mAddressSelectorInfo = addressSelectorInfo;
+            mRxBus.dispatchEvent(addressChangeEvent);
         }
     }
 

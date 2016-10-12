@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BrightDairy</string>
+    <string name="change_supplier_popup_title">一次只能选择一个供销商\n您确定更换供销商？</string>
+    <string name="deny_location_permission">拒绝给予定位权限，默认配送城市为上海市</string>
+    <string name="never_ask_location_permission">没有定位权限，默认配送城市为上海市</string>
+    <string name="show_location_rationale">只有给予我定位权限，我才能甜心为你服务</string>
+    <string name="show_location_rationale_left_btn_title">给予</string>
+    <string name="show_location_rationale_right_btn_title">残忍拒绝</string>
+    <string name="need_login">你还没有登录哦\n需要登录吗？</string>
+    <string name="confirm_login">确认登录</string>
+    <string name="cancel_login">不要登录</string>
+    <string name="point_usage_rule">1.每100积分可以抵扣1元人民币\n2.可用积分大于100时才可抵扣\n3.积分只可整百抵扣\n4.积分只可抵扣订单金额的10%\n5.积分抵扣上限为每单20元</string>
 </resources>

@@ -31,6 +31,24 @@ public class DialogPopup extends BasePopup
     private TextView txtviewCancel;
     private CompositeSubscription mCompositeSubscription;
     private DialogListener mDialogListener;
+
+
+    public static DialogPopup newInstance(String title, String... btnTitls)
+    {
+        DialogPopup dialogPopup = new DialogPopup();
+        Bundle additionData = new Bundle();
+        additionData.putString("title", title);
+
+        if (btnTitls != null && btnTitls.length != 0)
+        {
+            additionData.putString("leftBtnTitle", btnTitls[0]);
+            additionData.putString("rightBtnTitle", btnTitls[1]);
+        }
+
+        dialogPopup.setArguments(additionData);
+        return dialogPopup;
+    }
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle state)
     {
@@ -56,7 +74,12 @@ public class DialogPopup extends BasePopup
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
-        setTxtviewTitle(getArguments().getString("title"));
+        Bundle titles = getArguments();
+
+        txtviewTitle.setText(titles.getString("title"));
+        txtviewConfirm.setText(titles.getString("leftBtnTitle", "确定"));
+        txtviewCancel.setText(titles.getString("rightBtnTitle", "取消"));
+
     }
 
     @Override
@@ -72,6 +95,7 @@ public class DialogPopup extends BasePopup
                         if (mDialogListener != null)
                         {
                             mDialogListener.onConfirmClick();
+                            dismiss();
                         }
                     }
                 }));
@@ -86,6 +110,7 @@ public class DialogPopup extends BasePopup
                         if (mDialogListener != null)
                         {
                             mDialogListener.onCancelClick();
+                            dismiss();
                         }
                     }
                 }));
@@ -104,13 +129,6 @@ public class DialogPopup extends BasePopup
         this.mDialogListener = dialogListener;
     }
 
-    public void setTxtviewTitle(String title)
-    {
-        if (title != null && !title.equals(""))
-        {
-            txtviewTitle.setText(title);
-        }
-    }
 
     public interface DialogListener
     {

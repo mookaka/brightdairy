@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,11 +31,13 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by shuangmusuihua on 2016/8/1.
  */
+
 public class UserFragment extends Fragment
 {
     private BadgeRadioButton shoppingCart;
     private CircleImageView userAvatar;
     private TextView userName;
+    private TextView needLogin;
     private TextView userPoints;
     private TextView userDefaultAddress;
     private TextView userCoupon;
@@ -49,18 +49,21 @@ public class UserFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        Log.e("oncreateview", "---------------------");
         View userFragmentView = inflater.inflate(R.layout.fragment_home_page_user, null);
 
         shoppingCart = (BadgeRadioButton) userFragmentView.findViewById(R.id.radio_fragment_user_shopping_cart);
         userAvatar = (CircleImageView) userFragmentView.findViewById(R.id.circleimg_fragment_user_avatar);
         userName = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_name);
+        needLogin = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_need_login);
         userPoints = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_points);
         userDefaultAddress = (TextView) userFragmentView.findViewById(R.id.txtxview_fragment_user_default_address);
         userCoupon = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_my_coupon);
         flUserService = (LinearLayout) userFragmentView.findViewById(R.id.fl_fragment_user_service);
         flUserSetting = (LinearLayout) userFragmentView.findViewById(R.id.fl_fragment_user_setting);
         userBindingMobile = (TextView) userFragmentView.findViewById(R.id.txtview_fragment_user_mobile);
+
+        userName.setVisibility(View.VISIBLE);
+        needLogin.setVisibility(View.GONE);
 
         initListener();
 
@@ -147,14 +150,14 @@ public class UserFragment extends Fragment
                                 break;
                             case GlobalHttpConfig.API_MSGCODE.NEED_RELOGIN:
 
-                                Intent jumpToLogin = new Intent(getActivity(), LoginSmsActivity.class);
-                                startActivity(jumpToLogin);
+                                showNeedLogin();
 
                                 break;
                         }
                     }
                 }));
     }
+
 
     private void fillViewWithData()
     {
@@ -176,5 +179,23 @@ public class UserFragment extends Fragment
         PrefUtil.setString(GlobalHttpConfig.HTTP_HEADER.UID, GlobalHttpConfig.UID);
 
         isFetchData = false;
+    }
+
+    private void showNeedLogin()
+    {
+
+        userName.setVisibility(View.GONE);
+        needLogin.setVisibility(View.VISIBLE);
+
+
+        needLogin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent jumpToLogin = new Intent(getActivity(), LoginSmsActivity.class);
+                startActivity(jumpToLogin);
+            }
+        });
     }
 }

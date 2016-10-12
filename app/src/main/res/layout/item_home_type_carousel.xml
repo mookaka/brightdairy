@@ -36,7 +36,10 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         app:indicator_width="8dp"
-        app:indicator_height="8dp"/>
+        app:indicator_height="8dp"
+        app:indicator_drawable_selected="@drawable/shape_banner_selected_dot"
+        app:indicator_drawable_unselected="@drawable/shape_banner_unselected_dot"
+        />
 
     <View
         android:layout_width="match_parent"

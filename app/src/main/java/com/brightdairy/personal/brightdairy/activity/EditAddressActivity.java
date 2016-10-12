@@ -174,7 +174,7 @@ public class EditAddressActivity extends BaseActivity
                         addition.putString("currCounty", mNewAddress.county);
                         addition.putString("currStreet", mNewAddress.street);
                         mAddressSelectorPopup.setArguments(addition);
-                        mAddressSelectorPopup.show(getFragmentManager(), "addressSelector");
+                        mAddressSelectorPopup.show(getSupportFragmentManager(), "addressSelector");
                     }
                 }));
     }

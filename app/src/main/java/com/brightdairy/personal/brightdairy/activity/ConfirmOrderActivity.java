@@ -15,13 +15,20 @@ import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.OperateOrderApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.ConfirmOrderAdapter;
+import com.brightdairy.personal.brightdairy.popup.DialogPopup;
+import com.brightdairy.personal.brightdairy.popup.DialogPopupHelper;
+import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.brightdairy.view.ExpandBarLinearLayoutManager;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.ConfirmOrder;
+import com.brightdairy.personal.model.HttpReqBody.CreateAppOrder;
 import com.brightdairy.personal.model.entity.AddrInfo;
 import com.brightdairy.personal.model.entity.ConfirmOrderInfos;
+import com.brightdairy.personal.model.entity.SelectedCartItem;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 
@@ -58,6 +65,9 @@ public class ConfirmOrderActivity extends BaseActivity
     private Button btnConfirmOrder;
     private LinearLayout llUserPoints;
 
+
+    private CreateAppOrder mCreateAppOrder;
+
     @Override
     protected void initView()
     {
@@ -91,41 +101,64 @@ public class ConfirmOrderActivity extends BaseActivity
     private CompositeSubscription mCompositeSubscription;
     private OperateOrderApi mOperateOrderApi;
     private ConfirmOrderInfos mConfirmOrderInfos;
+    private ConfirmOrder mConfirmOrder;
     private String supplierId;
     @Override
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
-        mOperateOrderApi = GlobalRetrofit.getRetrofitTest().create(OperateOrderApi.class);
+        mOperateOrderApi = GlobalRetrofit.getRetrofitDev().create(OperateOrderApi.class);
+        SelectedCartItem selectedCartItem = getIntent().getParcelableExtra("SelectedCartItemInfo");
 
+        mConfirmOrder = new ConfirmOrder();
+        mConfirmOrder.cityCode = GlobalConstants.ZONE_CODE;
+        mConfirmOrder.productIds = selectedCartItem.productIds;
+
+        fetchUsrConfirmOrderInfo();
+
+
+    }
+
+    private void fetchUsrConfirmOrderInfo()
+    {
         mCompositeSubscription.add(mOperateOrderApi.getConfirmOrderInfo(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
                 GlobalHttpConfig.PIN,
-                new ConfirmOrder())
+                mConfirmOrder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<ConfirmOrderInfos>>() {
+                .subscribe(new Action1<DataResult<ConfirmOrderInfos>>() {
                     @Override
-                    public void onCompleted()
+                    public void call(DataResult<ConfirmOrderInfos> result)
                     {
-                        fillviewwithdata();
-                    }
 
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        e.printStackTrace();
-                    }
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mConfirmOrderInfos = result.result;
+                                supplierId = mConfirmOrderInfos.supplierPartyId;
 
+
+                                fillviewwithdata();
+                                break;
+                            case GlobalHttpConfig.API_MSGCODE.NEED_RELOGIN:
+                                DialogPopupHelper.showLoginPopup(ConfirmOrderActivity.this);
+                                break;
+                            default:
+                                SuperActivityToast.create(ConfirmOrderActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                break;
+                        }
+
+                    }
+                }, new Action1<Throwable>()
+                {
                     @Override
-                    public void onNext(DataResult<ConfirmOrderInfos> result)
+                    public void call(Throwable throwable)
                     {
-                        mConfirmOrderInfos = result.result;
-                        supplierId = mConfirmOrderInfos.supplierPartyId;
+                        throwable.printStackTrace();
                     }
                 }));
-
     }
 
 
@@ -188,4 +221,43 @@ public class ConfirmOrderActivity extends BaseActivity
                 }));
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == GlobalConstants.INTENT_FLAG.RELOGIN_REQ_FLG
+                && resultCode == GlobalConstants.INTENT_FLAG.RELOGIN_OK_FLG)
+        {
+            fetchUsrConfirmOrderInfo();
+        }
+    }
+
+//    private void showNeedLoginPopup()
+//    {
+//
+//        DialogPopup dialogPopup = DialogPopup.newInstance(
+//                getString(R.string.need_login),
+//                getString(R.string.confirm_login),
+//                getString(R.string.cancel_login));
+//
+//        dialogPopup.setDialogListener(new DialogPopup.DialogListener()
+//        {
+//            @Override
+//            public void onConfirmClick()
+//            {
+//                Intent jumpToLogin = new Intent(ConfirmOrderActivity.this, LoginSmsActivity.class);
+//                jumpToLogin.putExtra(GlobalConstants.INTENT_FLAG.NEED_RELOGIN, true);
+//                startActivityForResult(jumpToLogin, GlobalConstants.INTENT_FLAG.RELOGIN_REQ_FLG);
+//            }
+//
+//            @Override
+//            public void onCancelClick()
+//            {
+//
+//            }
+//        });
+//
+//        dialogPopup.show(getSupportFragmentManager(), "needLogin");
+//
+//    }
 }

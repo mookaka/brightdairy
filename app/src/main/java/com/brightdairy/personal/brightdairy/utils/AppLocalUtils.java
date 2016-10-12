@@ -3,7 +3,9 @@ package com.brightdairy.personal.brightdairy.utils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 
+import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
@@ -46,8 +48,9 @@ public class AppLocalUtils
 
     public static boolean isValidUserName(String userName)
     {
-        String nameValidRegx = "";
-        return !TextUtils.isEmpty(userName) && userName.matches(nameValidRegx);
+//        String nameValidRegx = "";
+//        return !TextUtils.isEmpty(userName) && userName.matches(nameValidRegx);
+        return true;
     }
 
     public static LoginRegisterHttp loginRegisterHttp;
@@ -181,6 +184,29 @@ public class AppLocalUtils
         }
 
         return GlobalGson;
+    }
+
+    private static float SCREEN_FACTOR = -1;
+
+    public static float getScreenFactor()
+    {
+        if (SCREEN_FACTOR == -1)
+        {
+            SCREEN_FACTOR = GlobalConstants.APPLICATION_CONTEXT.getResources().getDisplayMetrics().density;
+        }
+
+        return SCREEN_FACTOR;
+    }
+
+
+    public static String getPIN()
+    {
+        StringBuilder pinInitial = new StringBuilder();
+
+        pinInitial.append(GlobalHttpConfig.PID).append(GlobalHttpConfig.UID)
+                .append(GlobalConstants.AppConfig.FAA_KEY);
+
+        return GeneralUtils.str2HashKey(pinInitial.toString());
     }
 
 }

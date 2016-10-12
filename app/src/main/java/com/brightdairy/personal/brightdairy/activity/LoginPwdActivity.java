@@ -174,14 +174,16 @@ public class LoginPwdActivity extends Activity
                 GlobalHttpConfig.TID = result.result.tid;
                 PrefUtil.setString(GlobalConstants.AppConfig.TID_LOCAL, GlobalHttpConfig.TID);
 
+                GlobalHttpConfig.PIN = AppLocalUtils.getPIN();
+
                 Intent mainPageIntent = new Intent(LoginPwdActivity.this, MainActivity.class);
                 startActivity(mainPageIntent);
                 finish();
 
                 break;
-            case GlobalHttpConfig.API_MSGCODE.LOGIN_FAILED:
+            default:
 
-                SuperActivityToast.create(LoginPwdActivity.this, "登录失败，检查用户名或密码，再试试看:(", Style.DURATION_LONG).show();
+                SuperActivityToast.create(LoginPwdActivity.this, result.msgText, Style.DURATION_LONG).show();
                 loginByUsrName.setEnabled(true);
 
                 break;

@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.brightdairy.personal.brightdairy.activity.MainActivity;
+import com.brightdairy.personal.model.entity.ShopCart;
 
 import retrofit2.http.PUT;
 
@@ -71,6 +72,15 @@ public class GlobalConstants
             mAMapLocationClient.setLocationOption(mapLocationClientOption);
         }
         return mAMapLocationClient;
+    }
+
+    //flag for intent which to startActivityForResult or intent which has extra data
+    public interface INTENT_FLAG
+    {
+        int RELOGIN_REQ_FLG = 0x001;
+        int RELOGIN_OK_FLG = 0x002;
+
+        String NEED_RELOGIN = "relogin";
     }
 
 }

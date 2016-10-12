@@ -1,11 +1,14 @@
 package com.brightdairy.personal.brightdairy.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -17,6 +20,8 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.LaunchHttp;
 import com.brightdairy.personal.brightdairy.R;
+import com.brightdairy.personal.brightdairy.popup.DialogPopup;
+import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
@@ -26,12 +31,20 @@ import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
 import com.bumptech.glide.Glide;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
 import java.util.ArrayList;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,7 +53,8 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by shuangmusuihua on 2016/7/27.
  */
-public class LaunchPageActivity extends Activity implements AMapLocationListener
+@RuntimePermissions
+public class LaunchPageActivity extends FragmentActivity implements AMapLocationListener
 {
     private Handler pageSwitcher = new Handler()
     {
@@ -126,14 +140,9 @@ public class LaunchPageActivity extends Activity implements AMapLocationListener
                     @Override
                     public void onCompleted()
                     {
-                        StringBuilder pinInitial = new StringBuilder();
+                        GlobalHttpConfig.PIN = AppLocalUtils.getPIN();
 
-                        pinInitial.append(GlobalHttpConfig.PID).append(GlobalHttpConfig.UID)
-                                .append(GlobalConstants.AppConfig.FAA_KEY);
-
-                        GlobalHttpConfig.PIN = GeneralUtils.str2HashKey(pinInitial.toString());
-
-                        getLocation();
+                        LaunchPageActivityPermissionsDispatcher.getLocationWithCheck(LaunchPageActivity.this);
                     }
 
                     @Override
@@ -150,12 +159,6 @@ public class LaunchPageActivity extends Activity implements AMapLocationListener
                     }
                 }));
 
-    }
-
-    private void getLocation()
-    {
-        GlobalConstants.getGlobalLocationClient().setLocationListener(this);
-        GlobalConstants.getGlobalLocationClient().startLocation();
     }
 
     private void getCityCode()
@@ -187,6 +190,16 @@ public class LaunchPageActivity extends Activity implements AMapLocationListener
                         ArrayList<CityZoneCode> cityZoneCodess = cityZoneCodeResult.result;
                         String cityZoneCodesStr = mGson.toJson(cityZoneCodess, new TypeToken< ArrayList<CityZoneCode>> () {}.getType());
                         PrefUtil.setString(GlobalConstants.AppConfig.CITY_CODE_CACHE, cityZoneCodesStr);
+
+                        for (int cityCodeIndex = 0; cityCodeIndex < cityZoneCodess.size(); cityCodeIndex++)
+                        {
+                            CityZoneCode cityZoneCode = cityZoneCodess.get(cityCodeIndex);
+                            if (GlobalConstants.CURR_ZONE_CN_NAME.equals(cityZoneCode.cityName))
+                            {
+                                GlobalConstants.ZONE_CODE = cityZoneCode.cityCode;
+                                break;
+                            }
+                        }
 
                     }
                 }));
@@ -317,7 +330,7 @@ public class LaunchPageActivity extends Activity implements AMapLocationListener
         {
             if (location.getErrorCode() == 0)
             {
-                String city = location.getCity();
+                GlobalConstants.CURR_ZONE_CN_NAME = location.getCity();
             }
             else
             {
@@ -330,5 +343,63 @@ public class LaunchPageActivity extends Activity implements AMapLocationListener
         getCityCode();
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        LaunchPageActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void getLocation()
+    {
+        GlobalConstants.getGlobalLocationClient().setLocationListener(this);
+        GlobalConstants.getGlobalLocationClient().startLocation();
+    }
+
+    @OnPermissionDenied({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void onLocationDenied()
+    {
+        SuperActivityToast.create(this, getResources().getString(R.string.deny_location_permission), Style.DURATION_LONG).show();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    void onLocationNeverAskAgain()
+    {
+        SuperActivityToast.create(this, getResources().getString(R.string.never_ask_location_permission), Style.DURATION_LONG).show();
+    }
+
+    @OnShowRationale({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void showRationaleForContact(PermissionRequest request)
+    {
+        showRationalePopup(request);
+    }
+
+
+
+    private void showRationalePopup(final PermissionRequest request)
+    {
+        DialogPopup dialogPopup = DialogPopup.newInstance(
+                getResources().getString(R.string.show_location_rationale),
+                getResources().getString(R.string.show_location_rationale_left_btn_title),
+                getResources().getString(R.string.show_location_rationale_right_btn_title));
+
+        dialogPopup.setDialogListener(new DialogPopup.DialogListener()
+        {
+            @Override
+            public void onConfirmClick()
+            {
+                request.proceed();
+            }
+
+            @Override
+            public void onCancelClick()
+            {
+                request.cancel();
+            }
+        });
+
+        dialogPopup.show(getSupportFragmentManager(), "showLocationRationale");
+    }
 
 }

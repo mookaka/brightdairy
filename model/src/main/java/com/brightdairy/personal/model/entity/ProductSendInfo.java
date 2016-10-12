@@ -1,8 +1,11 @@
 package com.brightdairy.personal.model.entity;
 
+import com.baoyz.pg.Parcelable;
+
 /**
  * Created by shuangmusuihua on 2016/9/18.
  */
+@Parcelable
 public class ProductSendInfo
 {
 

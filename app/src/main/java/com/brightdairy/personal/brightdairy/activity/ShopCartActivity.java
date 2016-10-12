@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baoyz.pg.PG;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.ShopCartApi;
@@ -15,12 +16,18 @@ import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.ShopCartAdapter;
 import com.brightdairy.personal.brightdairy.popup.DialogPopup;
 import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
+import com.brightdairy.personal.brightdairy.popup.ShopCartSendModePopup;
+import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.CheckCartItemEvent;
+import com.brightdairy.personal.model.Event.CheckSupplierEvent;
 import com.brightdairy.personal.model.Event.DeleteCartItemEvent;
+import com.brightdairy.personal.model.Event.ShopCartEditSendModeEvent;
+import com.brightdairy.personal.model.Event.UpdateSendInfoEvent;
 import com.brightdairy.personal.model.HttpReqBody.OperateCartItem;
+import com.brightdairy.personal.model.HttpReqBody.SelectSupplier;
 import com.brightdairy.personal.model.entity.CartItem;
 import com.brightdairy.personal.model.entity.SelectedCartItem;
 import com.brightdairy.personal.model.entity.ShopCart;
@@ -31,6 +38,8 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.tubb.smrv.SwipeMenuRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
@@ -69,6 +78,7 @@ public class ShopCartActivity extends BaseActivity
     }
 
     private CompositeSubscription mCompositeSubscription;
+    private SelectedCartItem mSelectedCartItem;
     private ShopCartApi mShopCartApi;
     private ShopCart mShopCart;
     private RxBus mRxBus;
@@ -77,6 +87,9 @@ public class ShopCartActivity extends BaseActivity
     {
         mCompositeSubscription = new CompositeSubscription();
         mRxBus = RxBus.EventBus();
+
+        mSelectedCartItem = new SelectedCartItem();
+        mSelectedCartItem.productIds = new ArrayList<>();
 
         handleRxBusEvent();
 
@@ -88,29 +101,24 @@ public class ShopCartActivity extends BaseActivity
                 GlobalHttpConfig.PIN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<ShopCart>>()
-                {
+                .subscribe(new Action1<DataResult<ShopCart>>() {
                     @Override
-                    public void onCompleted()
-                    {
-                        fillViewWithData();
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(DataResult<ShopCart> shopCart)
-                    {
-                        if (GlobalHttpConfig.API_MSGCODE.SHOP_CART_EMPTY.equals(shopCart.msgCode))
-                        {
-                            showEmptyShop();
-                        } else {
-                            mShopCart = shopCart.result;
+                    public void call(DataResult<ShopCart> result) {
+                        switch (result.msgCode) {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mShopCart = result.result;
+                                fillViewWithData();
+                                break;
+                            case GlobalHttpConfig.API_MSGCODE.SHOP_CART_EMPTY:
+                                showEmptyShop();
                         }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        showEmptyShop();
+                        throwable.printStackTrace();
                     }
                 }));
 
@@ -131,6 +139,7 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Void aVoid)
                     {
                         Intent toConfirmOrder = new Intent(ShopCartActivity.this, ConfirmOrderActivity.class);
+                        toConfirmOrder.putExtra("SelectedCartItemInfo", PG.convertParcelable(mSelectedCartItem));
                         startActivity(toConfirmOrder);
                     }
                 }));
@@ -147,15 +156,139 @@ public class ShopCartActivity extends BaseActivity
                     {
                         if (event instanceof DeleteCartItemEvent)
                         {
-                            showLoadingPopup();
                             handleDeleteCartItemEvent((DeleteCartItemEvent)event);
                         } else if (event instanceof CheckCartItemEvent)
                         {
                             checkCartItemEvent((CheckCartItemEvent)event);
+                        } else if (event instanceof CheckSupplierEvent)
+                        {
+                            checkSupplierEvent((CheckSupplierEvent)event);
+                        } else if (event instanceof ShopCartEditSendModeEvent)
+                        {
+                            handleShopCartEditSendModeEvent((ShopCartEditSendModeEvent)event);
+                        } else if (event instanceof UpdateSendInfoEvent)
+                        {
+                            handleUpdateSendInfoEvent((UpdateSendInfoEvent)event);
                         }
                     }
                 }));
     }
+
+    private void handleUpdateSendInfoEvent(UpdateSendInfoEvent event)
+    {
+        showLoadingPopup();
+
+        mCompositeSubscription.add(mShopCartApi.modifyCartItem(
+                GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                event.mUpdateSendInfo)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<DataResult<ShopCart>>()
+                {
+                    @Override
+                    public void call(DataResult<ShopCart> result)
+                    {
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mShopCartAdapter.handleModifyCartItem(flattenShopCartData(result.result.items));
+                                dismissLoadingPopup();
+                                break;
+                            default:
+                                dismissLoadingPopup();
+                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        dismissLoadingPopup();
+                        SuperActivityToast.create(ShopCartActivity.this, "修改信息遇到问题哎", Style.DURATION_LONG).show();
+                        throwable.printStackTrace();
+                    }
+                }));
+    }
+
+    private void handleShopCartEditSendModeEvent(ShopCartEditSendModeEvent event)
+    {
+        ShopCartSendModePopup shopCartSendModePopup = ShopCartSendModePopup.newInstance(event);
+        shopCartSendModePopup.show(getSupportFragmentManager(), "cartSendModePopup");
+    }
+
+    private void checkSupplierEvent(final CheckSupplierEvent event)
+    {
+        if (!event.supplierId.equals(mSelectedCartItem.supplierId))
+        {
+            showDialogPopup();
+
+            if (mDialogPopup != null)
+            {
+                mDialogPopup.setDialogListener(new DialogPopup.DialogListener()
+                {
+                    @Override
+                    public void onConfirmClick()
+                    {
+                        handleCheckSupplierEvent(event);
+                    }
+
+                    @Override
+                    public void onCancelClick()
+                    {
+                        dismissDialogPopup();
+                    }
+                });
+            } else
+            {
+                handleCheckSupplierEvent(event);
+            }
+        }
+    }
+
+    private void handleCheckSupplierEvent(CheckSupplierEvent event)
+    {
+        showLoadingPopup();
+
+        SelectSupplier selectSupplier = new SelectSupplier();
+        selectSupplier.selected = event.selected;
+        selectSupplier.supplierId = event.supplierId;
+
+        mCompositeSubscription.add(mShopCartApi.selectItemsBySupplierId(
+                GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                selectSupplier)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Action1<DataResult<ShopCart>>() {
+                    @Override
+                    public void call(DataResult<ShopCart> result) {
+                        switch (result.msgCode) {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mShopCartAdapter.handleCheckItem(flattenShopCartData(result.result.items));
+                                dismissLoadingPopup();
+                                break;
+                            default:
+                                dismissLoadingPopup();
+                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        dismissLoadingPopup();
+                        SuperActivityToast.create(ShopCartActivity.this, "选择供应商发生问题哎", Style.DURATION_LONG).show();
+                    }
+                }));
+    }
+
 
     private void checkCartItemEvent(final CheckCartItemEvent event)
     {
@@ -171,6 +304,7 @@ public class ShopCartActivity extends BaseActivity
                     public void onConfirmClick()
                     {
                         handleCheckCartItemEvent(event);
+                        dismissDialogPopup();
                     }
 
                     @Override
@@ -194,102 +328,29 @@ public class ShopCartActivity extends BaseActivity
 
         OperateCartItem checkCartItem = new OperateCartItem();
         checkCartItem.itemSeqId = event.itemSeqId;
+        String operator = event.selectItem?ShopCartApi.selectCartItem:ShopCartApi.unSelectCartItem;
 
-        if (event.selectItem)
-        {
-            mCompositeSubscription.add(mShopCartApi.selectCartItem(GlobalHttpConfig.PID,
-                    GlobalHttpConfig.UID,
-                    GlobalHttpConfig.TID,
-                    GlobalHttpConfig.PIN,checkCartItem)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<DataResult<Object>>()
-                    {
-                        @Override
-                        public void call(DataResult<Object> result)
-                        {
-                            switch (result.msgCode)
-                            {
-                                case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
-                                    dismissLoadingPopup();
-                                    mShopCartAdapter.handleCheckCartItem(swipeRclShopCartProducts
-                                            .findViewHolderForAdapterPosition(event.itemAdapterPosition), event.selectItem);
-                                    break;
-                                default:
-                                    SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
-                                    break;
-                            }
-                        }
-                    }, new Action1<Throwable>()
-                    {
-                        @Override
-                        public void call(Throwable throwable)
-                        {
-                            dismissLoadingPopup();
-                            throwable.printStackTrace();
-                        }
-                    }));
-        } else
-        {
-            mCompositeSubscription.add(mShopCartApi.unselectCartItem(GlobalHttpConfig.PID,
-                    GlobalHttpConfig.UID,
-                    GlobalHttpConfig.TID,
-                    GlobalHttpConfig.PIN,checkCartItem)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<DataResult<Object>>()
-                    {
-                        @Override
-                        public void call(DataResult<Object> result)
-                        {
-                            switch (result.msgCode)
-                            {
-                                case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
-                                    dismissLoadingPopup();
-                                    mShopCartAdapter.handleCheckCartItem(swipeRclShopCartProducts
-                                            .findViewHolderForAdapterPosition(event.itemAdapterPosition), event.selectItem);
-                                    break;
-                                default:
-                                    SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
-                                    break;
-                            }
-                        }
-                    }, new Action1<Throwable>()
-                    {
-                        @Override
-                        public void call(Throwable throwable)
-                        {
-                            dismissLoadingPopup();
-                            throwable.printStackTrace();
-                        }
-                    }));
-        }
-    }
-
-    private void handleDeleteCartItemEvent(final DeleteCartItemEvent event)
-    {
-        OperateCartItem deleteCartItem = new OperateCartItem();
-        deleteCartItem.itemSeqId = event.itemSeqId;
-
-        mCompositeSubscription.add(mShopCartApi.deleteCartItem(GlobalHttpConfig.PID,
+        mCompositeSubscription.add(mShopCartApi.checkCartItem(operator,
+                GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
-                GlobalHttpConfig.PIN,deleteCartItem)
+                GlobalHttpConfig.PIN,checkCartItem)
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<DataResult<Object>>() {
+                .subscribe(new Action1<DataResult<ShopCart>>()
+                {
                     @Override
-                    public void call(DataResult<Object> result) {
-                        switch (result.msgCode) {
+                    public void call(DataResult<ShopCart> result)
+                    {
+                        switch (result.msgCode)
+                        {
                             case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mShopCartAdapter.handleCheckItem(flattenShopCartData(result.result.items));
                                 dismissLoadingPopup();
-                                mShopCartAdapter.handleDeleteCartItem(swipeRclShopCartProducts
-                                        .findViewHolderForAdapterPosition(event.itemAdapterPosition));
                                 break;
                             default:
+                                dismissLoadingPopup();
                                 SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
                                 break;
                         }
@@ -300,6 +361,48 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
+                        SuperActivityToast.create(ShopCartActivity.this, "选择产品发生问题哎", Style.DURATION_LONG).show();
+                        throwable.printStackTrace();
+                    }
+                }));
+    }
+
+    private void handleDeleteCartItemEvent(final DeleteCartItemEvent event)
+    {
+        showLoadingPopup();
+
+        OperateCartItem deleteCartItem = new OperateCartItem();
+        deleteCartItem.itemSeqId = event.itemSeqId;
+
+        mCompositeSubscription.add(mShopCartApi.deleteCartItem(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,deleteCartItem)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DataResult<ShopCart>>() {
+                    @Override
+                    public void call(DataResult<ShopCart> result) {
+                        switch (result.msgCode) {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                dismissLoadingPopup();
+                                mShopCartAdapter.handleDeleteCartItem(swipeRclShopCartProducts
+                                        .findViewHolderForAdapterPosition(event.itemAdapterPosition));
+                                break;
+                            default:
+                                dismissLoadingPopup();
+                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        dismissLoadingPopup();
+                        SuperActivityToast.create(ShopCartActivity.this, "删除商品发生错误哎", Style.DURATION_LONG).show();
                         throwable.printStackTrace();
                     }
                 }));
@@ -313,7 +416,7 @@ public class ShopCartActivity extends BaseActivity
         {
             loadingPopup = new GeneralLoadingPopup();
         }
-        loadingPopup.show(getFragmentManager(), "generalLoadingPopup");
+        loadingPopup.show(getSupportFragmentManager(), "generalLoadingPopup");
     }
 
     private void dismissLoadingPopup()
@@ -329,14 +432,10 @@ public class ShopCartActivity extends BaseActivity
     {
         if (mDialogPopup == null)
         {
-            mDialogPopup = new DialogPopup();
-
-            Bundle addtionData = new Bundle();
-            addtionData.putString("title", "一次只能选择一个供销商\n您确定更换供销商？");
-            mDialogPopup.setArguments(addtionData);
+            mDialogPopup = DialogPopup.newInstance(getResources().getString(R.string.change_supplier_popup_title));
         }
 
-        mDialogPopup.show(getFragmentManager(), "dialogPopup");
+        mDialogPopup.show(getSupportFragmentManager(), "dialogPopup");
     }
 
     private void dismissDialogPopup()
@@ -362,20 +461,15 @@ public class ShopCartActivity extends BaseActivity
         txtviewToatalCost.setText(mShopCart.cartAmount);
     }
 
-    private SelectedCartItem mSelectedCartItem;
     private ArrayList<Object> flattenShopCartData(ArrayList<ShopCart.ItemsBean> items)
     {
 
-        if (mSelectedCartItem == null)
-        {
-            mSelectedCartItem = new SelectedCartItem();
-            mSelectedCartItem.productIds = new ArrayList<>();
-        }
+        mSelectedCartItem.supplierId = "";
+        mSelectedCartItem.productIds.clear();
 
         ArrayList<Object> shopCartItems = new ArrayList<>();
 
-        for (int supplierIndex =  0; supplierIndex < items.size(); supplierIndex++)
-        {
+        for (int supplierIndex =  0; supplierIndex < items.size(); supplierIndex++) {
             ShopCart.ItemsBean shopCartItem = items.get(supplierIndex);
 
             SupplierItem supplierItem = new SupplierItem();
@@ -385,19 +479,21 @@ public class ShopCartActivity extends BaseActivity
             shopCartItems.add(supplierItem);
             shopCartItems.addAll(shopCartItem.cartItemList);
 
-            for (int cartItemIndex = 0; cartItemIndex < shopCartItem.cartItemList.size(); cartItemIndex++)
+            if (!(mSelectedCartItem.productIds.size() > 0))
             {
-                if (mSelectedCartItem.supplierId != null)
-                    break;
-
-                CartItem cartItem = shopCartItem.cartItemList.get(cartItemIndex);
-
-                if (cartItem.isSelect.equals("Y"))
+                for (int cartItemIndex = 0; cartItemIndex < shopCartItem.cartItemList.size(); cartItemIndex++)
                 {
-                    mSelectedCartItem.productIds.add(cartItem.productId);
-                    mSelectedCartItem.supplierId = cartItem.supplierId;
+
+                    CartItem cartItem = shopCartItem.cartItemList.get(cartItemIndex);
+
+                    if (cartItem.isSelect.equals("Y"))
+                    {
+                        mSelectedCartItem.productIds.add(cartItem.productId);
+                        mSelectedCartItem.supplierId = cartItem.supplierId;
+                    }
                 }
             }
+
 
         }
 

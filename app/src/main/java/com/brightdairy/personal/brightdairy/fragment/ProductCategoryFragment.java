@@ -29,10 +29,8 @@ import com.brightdairy.personal.model.entity.ProductInfo;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import retrofit2.adapter.rxjava.Result;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -59,7 +57,7 @@ public class ProductCategoryFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        categoryPage = inflater.inflate(R.layout.fragment_home_page_category, container, false);
+        categoryPage = inflater.inflate(R.layout.fragment_home_page_category, null);
         listviewCategoryList = (ListView) categoryPage.findViewById(R.id.rclview_category_page_category_list);
         rclviewProductList = (RecyclerView) categoryPage.findViewById(R.id.rclview_category_page_category_products);
 

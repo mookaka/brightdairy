@@ -1,11 +1,9 @@
 package com.brightdairy.personal.brightdairy.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +15,7 @@ import com.brightdairy.personal.api.ProductHttp;
 import com.brightdairy.personal.api.ShopCartApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
+import com.brightdairy.personal.brightdairy.popup.QuikBuyInfoPopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
@@ -30,12 +29,11 @@ import com.brightdairy.personal.model.Event.UnitQuantityChangeEvent;
 import com.brightdairy.personal.model.Event.VolChangeEvent;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
+import com.brightdairy.personal.model.entity.ShopCart;
 import com.bumptech.glide.Glide;
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
-
-import org.w3c.dom.Text;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,7 +46,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by shuangmusuihua on 2016/8/21.
  */
-public class ProductDetailActivity extends Activity
+public class ProductDetailActivity extends FragmentActivity
 {
 
     private Banner bannerProductImgs;
@@ -277,7 +275,7 @@ public class ProductDetailActivity extends Activity
                         {
                             orderSendModePopup = new OrderSendModePopup();
                         }
-                        orderSendModePopup.show(ProductDetailActivity.this.getFragmentManager(), "orderSendModePopup");
+                        orderSendModePopup.show(getSupportFragmentManager(), "orderSendModePopup");
                     }
                 }));
 
@@ -295,13 +293,26 @@ public class ProductDetailActivity extends Activity
                 }));
 
         mCompositeSubscription.add(RxView.clicks(btnAddToCart)
-                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(new Action1<Void>()
                 {
                     @Override
                     public void call(Void aVoid)
                     {
                         AddProductToCart();
+                    }
+                }));
+
+
+        mCompositeSubscription.add(RxView.clicks(btnBuyNow)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        QuikBuyInfoPopup quikBuyInfoPopup = QuikBuyInfoPopup.newInstance(mProductSendModeInfo);
+                        quikBuyInfoPopup.show(getSupportFragmentManager(), "quickBuyInfo");
                     }
                 }));
 
@@ -316,7 +327,7 @@ public class ProductDetailActivity extends Activity
                 mProductSendModeInfo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<DataResult<Object>>()
+                .subscribe(new Subscriber<DataResult<ShopCart>>()
                 {
                     @Override
                     public void onCompleted()
@@ -331,7 +342,7 @@ public class ProductDetailActivity extends Activity
                     }
 
                     @Override
-                    public void onNext(DataResult<Object> result)
+                    public void onNext(DataResult<ShopCart> result)
                     {
                         switch (result.msgCode)
                         {

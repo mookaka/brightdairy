@@ -52,5 +52,11 @@
         <item name="android:windowEnterAnimation">@anim/anim_popup_in</item>
         <item name="android:windowExitAnimation">@anim/anim_popup_out</item>
     </style>
+    
+    <style name="fragment_order_center_tabs">
+        <item name="android:background">@color/colorWhiterPure</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorTxtBlack</item>
+    </style>
 
 </resources>

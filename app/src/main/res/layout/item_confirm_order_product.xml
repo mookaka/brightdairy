@@ -90,7 +90,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
@@ -120,20 +120,45 @@
             android:textSize="10sp"
             android:hint="请输入红包码"/>
 
-        <Button
-            android:id="@+id/btn_item_confirm_order_validate"
+
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/shape_blue_radius_bg"
-            android:textSize="12sp"
-            android:textColor="@color/colorWhiterPure"
-            android:text="验证"/>
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:id="@+id/btn_item_confirm_order_abandon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                android:gravity="center"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_red_radius_bg"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhiterPure"
+                android:text="弃用"/>
+
+            <Button
+                android:id="@+id/btn_item_confirm_order_validate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_blue_radius_bg"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhiterPure"
+                android:text="验证"/>
+
+        </FrameLayout>
+
 
     </LinearLayout>
 

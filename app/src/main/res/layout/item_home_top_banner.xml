@@ -12,6 +12,8 @@
             android:layout_height="228dp"
             app:indicator_width="8dp"
             app:indicator_height="8dp"
+            app:indicator_drawable_selected="@drawable/shape_banner_selected_dot"
+            app:indicator_drawable_unselected="@drawable/shape_banner_unselected_dot"
             />
         <RadioGroup
             android:id="@+id/radiogroup_home_top_bar"

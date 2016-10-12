@@ -174,10 +174,9 @@ public class LoginSmsActivity extends Activity
 
                 break;
 
-            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
-            case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
+            default:
 
-                SuperActivityToast.create(LoginSmsActivity.this, "验证码发送失败，检查号码再试试:)", Style.DURATION_LONG).show();
+                SuperActivityToast.create(LoginSmsActivity.this, text, Style.DURATION_LONG).show();
                 getValidNum.setEnabled(true);
 
                 break;

@@ -84,6 +84,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
     private void initView(Context context, AttributeSet attrs) {
         imageViews.clear();
+        indicatorImages.clear();
         View view = LayoutInflater.from(context).inflate(R.layout.view_customed_banner, this, true);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         indicator = (LinearLayout) view.findViewById(R.id.indicator);
@@ -168,7 +169,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         createIndicator();
         for (int i = 0; i <= count + 1; i++) {
             ImageView iv = new ImageView(context);
-            iv.setScaleType(ScaleType.CENTER_CROP);
+            iv.setScaleType(ScaleType.FIT_XY);
             Object url=null;
             if (i == 0) {
                 url=imagesUrl[count - 1];
@@ -187,6 +188,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     private void createIndicator() {
 
+        indicatorImages.clear();
+
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mIndicatorWidth,mIndicatorHeight);
@@ -196,6 +199,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             indicator.addView(imageView, params);
             indicatorImages.add(imageView);
         }
+
     }
 
 

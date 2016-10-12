@@ -20,12 +20,10 @@ import com.brightdairy.personal.brightdairy.popup.CitySelectorPopup;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
-import com.brightdairy.personal.model.DataBase;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.CityChangedEvent;
 import com.brightdairy.personal.model.entity.HomeContent;
 import com.jakewharton.rxbinding.view.RxView;
-
 
 import java.util.concurrent.TimeUnit;
 
@@ -146,7 +144,7 @@ public class HomeFragment extends Fragment
                             citySelectorPopup = new CitySelectorPopup();
                         }
 
-                        citySelectorPopup.show(getActivity().getFragmentManager(), "citySelectorPopup");
+                        citySelectorPopup.show(getActivity().getSupportFragmentManager(), "citySelectorPopup");
                     }
                 }));
     }

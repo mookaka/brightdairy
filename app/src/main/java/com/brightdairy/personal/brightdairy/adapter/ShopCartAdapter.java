@@ -1,9 +1,7 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +10,12 @@ import android.widget.CheckBox;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartProductVH;
 import com.brightdairy.personal.brightdairy.ViewHolder.ShopCartSupplierVH;
-import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
-import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.Event.CheckCartItemEvent;
+import com.brightdairy.personal.model.Event.CheckSupplierEvent;
 import com.brightdairy.personal.model.Event.DeleteCartItemEvent;
+import com.brightdairy.personal.model.Event.ShopCartEditSendModeEvent;
 import com.brightdairy.personal.model.entity.CartItem;
 import com.brightdairy.personal.model.entity.SupplierItem;
 import com.bumptech.glide.Glide;
@@ -101,6 +99,9 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ShopCartSupplierVH supplierVH = (ShopCartSupplierVH) holder;
             SupplierItem supplierItem = (SupplierItem) itemData;
 
+            supplierVH.checkboxSupplier.setOnClickListener(this);
+            supplierVH.checkboxSupplier.setTag(supplierVH);
+
             supplierVH.txtviewSupplierName.setText(supplierItem.supplierName);
             supplierVH.checkboxSupplier.setChecked(supplierItem.supplierSelected);
         }
@@ -137,39 +138,78 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 checkCartItem((CheckBox)v);
                 break;
             case R.id.txtview_item_shop_cart_edit:
+                modifyCartItem(v);
                 break;
+            case R.id.checkbox_item_shop_cart_company:
+                checkSupplier((CheckBox)v);
+                break;
+        }
+    }
+
+
+    private void checkSupplier(CheckBox v)
+    {
+        if (mRxBus.hasObservers())
+        {
+            ShopCartSupplierVH shopCartSupplierVH = (ShopCartSupplierVH) v.getTag();
+            int clickViewPos = shopCartSupplierVH.getAdapterPosition();
+            CheckSupplierEvent checkSupplierEvent = new CheckSupplierEvent();
+            SupplierItem supplierItem = (SupplierItem) mShopCarts.get(clickViewPos);
+
+            checkSupplierEvent.selected = shopCartSupplierVH.checkboxSupplier.isChecked()?"Y":"N";
+            checkSupplierEvent.supplierId = supplierItem.supplierId;
+
+            v.setChecked(!v.isChecked());
+
+            mRxBus.dispatchEvent(checkSupplierEvent);
         }
     }
 
     private void modifyCartItem(View v)
     {
+        if (mRxBus.hasObservers())
+        {
+            ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
+            int clickViewPos = shopCartProductVH.getAdapterPosition();
+            ShopCartEditSendModeEvent shopCartEditSendModeEvent = new ShopCartEditSendModeEvent();
+            CartItem cartItem = (CartItem) mShopCarts.get(clickViewPos);
 
+            shopCartEditSendModeEvent.itemSeqId = cartItem.itemSeqId;
+            shopCartEditSendModeEvent.mCartItemInfo = cartItem;
+
+            mRxBus.dispatchEvent(shopCartEditSendModeEvent);
+        }
+    }
+
+
+    public void handleModifyCartItem(ArrayList<Object> shopCarts)
+    {
+        freshDataSet(shopCarts);
     }
 
     private void checkCartItem(CheckBox v)
     {
         if (mRxBus.hasObservers())
         {
-            v.setChecked(!v.isChecked());
             ShopCartProductVH shopCartProductVH = (ShopCartProductVH) v.getTag();
             int clickViewPos = shopCartProductVH.getAdapterPosition();
             CheckCartItemEvent checkCartItemEvent = new CheckCartItemEvent();
             CartItem cartItem = (CartItem) mShopCarts.get(clickViewPos);
-            checkCartItemEvent.itemAdapterPosition = clickViewPos;
             checkCartItemEvent.itemSeqId = cartItem.itemSeqId;
             checkCartItemEvent.supplierId = cartItem.supplierId;
             checkCartItemEvent.selectItem = v.isChecked();
+            v.setChecked(!v.isChecked());
 
             mRxBus.dispatchEvent(checkCartItemEvent);
         }
     }
 
 
-    public void handleCheckCartItem(RecyclerView.ViewHolder viewHolder, boolean selectItem)
+    public void handleCheckItem(ArrayList<Object> shopCarts)
     {
-        ShopCartProductVH shopCartProductVH = (ShopCartProductVH) viewHolder;
-        shopCartProductVH.checkboxProductSelected.setChecked(selectItem);
+        freshDataSet(shopCarts);
     }
+
 
     private void deleteCartItem(View v)
     {
@@ -199,6 +239,13 @@ public class ShopCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mShopCarts.remove(preItemPos);
             notifyItemRemoved(preItemPos);
         }
+    }
+
+    private void freshDataSet(ArrayList<Object> carts)
+    {
+        mShopCarts.clear();
+        mShopCarts.addAll(carts);
+        notifyDataSetChanged();
     }
 
 }

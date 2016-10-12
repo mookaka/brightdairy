@@ -62,12 +62,13 @@ public class ModifyAddressActivity extends BaseActivity
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
-        mAddressApi = GlobalRetrofit.getRetrofitTest().create(AddressApi.class);
+        mAddressApi = GlobalRetrofit.getRetrofitDev().create(AddressApi.class);
         supplierId = getIntent().getStringExtra("supplierId");
         mRxBus = RxBus.EventBus();
 
         initHandleRxBusEvent();
 
+        fetchData();
     }
 
 
@@ -76,7 +77,6 @@ public class ModifyAddressActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
-        fetchData();
     }
 
 

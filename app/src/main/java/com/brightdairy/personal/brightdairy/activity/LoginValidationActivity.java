@@ -190,9 +190,21 @@ public class LoginValidationActivity extends Activity
                 PrefUtil.setString(GlobalConstants.AppConfig.UID_LOCAL, GlobalHttpConfig.UID);
                 PrefUtil.setString(GlobalConstants.AppConfig.TID_LOCAL, GlobalHttpConfig.TID);
 
-                Intent loginOkIntent = new Intent(LoginValidationActivity.this, MainActivity.class);
-                startActivity(loginOkIntent);
-                finish();
+                GlobalHttpConfig.PIN = AppLocalUtils.getPIN();
+
+                boolean needRelogin = getIntent().getBooleanExtra(GlobalConstants.INTENT_FLAG.NEED_RELOGIN, false);
+
+                if (needRelogin)
+                {
+                    this.setResult(GlobalConstants.INTENT_FLAG.RELOGIN_OK_FLG);
+                    this.finish();
+
+                } else
+                {
+                    Intent loginOkIntent = new Intent(LoginValidationActivity.this, MainActivity.class);
+                    startActivity(loginOkIntent);
+                    finish();
+                }
 
                 break;
             case GlobalHttpConfig.API_MSGCODE.LOGIN_FAILED:

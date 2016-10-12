@@ -19,6 +19,7 @@ import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
+import com.brightdairy.personal.brightdairy.view.BitmapFitScreenTransform;
 import com.brightdairy.personal.model.Event.SendModeChangeEvent;
 import com.brightdairy.personal.model.Event.SendTimeChangeEvent;
 import com.brightdairy.personal.model.Event.UnitQuantityChangeEvent;
@@ -216,7 +217,11 @@ public class OrderSendModePopup extends BasePopup {
         {
             productName.setText(this.productDetail.productName);
             productPrice.setText("随心订价：" + this.productDetail.prices.basePrice + "元");
-            Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASE + this.productDetail.guessImgUrl).asBitmap().into(productImg);
+            Glide.with(GlobalConstants.APPLICATION_CONTEXT)
+                    .load(GlobalConstants.IMG_URL_BASE + this.productDetail.guessImgUrl)
+                    .asBitmap()
+                    .transform(new BitmapFitScreenTransform(GlobalConstants.APPLICATION_CONTEXT))
+                    .into(productImg);
 
         }
 

@@ -1,7 +1,6 @@
 package com.brightdairy.personal.brightdairy.adapter;
 
 import android.content.Intent;
-import android.support.v4.util.LruCache;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.brightdairy.personal.brightdairy.ViewHolder.ProductInfoItemVH;
 import com.brightdairy.personal.brightdairy.activity.ProductDetailActivity;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
+import com.brightdairy.personal.brightdairy.view.BitmapFitScreenTransform;
 import com.brightdairy.personal.model.entity.CategoryForTitle;
 import com.brightdairy.personal.model.entity.ProductInfo;
 import com.bumptech.glide.Glide;
@@ -66,7 +66,8 @@ public class CategoryPageRightInfoAdapter extends RecyclerView.Adapter<ProductIn
 
         holder.itemView.setTag(productInfo.productId);
 
-        Glide.with(GlobalConstants.APPLICATION_CONTEXT).load(GlobalConstants.IMG_URL_BASE + productInfo.imageUrl)
+        Glide.with(GlobalConstants.APPLICATION_CONTEXT)
+                .load(GlobalConstants.IMG_URL_BASE + productInfo.imageUrl)
                 .asBitmap()
                 .into(holder.imgviewProductImg);
 
