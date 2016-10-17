@@ -52,9 +52,8 @@ public class AppLocalUtils
 
     public static boolean isValidUserName(String userName)
     {
-//        String nameValidRegx = "";
-//        return !TextUtils.isEmpty(userName) && userName.matches(nameValidRegx);
-        return true;
+        String nameValidRegx = "^[\u4E00-\u9FA5A-Za-z][\u4E00-\u9FA5A-Za-z0-9]+$";
+        return !TextUtils.isEmpty(userName) && userName.matches(nameValidRegx);
     }
 
     public static LoginRegisterApi loginRegisterHttp;
