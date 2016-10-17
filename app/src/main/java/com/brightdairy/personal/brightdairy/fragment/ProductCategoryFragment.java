@@ -3,7 +3,6 @@ package com.brightdairy.personal.brightdairy.fragment;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,7 @@ import android.widget.ListView;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.ProductHttp;
+import com.brightdairy.personal.api.ProductApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.CategoryPageLeftListAdapter;
 import com.brightdairy.personal.brightdairy.adapter.CategoryPageRightInfoAdapter;
@@ -126,11 +125,11 @@ public class ProductCategoryFragment extends LazyLoadFragment
     }
 
     private CompositeSubscription mCompositeSubscription;
-    private ProductHttp productCategoryHttp;
+    private ProductApi productCategoryHttp;
     private void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
-        productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
+        productCategoryHttp = GlobalRetrofit.getRetrofitDev().create(ProductApi.class);
     }
 
 

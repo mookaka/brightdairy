@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.ProductHttp;
+import com.brightdairy.personal.api.ProductApi;
 import com.brightdairy.personal.api.ShopCartApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
@@ -115,7 +115,7 @@ public class ProductDetailActivity extends FragmentActivity
         bannerProductImgs.setBannerStyle(Banner.CIRCLE_INDICATOR);
     }
 
-    private ProductHttp productHttp;
+    private ProductApi productHttp;
     private ShopCartApi mShopCartApi;
     private RxBus mRxBus;
     private void initData()
@@ -129,7 +129,7 @@ public class ProductDetailActivity extends FragmentActivity
         mCompositeSubscription = new CompositeSubscription();
         mRxBus = RxBus.EventBus();
 
-        productHttp = GlobalRetrofit.getRetrofitDev().create(ProductHttp.class);
+        productHttp = GlobalRetrofit.getRetrofitDev().create(ProductApi.class);
         mShopCartApi = GlobalRetrofit.getRetrofitDev().create(ShopCartApi.class);
 
         initProductDetailById(productId);

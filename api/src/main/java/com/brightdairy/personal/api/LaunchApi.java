@@ -14,7 +14,7 @@ import rx.Observable;
 /**
  * Created by shuangmusuihua on 2016/7/28.
  */
-public interface LaunchHttp
+public interface LaunchApi
 {
     @GET("launch/img/{cityCode}")
     Observable<DataResult<LaunchPage>> getLaunchPageConfig(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,

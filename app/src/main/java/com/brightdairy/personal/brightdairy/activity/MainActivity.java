@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.HomePageHttp;
+import com.brightdairy.personal.api.HomePageApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.HomePagesAdapter;
 import com.brightdairy.personal.brightdairy.fragment.ActivityFragment;
@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity
         homePagesContainer.setAdapter(homePagesAdapter);
 
 
-            HomePageHttp homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
+            HomePageApi homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageApi.class);
 
             homeHttpService.getHomeConfigByZone(GlobalHttpConfig.PID,
                     GlobalHttpConfig.UID,

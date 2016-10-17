@@ -13,7 +13,7 @@ import rx.Observable;
 /**
  * Created by shuangmusuihua on 2016/8/21.
  */
-public interface ProductHttp
+public interface ProductApi
 {
     @GET("productStore/getProductById/{productId}")
     Observable<DataResult<ProductDetail>> getProductDetailById(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,

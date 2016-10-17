@@ -11,10 +11,10 @@ import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
-import com.brightdairy.personal.api.AppConfigHttp;
+import com.brightdairy.personal.api.AppConfigApi;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.LaunchHttp;
+import com.brightdairy.personal.api.LaunchApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.DialogPopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
@@ -110,15 +110,15 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
     }
 
     private Gson mGson;
-    private LaunchHttp launchPageHttpService;
+    private LaunchApi launchPageHttpService;
     private CompositeSubscription mCompositeSubscription;
-    private AppConfigHttp appConfigHttp;
+    private AppConfigApi appConfigHttp;
     private void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
         mGson = new Gson();
 
-        appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigHttp.class);
+        appConfigHttp = GlobalRetrofit.getRetrofitDev().create(AppConfigApi.class);
 
         String oldPid = PrefUtil.getString(GlobalConstants.AppConfig.PID_LOCAL, "");
 
@@ -230,7 +230,7 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
 
     private void freshLaunPage()
     {
-        launchPageHttpService = GlobalRetrofit.getRetrofitDev().create(LaunchHttp.class);
+        launchPageHttpService = GlobalRetrofit.getRetrofitDev().create(LaunchApi.class);
 
         mCompositeSubscription.add(launchPageHttpService.getLaunchPageConfig(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,

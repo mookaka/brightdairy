@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
-import com.brightdairy.personal.api.LoginRegisterHttp;
+import com.brightdairy.personal.api.LoginRegisterApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
@@ -182,7 +182,7 @@ public class LoginSmsActivity extends Activity
         }
     }
 
-    private LoginRegisterHttp loginRegisterHttp;
+    private LoginRegisterApi loginRegisterHttp;
     private void initData()
     {
         compositeObsever = new CompositeSubscription();

@@ -8,7 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
-import com.brightdairy.personal.api.LoginRegisterHttp;
+import com.brightdairy.personal.api.LoginRegisterApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
@@ -84,7 +84,7 @@ public class RegisterActivity extends Activity
     }
 
     private CompositeSubscription observerComposition;
-    private LoginRegisterHttp loginRegisterApi;
+    private LoginRegisterApi loginRegisterApi;
     private void initData()
     {
         observerComposition = new CompositeSubscription();

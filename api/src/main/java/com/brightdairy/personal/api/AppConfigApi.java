@@ -21,7 +21,7 @@ import rx.Observable;
 /**
  * Created by shuangmusuihua on 2016/8/19.
  */
-public interface AppConfigHttp
+public interface AppConfigApi
 {
     @POST("commonStore/getPid")
     @Headers("Content Type: application/json")

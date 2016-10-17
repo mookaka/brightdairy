@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
-import com.brightdairy.personal.api.LoginRegisterHttp;
+import com.brightdairy.personal.api.LoginRegisterApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
 import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
@@ -86,7 +86,7 @@ public class LoginValidationActivity extends Activity
 
     private String phoneNum;
     private CompositeSubscription compositeSubscription;
-    private LoginRegisterHttp loginRegisterApi;
+    private LoginRegisterApi loginRegisterApi;
     private void initData()
     {
         compositeSubscription = new CompositeSubscription();

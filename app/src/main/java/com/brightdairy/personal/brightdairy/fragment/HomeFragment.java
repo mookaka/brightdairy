@@ -2,27 +2,23 @@ package com.brightdairy.personal.brightdairy.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.HomePageHttp;
+import com.brightdairy.personal.api.HomePageApi;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.MainActivity;
 import com.brightdairy.personal.brightdairy.adapter.HomePageAdapter;
 import com.brightdairy.personal.brightdairy.popup.CitySelectorPopup;
 import com.brightdairy.personal.brightdairy.popup.DialogPopup;
-import com.brightdairy.personal.brightdairy.popup.DialogPopupHelper;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
-import com.brightdairy.personal.brightdairy.view.StateLayout;
 import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.CityChangedEvent;
@@ -31,7 +27,6 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -80,13 +75,13 @@ public class HomeFragment extends LazyLoadFragment
 
 
     private CompositeSubscription mCompositeSubscription;
-    private HomePageHttp homeHttpService;
+    private HomePageApi homeHttpService;
     private RxBus mRxBus;
     private void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
         mRxBus = RxBus.EventBus();
-        homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
+        homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageApi.class);
         handleRxBudEvent();
 
         showCitySelectPopup();

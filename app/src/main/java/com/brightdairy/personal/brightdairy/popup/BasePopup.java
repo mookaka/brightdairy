@@ -41,6 +41,8 @@ public abstract class BasePopup extends DialogFragment
         clearResOnDestroyView();
         super.onDestroyView();
 
+//     处理异常 java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+//     发生在activity onSaveInstanceState和OnDestroy后，但似乎没有用
 //        try {
 //            Field childFragmentManager = android.app.Fragment.class.getDeclaredField("mChildFragmentManager");
 //            childFragmentManager.setAccessible(true);
@@ -88,6 +90,8 @@ public abstract class BasePopup extends DialogFragment
     {
         super.onDetach();
 
+        //处理异常 java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        //发生在activity onSaveInstanceState和OnDestroy后，但似乎没有用
         try {
             Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
             childFragmentManager.setAccessible(true);
@@ -100,8 +104,8 @@ public abstract class BasePopup extends DialogFragment
         }
     }
 
-    //avoid the exception of java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-    //when displaying dialogFragment instance after actiivty has called its onSaveState method
+    //处理异常 java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+    //发生在activity onSaveInstanceState和OnDestroy后，但似乎没有用
     private static final Class clz = DialogFragment.class;
 
     public void showAllowingStateLoss(FragmentManager manager, String tag) {

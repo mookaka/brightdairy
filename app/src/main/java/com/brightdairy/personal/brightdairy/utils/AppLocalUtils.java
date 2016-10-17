@@ -1,13 +1,11 @@
 package com.brightdairy.personal.brightdairy.utils;
 
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
-import com.brightdairy.personal.api.LoginRegisterHttp;
+import com.brightdairy.personal.api.LoginRegisterApi;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,12 +57,12 @@ public class AppLocalUtils
         return true;
     }
 
-    public static LoginRegisterHttp loginRegisterHttp;
-    public static LoginRegisterHttp getLoginRegisterApi()
+    public static LoginRegisterApi loginRegisterHttp;
+    public static LoginRegisterApi getLoginRegisterApi()
     {
         if(loginRegisterHttp == null)
         {
-            loginRegisterHttp = GlobalRetrofit.getRetrofitDev().create(LoginRegisterHttp.class);
+            loginRegisterHttp = GlobalRetrofit.getRetrofitDev().create(LoginRegisterApi.class);
         }
 
         return loginRegisterHttp;

@@ -14,7 +14,7 @@ import rx.Observable;
 /**
  * Created by shuangmusuihua on 2016/8/3.
  */
-public interface HomePageHttp
+public interface HomePageApi
 {
     @GET("homepage/content/{cityCode}")
     Observable<DataResult<HomeContent>> getHomeContent(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,

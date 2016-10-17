@@ -19,7 +19,7 @@ import rx.Observable;
 /**
  * Created by shuangmusuihua on 2016/9/3.
  */
-public interface LoginRegisterHttp
+public interface LoginRegisterApi
 {
     @POST("sms/sendSms")
     @Headers("Content Type: application/json")
