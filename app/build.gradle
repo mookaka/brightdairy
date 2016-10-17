@@ -31,7 +31,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.github.johnpersano:supertoasts:2.0'
     compile 'com.tubb.smrv:swipemenu-recyclerview:5.3.0'
     compile 'homhomlin.lib:apsts:1.4.0'
     compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'

@@ -18,6 +18,7 @@ import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.MainActivity;
 import com.brightdairy.personal.brightdairy.adapter.HomePageAdapter;
 import com.brightdairy.personal.brightdairy.popup.CitySelectorPopup;
+import com.brightdairy.personal.brightdairy.popup.DialogPopup;
 import com.brightdairy.personal.brightdairy.popup.DialogPopupHelper;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
@@ -88,6 +89,8 @@ public class HomeFragment extends LazyLoadFragment
         homeHttpService = GlobalRetrofit.getRetrofitDev().create(HomePageHttp.class);
         handleRxBudEvent();
 
+        showCitySelectPopup();
+
     }
 
     private void handleRxBudEvent()
@@ -122,8 +125,8 @@ public class HomeFragment extends LazyLoadFragment
                     @Override
                     public void call(DataResult<HomeContent> result)
                     {
-                        homeContent = result.result;
                         hideLoading();
+                        homeContent = result.result;
                         inflatePage();
                     }
                 }, new Action1<Throwable>()
@@ -185,5 +188,35 @@ public class HomeFragment extends LazyLoadFragment
     protected void onFragmentVisible()
     {
         freshPageData();
+    }
+
+    private void showCitySelectPopup()
+    {
+        if (!GlobalConstants.LOCATION_CORRECT)
+        {
+            DialogPopup dialogPopup = DialogPopup.newInstance(getString(R.string.location_err_reselect));
+
+            dialogPopup.setDialogListener(new DialogPopup.DialogListener()
+            {
+                @Override
+                public void onConfirmClick()
+                {
+                    if (citySelectorPopup == null)
+                    {
+                        citySelectorPopup = new CitySelectorPopup();
+                    }
+
+                    citySelectorPopup.show(getActivity().getSupportFragmentManager(), "citySelectorPopup");
+                }
+
+                @Override
+                public void onCancelClick()
+                {
+
+                }
+            });
+
+            dialogPopup.show(getFragmentManager(), "locationerrreselect");
+        }
     }
 }

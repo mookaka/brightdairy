@@ -3,6 +3,7 @@ package com.brightdairy.personal.brightdairy.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.amap.api.location.AMapLocationClient;
@@ -40,6 +41,7 @@ public class GlobalConstants
 
     public static String CURR_ZONE_CN_NAME = "上海市";
     public static String ZONE_CODE = "CN-3101";
+    public static boolean LOCATION_CORRECT = false;
 
 
     public static String IMG_URL_BASE;

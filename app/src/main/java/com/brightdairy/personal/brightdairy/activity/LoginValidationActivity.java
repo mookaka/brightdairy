@@ -12,14 +12,13 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.SendSms;
 import com.brightdairy.personal.model.HttpReqBody.UserLoginBySms;
 import com.brightdairy.personal.model.entity.LoginResult;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -144,7 +143,7 @@ public class LoginValidationActivity extends Activity
 
         if(TextUtils.isEmpty(validatioCode) || !validatioCode.matches("^\\d{4,6}$"))
         {
-            SuperActivityToast.create(LoginValidationActivity.this, "验证码好像有问题唉，检查一下吧:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(LoginValidationActivity.this, "验证码好像有问题唉，检查一下吧:)");
             login.setEnabled(true);
             return;
         }
@@ -209,7 +208,7 @@ public class LoginValidationActivity extends Activity
                 break;
             case GlobalHttpConfig.API_MSGCODE.LOGIN_FAILED:
 
-                SuperActivityToast.create(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)");
                 resendSms.setText("重新获取验证码:)");
                 resendSms.setEnabled(true);
 
@@ -260,7 +259,7 @@ public class LoginValidationActivity extends Activity
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
-                SuperActivityToast.create(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(LoginValidationActivity.this, "验证码错误:(，单击重新获取吧:)");
                 resendSms.setEnabled(true);
 
                 break;

@@ -1,16 +1,11 @@
 package com.brightdairy.personal.brightdairy.popup;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.activity.LoginSmsActivity;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
-import com.github.johnpersano.supertoasts.library.SuperToast;
 
 /**
  * Created by shuangmusuihua on 2016/10/10.
@@ -53,5 +48,17 @@ public class DialogPopupHelper
         showInfoDialog.show(activity.getSupportFragmentManager(), "showInfoNoMoreAction");
     }
 
+    public static void showLoadingPopup(FragmentActivity activity)
+    {
+        GeneralLoadingPopup generalLoadingPopup = GeneralLoadingPopup.newInstance();
 
+        generalLoadingPopup.show(activity.getSupportFragmentManager(), "loadingPopup");
+    }
+
+    public static void showInfoDialog(FragmentActivity activity)
+    {
+        DialogPopup mDialogPopup = DialogPopup.newInstance(activity.getString(R.string.change_supplier_popup_title));
+
+        mDialogPopup.show(activity.getSupportFragmentManager(), "dialogPopup");
+    }
 }

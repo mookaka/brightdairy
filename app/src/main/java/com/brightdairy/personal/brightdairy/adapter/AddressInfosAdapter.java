@@ -32,7 +32,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class AddressInfosAdapter extends RecyclerView.Adapter<AddressInfoVH>
 {
-    private ArrayList<AddressInfo> mAddressInfos;
+    private ArrayList<AddressInfo> mAddressInfos = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private StringBuilder addressBuilder;
@@ -42,7 +42,10 @@ public class AddressInfosAdapter extends RecyclerView.Adapter<AddressInfoVH>
 
     public AddressInfosAdapter(ArrayList<AddressInfo> addressInfos, String supplierId, Context context)
     {
-        mAddressInfos = addressInfos;
+        if (addressInfos != null)
+        {
+            mAddressInfos = addressInfos;
+        }
         mContext = context;
         mRxBus = RxBus.EventBus();
         mCompositeSubscription = new CompositeSubscription();

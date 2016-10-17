@@ -10,10 +10,9 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.SendSms;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -93,7 +92,7 @@ public class FindPwdBackValideCodeActivity extends Activity
     {
         if(!AppLocalUtils.isValidPhoneNum(num))
         {
-            SuperActivityToast.create(FindPwdBackValideCodeActivity.this, "咱能不能好好填写号码呀:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(FindPwdBackValideCodeActivity.this, "咱能不能好好填写号码呀:)");
             return;
         }
 
@@ -141,7 +140,7 @@ public class FindPwdBackValideCodeActivity extends Activity
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
-                SuperActivityToast.create(FindPwdBackValideCodeActivity.this, "验证码发送失败，检查号码再试试:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(FindPwdBackValideCodeActivity.this, "验证码发送失败，检查号码再试试:)");
                 getFindPwdBackValidCode.setEnabled(true);
 
                 break;

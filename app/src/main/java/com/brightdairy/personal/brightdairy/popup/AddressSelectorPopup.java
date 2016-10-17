@@ -20,6 +20,7 @@ import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.StateLayout;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.AddressChangeEvent;
+import com.brightdairy.personal.model.HttpReqBody.NewAddress;
 import com.brightdairy.personal.model.entity.AddressBySupplierPartyId;
 import com.brightdairy.personal.model.entity.AddressSelectorInfo;
 import com.brightdairy.personal.model.entity.ProdGeoInfo;
@@ -52,6 +53,23 @@ public class AddressSelectorPopup extends BasePopup
     private RecyclerView rclAddressLists;
     private StateLayout stateLayout;
     private String supplierId;
+
+
+
+    public static AddressSelectorPopup newInstance(String supplierId, NewAddress newAddress)
+    {
+        AddressSelectorPopup mAddressSelectorPopup = new AddressSelectorPopup();
+
+        Bundle addition = new Bundle();
+        addition.putString("supplierId", supplierId);
+        addition.putString("currCity", newAddress.city);
+        addition.putString("currCounty", newAddress.county);
+        addition.putString("currStreet", newAddress.street);
+        mAddressSelectorPopup.setArguments(addition);
+
+
+        return mAddressSelectorPopup;
+    }
 
 
     @Override
@@ -159,7 +177,8 @@ public class AddressSelectorPopup extends BasePopup
         mCompositeSubscription.add(mAddressApi.getGeoBySupplierPartyId(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
-                GlobalHttpConfig.PIN, supplierId)
+                GlobalHttpConfig.PIN,
+                supplierId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Func1<DataResult<AddressBySupplierPartyId>, Object>()

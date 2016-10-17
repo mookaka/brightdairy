@@ -10,31 +10,35 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baoyz.pg.PG;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.OperateOrderApi;
 import com.brightdairy.personal.brightdairy.R;
+import com.brightdairy.personal.brightdairy.ViewHolder.ConfirmOrderItemVH;
 import com.brightdairy.personal.brightdairy.adapter.ConfirmOrderAdapter;
-import com.brightdairy.personal.brightdairy.popup.DialogPopup;
 import com.brightdairy.personal.brightdairy.popup.DialogPopupHelper;
+import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.brightdairy.view.ExpandBarLinearLayoutManager;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
+import com.brightdairy.personal.model.Event.ValidatePromoCodeEvent;
 import com.brightdairy.personal.model.HttpReqBody.ConfirmOrder;
 import com.brightdairy.personal.model.HttpReqBody.CreateAppOrder;
 import com.brightdairy.personal.model.entity.AddrInfo;
 import com.brightdairy.personal.model.entity.ConfirmOrderInfos;
+import com.brightdairy.personal.model.entity.CreateAppOrderResult;
 import com.brightdairy.personal.model.entity.SelectedCartItem;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.brightdairy.personal.model.entity.checkPromoCodeResult;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -62,8 +66,12 @@ public class ConfirmOrderActivity extends BaseActivity
     private TextView txtviewPromoSub;
     private TextView txtviewCanGetPoints;
     private TextView txtviewNeedCost;
+    private TextView txtviewAddNewAddress;
     private Button btnConfirmOrder;
     private LinearLayout llUserPoints;
+
+    private float promoDiscount;
+    private float pointsDiscount;
 
 
     private CreateAppOrder mCreateAppOrder;
@@ -74,6 +82,7 @@ public class ConfirmOrderActivity extends BaseActivity
         setContentView(R.layout.activity_confirm_orders);
 
         txtviewRecipient = (TextView) findViewById(R.id.txtview_confirm_order_recipient);
+        txtviewAddNewAddress = (TextView) findViewById(R.id.txtview_confirm_order_add_new_address);
         imgbtnModifyAddr = (ImageButton) findViewById(R.id.imgbtn_confirm_order_modify_address_info);
         txtviewDefaultAddr = (TextView) findViewById(R.id.txtview_confirm_order_default_address);
         txtviewDefualtPhone = (TextView) findViewById(R.id.txtview_confirm_order_default_phone);
@@ -103,80 +112,24 @@ public class ConfirmOrderActivity extends BaseActivity
     private ConfirmOrderInfos mConfirmOrderInfos;
     private ConfirmOrder mConfirmOrder;
     private String supplierId;
+    private RxBus mRxBus;
     @Override
     protected void initData()
     {
         mCompositeSubscription = new CompositeSubscription();
+        mRxBus = RxBus.EventBus();
+        mCreateAppOrder = new CreateAppOrder();
         mOperateOrderApi = GlobalRetrofit.getRetrofitDev().create(OperateOrderApi.class);
         SelectedCartItem selectedCartItem = getIntent().getParcelableExtra("SelectedCartItemInfo");
+        pointsDiscount = 0;
+        promoDiscount = 0;
 
         mConfirmOrder = new ConfirmOrder();
         mConfirmOrder.cityCode = GlobalConstants.ZONE_CODE;
         mConfirmOrder.productIds = selectedCartItem.productIds;
 
         fetchUsrConfirmOrderInfo();
-
-
-    }
-
-    private void fetchUsrConfirmOrderInfo()
-    {
-        mCompositeSubscription.add(mOperateOrderApi.getConfirmOrderInfo(GlobalHttpConfig.PID,
-                GlobalHttpConfig.UID,
-                GlobalHttpConfig.TID,
-                GlobalHttpConfig.PIN,
-                mConfirmOrder)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<DataResult<ConfirmOrderInfos>>() {
-                    @Override
-                    public void call(DataResult<ConfirmOrderInfos> result)
-                    {
-
-                        switch (result.msgCode)
-                        {
-                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
-                                mConfirmOrderInfos = result.result;
-                                supplierId = mConfirmOrderInfos.supplierPartyId;
-
-
-                                fillviewwithdata();
-                                break;
-                            case GlobalHttpConfig.API_MSGCODE.NEED_RELOGIN:
-                                DialogPopupHelper.showLoginPopup(ConfirmOrderActivity.this);
-                                break;
-                            default:
-                                SuperActivityToast.create(ConfirmOrderActivity.this, result.msgText, Style.DURATION_LONG).show();
-                                break;
-                        }
-
-                    }
-                }, new Action1<Throwable>()
-                {
-                    @Override
-                    public void call(Throwable throwable)
-                    {
-                        throwable.printStackTrace();
-                    }
-                }));
-    }
-
-
-    private void fillviewwithdata()
-    {
-        rclProductLists.setAdapter(new ConfirmOrderAdapter(mConfirmOrderInfos.cartItems));
-
-        if (mConfirmOrderInfos.defaultAddr != null)
-        {
-            AddrInfo defaultAddr = mConfirmOrderInfos.defaultAddr;
-            txtviewRecipient.setText(defaultAddr.toName);
-            txtviewDefualtPhone.setText(defaultAddr.mobile);
-            txtviewDefaultAddr.setText(defaultAddr.city + "市" + defaultAddr.county + defaultAddr.town + defaultAddr.street );
-        }
-
-        txtviewSupplier.setText(mConfirmOrderInfos.cartItems.get(0).cartItem.supplierName);
-        txtviewTotalPoints.setText("共有" + String.valueOf(mConfirmOrderInfos.availablePoints) + "积分");
-        txtviewTotalCost.setText(String.valueOf(mConfirmOrderInfos.orderTotalAmt + "元"));
+        handleRxBusEvent();
 
     }
 
@@ -219,8 +172,43 @@ public class ConfirmOrderActivity extends BaseActivity
                         startActivity(goToAddrModification);
                     }
                 }));
-    }
 
+        mCompositeSubscription.add(RxView.clicks(txtviewAddNewAddress)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        Intent goToAddrModification = new Intent(ConfirmOrderActivity.this, ModifyAddressActivity.class);
+                        goToAddrModification.putExtra("supplierId", supplierId);
+                        startActivity(goToAddrModification);
+                    }
+                }));
+
+        mCompositeSubscription.add(RxView.clicks(imgbtnPopupPointsRule)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        DialogPopupHelper.showInfoNoMoreAction(ConfirmOrderActivity.this);
+                    }
+                }));
+
+
+        mCompositeSubscription.add(RxView.clicks(btnConfirmOrder)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        confirmOrder();
+                    }
+                }));
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -232,32 +220,199 @@ public class ConfirmOrderActivity extends BaseActivity
         }
     }
 
-//    private void showNeedLoginPopup()
-//    {
-//
-//        DialogPopup dialogPopup = DialogPopup.newInstance(
-//                getString(R.string.need_login),
-//                getString(R.string.confirm_login),
-//                getString(R.string.cancel_login));
-//
-//        dialogPopup.setDialogListener(new DialogPopup.DialogListener()
-//        {
-//            @Override
-//            public void onConfirmClick()
-//            {
-//                Intent jumpToLogin = new Intent(ConfirmOrderActivity.this, LoginSmsActivity.class);
-//                jumpToLogin.putExtra(GlobalConstants.INTENT_FLAG.NEED_RELOGIN, true);
-//                startActivityForResult(jumpToLogin, GlobalConstants.INTENT_FLAG.RELOGIN_REQ_FLG);
-//            }
-//
-//            @Override
-//            public void onCancelClick()
-//            {
-//
-//            }
-//        });
-//
-//        dialogPopup.show(getSupportFragmentManager(), "needLogin");
-//
-//    }
+
+    private void handleRxBusEvent()
+    {
+        mCompositeSubscription.add(mRxBus.EventDispatcher()
+                .subscribe(new Action1<Object>()
+                {
+                    @Override
+                    public void call(Object event)
+                    {
+                        if (event instanceof ValidatePromoCodeEvent)
+                        {
+                            handleValidatePromoCodeEvent((ValidatePromoCodeEvent)event, true);
+                        }
+                    }
+                }));
+    }
+
+    private void handleValidatePromoCodeEvent(final ValidatePromoCodeEvent event, final boolean use)
+    {
+        mCompositeSubscription.add(mOperateOrderApi.checkPromoCode(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                event.validatePromoCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DataResult<checkPromoCodeResult>>()
+                {
+                    @Override
+                    public void call(DataResult<checkPromoCodeResult> result)
+                    {
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+
+                                if (use)
+                                {
+                                    GeneralUtils.showToast(GlobalConstants.APPLICATION_CONTEXT, "促销码验证成功");
+                                    usePromoCode(event, result.result);
+                                    mConfirmOrderAdapter.refreshView(true, (ConfirmOrderItemVH)rclProductLists.findViewHolderForAdapterPosition(event.itemPos));
+                                } else {
+                                    GeneralUtils.showToast(GlobalConstants.APPLICATION_CONTEXT, "放弃使用促销码");
+                                    abandonPromoCode(event, result.result);
+                                    mConfirmOrderAdapter.refreshView(false, (ConfirmOrderItemVH)rclProductLists.findViewHolderForAdapterPosition(event.itemPos));
+                                }
+
+                                break;
+                            default:
+                                GeneralUtils.showToast(GlobalConstants.APPLICATION_CONTEXT, result.msgText);
+                                break;
+                        }
+                    }
+                }));
+    }
+
+    private void abandonPromoCode(ValidatePromoCodeEvent event, checkPromoCodeResult result)
+    {
+        mCreateAppOrder.promocodeinfo.remove(event.itemSeqId);
+        promoDiscount -= Float.parseFloat(result.promoAmount);
+        freshViewAfterUsePromo();
+    }
+
+    private void usePromoCode(ValidatePromoCodeEvent event, checkPromoCodeResult result)
+    {
+        mCreateAppOrder.promocodeinfo.put(event.itemSeqId, event.validatePromoCode.promoCode);
+        promoDiscount += Float.parseFloat(result.promoAmount);
+        freshViewAfterUsePromo();
+    }
+
+
+    private void freshViewAfterUsePromo()
+    {
+        txtviewPromoSub.setText("￥" + String.valueOf(promoDiscount));
+        float needCost = mConfirmOrderInfos.orderTotalAmt - promoDiscount;
+        txtviewNeedCost.setText(String.valueOf(needCost + "元"));
+    }
+
+
+    private void freshViewAfterUsePoint()
+    {
+        txtviewPromoSub.setText("￥" + String.valueOf(pointsDiscount));
+        float needCost = mConfirmOrderInfos.orderTotalAmt - pointsDiscount;
+        txtviewNeedCost.setText(String.valueOf(needCost + "元"));
+    }
+
+
+    private void fetchUsrConfirmOrderInfo()
+    {
+        mCompositeSubscription.add(mOperateOrderApi.getConfirmOrderInfo(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                mConfirmOrder)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DataResult<ConfirmOrderInfos>>() {
+                    @Override
+                    public void call(DataResult<ConfirmOrderInfos> result)
+                    {
+
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+                                mConfirmOrderInfos = result.result;
+                                supplierId = mConfirmOrderInfos.supplierPartyId;
+                                fillviewwithdata();
+                                break;
+                            case GlobalHttpConfig.API_MSGCODE.NEED_RELOGIN:
+                                DialogPopupHelper.showLoginPopup(ConfirmOrderActivity.this);
+                                break;
+                            default:
+                                GeneralUtils.showToast(ConfirmOrderActivity.this, result.msgText);
+                                break;
+                        }
+
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        throwable.printStackTrace();
+                    }
+                }));
+    }
+
+
+    private ConfirmOrderAdapter mConfirmOrderAdapter;
+    private void fillviewwithdata()
+    {
+        mConfirmOrderAdapter = new ConfirmOrderAdapter(this, mConfirmOrderInfos.cartItems);
+        rclProductLists.setAdapter(mConfirmOrderAdapter);
+
+
+        if (mConfirmOrderInfos.defaultAddr != null)
+        {
+            txtviewAddNewAddress.setVisibility(View.GONE);
+
+            mCreateAppOrder.contactMechId = mConfirmOrderInfos.defaultAddr.contactMechId;
+
+            AddrInfo defaultAddr = mConfirmOrderInfos.defaultAddr;
+            txtviewRecipient.setText(defaultAddr.toName);
+            txtviewDefualtPhone.setText(defaultAddr.mobile);
+            txtviewDefaultAddr.setText(defaultAddr.city + "市" + defaultAddr.county + defaultAddr.town + defaultAddr.street );
+        }
+
+        mCreateAppOrder.userLoginId = GlobalHttpConfig.UID;
+
+        txtviewSupplier.setText(mConfirmOrderInfos.cartItems.get(0).cartItem.supplierName);
+        txtviewTotalPoints.setText("共有" + String.valueOf(mConfirmOrderInfos.availablePoints) + "积分");
+        txtviewTotalCost.setText(String.valueOf(mConfirmOrderInfos.orderTotalAmt + "元"));
+        txtviewNeedCost.setText(String.valueOf(mConfirmOrderInfos.orderTotalAmt + "元"));
+        txtviewCanGetPoints.setText(AppLocalUtils.getPointByPrice((mConfirmOrderInfos.orderTotalAmt)));
+        txtviewPromoSub.setText("￥" + String.valueOf(promoDiscount));
+        txtviewPointsSub.setText("￥" + String.valueOf(pointsDiscount));
+    }
+
+
+    private void confirmOrder()
+    {
+        mCompositeSubscription.add(mOperateOrderApi.createAppOrder(GlobalHttpConfig.PID,
+                GlobalHttpConfig.UID,
+                GlobalHttpConfig.TID,
+                GlobalHttpConfig.PIN,
+                mCreateAppOrder)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<DataResult<CreateAppOrderResult>>()
+                {
+                    @Override
+                    public void call(DataResult<CreateAppOrderResult> result)
+                    {
+                        switch (result.msgCode)
+                        {
+                            case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
+
+                                gotoPayPage(result.result);
+
+                                break;
+                            default:
+                                GeneralUtils.showToast(ConfirmOrderActivity.this, result.msgText);
+                                break;
+                        }
+                    }
+                }));
+    }
+
+    private void gotoPayPage(CreateAppOrderResult result)
+    {
+        Intent gotoPayPage = new Intent(ConfirmOrderActivity.this, PayMoneyActivity.class);
+        gotoPayPage.putExtra("orderInfo", PG.convertParcelable(result));
+        startActivity(gotoPayPage);
+        finish();
+    }
 }

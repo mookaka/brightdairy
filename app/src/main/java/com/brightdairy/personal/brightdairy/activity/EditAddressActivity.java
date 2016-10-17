@@ -1,35 +1,31 @@
 package com.brightdairy.personal.brightdairy.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.baoyz.pg.PG;
 import com.brightdairy.personal.api.AddressApi;
 import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.AddressSelectorPopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.Event.AddressChangeEvent;
 import com.brightdairy.personal.model.HttpReqBody.NewAddress;
 import com.brightdairy.personal.model.HttpReqBody.UpdateAddress;
 import com.brightdairy.personal.model.entity.AddressSelectorInfo;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -139,7 +135,6 @@ public class EditAddressActivity extends BaseActivity
     }
 
 
-    private AddressSelectorPopup mAddressSelectorPopup;
     @Override
     protected void initListener()
     {
@@ -163,17 +158,8 @@ public class EditAddressActivity extends BaseActivity
                     @Override
                     public void call(Void aVoid)
                     {
-                        if (mAddressSelectorPopup == null)
-                        {
-                            mAddressSelectorPopup = new AddressSelectorPopup();
-                        }
-
-                        Bundle addition = new Bundle();
-                        addition.putString("supplierId", supplierId);
-                        addition.putString("currCity", mNewAddress.city);
-                        addition.putString("currCounty", mNewAddress.county);
-                        addition.putString("currStreet", mNewAddress.street);
-                        mAddressSelectorPopup.setArguments(addition);
+                        AddressSelectorPopup mAddressSelectorPopup = AddressSelectorPopup
+                                .newInstance(supplierId, mNewAddress);
                         mAddressSelectorPopup.show(getSupportFragmentManager(), "addressSelector");
                     }
                 }));
@@ -187,7 +173,7 @@ public class EditAddressActivity extends BaseActivity
         }
         else
         {
-            SuperActivityToast.create(this, "用户名不合随心订的八字哦:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(this, "用户名不合随心订的八字哦:)");
             return;
         }
 
@@ -197,7 +183,7 @@ public class EditAddressActivity extends BaseActivity
         }
         else
         {
-            SuperActivityToast.create(this, "手机号有点小问题耶:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(this, "手机号有点小问题耶:)");
             return;
         }
 
@@ -207,7 +193,7 @@ public class EditAddressActivity extends BaseActivity
         }
         else
         {
-            SuperActivityToast.create(this, "详细地址不可以为空哦:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(this, "详细地址不可以为空哦:)");
             return;
         }
 
@@ -255,32 +241,26 @@ public class EditAddressActivity extends BaseActivity
                 GlobalHttpConfig.TID,
                 GlobalHttpConfig.PIN,
                 mUpdateAddress)
-                .subscribe(new Subscriber<DataResult<Object>>() {
-
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DataResult<Object>>() {
                     @Override
-                    public void onCompleted()
-                    {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-
-                    }
-
-                    @Override
-                    public void onNext(DataResult<Object> result)
-                    {
-                        switch (result.msgCode)
-                        {
+                    public void call(DataResult<Object> result) {
+                        switch (result.msgCode) {
                             case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
-                                SuperActivityToast.create(EditAddressActivity.this, "成功更新地址", Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(EditAddressActivity.this, "成功更新地址");
                                 break;
                             default:
-                                SuperActivityToast.create(EditAddressActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(EditAddressActivity.this,  result.msgText);
                                 break;
                         }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        throwable.printStackTrace();
                     }
                 }));
     }
@@ -292,32 +272,26 @@ public class EditAddressActivity extends BaseActivity
                 GlobalHttpConfig.TID,
                 GlobalHttpConfig.PIN,
                 mNewAddress)
-                .subscribe(new Subscriber<DataResult<Object>>()
-                {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DataResult<Object>>() {
                     @Override
-                    public void onCompleted()
-                    {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-
-                    }
-
-                    @Override
-                    public void onNext(DataResult<Object> result)
-                    {
-                        switch (result.msgCode)
-                        {
+                    public void call(DataResult<Object> result) {
+                        switch (result.msgCode) {
                             case GlobalHttpConfig.API_MSGCODE.REQUST_OK:
-                                SuperActivityToast.create(EditAddressActivity.this, "成功创建地址", Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(EditAddressActivity.this, "成功创建地址");
                                 break;
                             default:
-                                SuperActivityToast.create(EditAddressActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(EditAddressActivity.this, result.msgText);
                                 break;
                         }
+                    }
+                }, new Action1<Throwable>()
+                {
+                    @Override
+                    public void call(Throwable throwable)
+                    {
+                        throwable.printStackTrace();
                     }
                 }));
     }

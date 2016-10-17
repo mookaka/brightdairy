@@ -31,9 +31,9 @@ public class OrderCenterFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         orderCenterView = inflater.inflate(R.layout.fragment_home_page_order_center, null);
-        pagesTab = (AdvancedPagerSlidingTabStrip) orderCenterView.findViewById(R.id.tabs_fragment_order_center_tab);
+//        pagesTab = (AdvancedPagerSlidingTabStrip) orderCenterView.findViewById(R.id.tabs_fragment_order_center_tab);
         orderCenterPageContainer = (ViewPager) orderCenterView.findViewById(R.id.viewpager_fragment_order_center_pages);
-
+//
         initData();
 
         return orderCenterView;
@@ -51,22 +51,22 @@ public class OrderCenterFragment extends Fragment
         orderCenterPageFragments.add(OrderCenterPageFragment
                 .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_CREATED));
 
-//        orderCenterPageFragments.add(OrderCenterPageFragment
-//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_REJECTED));
+        orderCenterPageFragments.add(OrderCenterPageFragment
+                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_REJECTED));
 
-//        orderCenterPageFragments.add(OrderCenterPageFragment
-//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_PROCESSING));
-//
-//        orderCenterPageFragments.add(OrderCenterPageFragment
-//                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_APPROVED));
-//
+        orderCenterPageFragments.add(OrderCenterPageFragment
+                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_PROCESSING));
+
+        orderCenterPageFragments.add(OrderCenterPageFragment
+                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_APPROVED));
+
 //        orderCenterPageFragments.add(OrderCenterPageFragment
 //                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_COMPLETED));
 //
 //        orderCenterPageFragments.add(OrderCenterPageFragment
 //                .newInstance(GlobalHttpConfig.ORDER_STATUS.ORDER_CANCELLED));
 
-        OrderCenterPagesAdapter orderCenterPagesAdapter = new OrderCenterPagesAdapter(getChildFragmentManager(), orderCenterPageFragments);
+        OrderCenterPagesAdapter orderCenterPagesAdapter = new OrderCenterPagesAdapter(getFragmentManager(), orderCenterPageFragments);
         orderCenterPageContainer.setAdapter(orderCenterPagesAdapter);
 //        pagesTab.setViewPager(orderCenterPageContainer);
     }

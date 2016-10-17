@@ -32,6 +32,12 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class AppLocalUtils
 {
+
+    public static String getPointByPrice(float price)
+    {
+        return String.valueOf(Math.round(price / 100)) + "个";
+    }
+
     public static boolean isLogin()
     {
         String localUsrLoginId = PrefUtil.getString(GlobalConstants.AppConfig.UID_LOCAL, null);

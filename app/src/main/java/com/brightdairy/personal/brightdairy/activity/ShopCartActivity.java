@@ -1,9 +1,7 @@
 package com.brightdairy.personal.brightdairy.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -18,7 +16,7 @@ import com.brightdairy.personal.brightdairy.adapter.ShopCartAdapter;
 import com.brightdairy.personal.brightdairy.popup.DialogPopup;
 import com.brightdairy.personal.brightdairy.popup.GeneralLoadingPopup;
 import com.brightdairy.personal.brightdairy.popup.ShopCartSendModePopup;
-import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
@@ -33,17 +31,12 @@ import com.brightdairy.personal.model.entity.CartItem;
 import com.brightdairy.personal.model.entity.SelectedCartItem;
 import com.brightdairy.personal.model.entity.ShopCart;
 import com.brightdairy.personal.model.entity.SupplierItem;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.tubb.smrv.SwipeMenuRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -202,7 +195,7 @@ public class ShopCartActivity extends BaseActivity
                                 break;
                             default:
                                 dismissLoadingPopup();
-                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ShopCartActivity.this,  result.msgText);
                                 break;
                         }
                     }
@@ -212,9 +205,7 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "修改信息遇到问题哎", Style.DURATION_LONG)
-                                .setGravity(Gravity.TOP)
-                                .show();
+                        GeneralUtils.showToast(ShopCartActivity.this, "修改信息遇到问题哎");
                         throwable.printStackTrace();
                     }
                 }));
@@ -230,28 +221,24 @@ public class ShopCartActivity extends BaseActivity
     {
         if (!event.supplierId.equals(mSelectedCartItem.supplierId))
         {
-            showDialogPopup();
+            DialogPopup dialogPopup = DialogPopup.newInstance(getString(R.string.change_supplier_popup_title));
 
-            if (mDialogPopup != null)
+            dialogPopup.setDialogListener(new DialogPopup.DialogListener()
             {
-                mDialogPopup.setDialogListener(new DialogPopup.DialogListener()
+                @Override
+                public void onConfirmClick()
                 {
-                    @Override
-                    public void onConfirmClick()
-                    {
-                        handleCheckSupplierEvent(event);
-                    }
+                    handleCheckSupplierEvent(event);
+                }
 
-                    @Override
-                    public void onCancelClick()
-                    {
-                        dismissDialogPopup();
-                    }
-                });
-            } else
-            {
-                handleCheckSupplierEvent(event);
-            }
+                @Override
+                public void onCancelClick()
+                {
+                }
+            });
+        } else
+        {
+            handleCheckSupplierEvent(event);
         }
     }
 
@@ -280,7 +267,7 @@ public class ShopCartActivity extends BaseActivity
                                 break;
                             default:
                                 dismissLoadingPopup();
-                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ShopCartActivity.this, result.msgText);
                                 break;
                         }
                     }
@@ -290,9 +277,7 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "选择供应商发生问题哎", Style.DURATION_LONG)
-                                .setGravity(Gravity.TOP)
-                                .show();
+                        GeneralUtils.showToast(ShopCartActivity.this, "选择供应商发生问题哎");
                     }
                 }));
     }
@@ -302,26 +287,21 @@ public class ShopCartActivity extends BaseActivity
     {
         if (!event.supplierId.equals(mSelectedCartItem.supplierId))
         {
-            showDialogPopup();
+            DialogPopup dialogPopup = DialogPopup.newInstance(getString(R.string.change_supplier_popup_title));
 
-            if (mDialogPopup != null)
+            dialogPopup.setDialogListener(new DialogPopup.DialogListener()
             {
-                mDialogPopup.setDialogListener(new DialogPopup.DialogListener()
+                @Override
+                public void onConfirmClick()
                 {
-                    @Override
-                    public void onConfirmClick()
-                    {
-                        handleCheckCartItemEvent(event);
-                        dismissDialogPopup();
-                    }
+                    handleCheckCartItemEvent(event);
+                }
 
-                    @Override
-                    public void onCancelClick()
-                    {
-                        dismissDialogPopup();
-                    }
-                });
-            }
+                @Override
+                public void onCancelClick()
+                {
+                }
+            });
 
         } else
         {
@@ -359,7 +339,7 @@ public class ShopCartActivity extends BaseActivity
                                 break;
                             default:
                                 dismissLoadingPopup();
-                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ShopCartActivity.this, result.msgText);
                                 break;
                         }
                     }
@@ -369,9 +349,7 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "选择产品发生问题哎", Style.DURATION_LONG)
-                                .setGravity(Gravity.TOP)
-                                .show();
+                        GeneralUtils.showToast(ShopCartActivity.this, "选择产品发生问题哎");
                         throwable.printStackTrace();
                     }
                 }));
@@ -402,9 +380,7 @@ public class ShopCartActivity extends BaseActivity
                                 break;
                             default:
                                 dismissLoadingPopup();
-                                SuperActivityToast.create(ShopCartActivity.this, result.msgText, Style.DURATION_LONG)
-                                        .setGravity(Gravity.TOP)
-                                        .show();
+                                GeneralUtils.showToast(ShopCartActivity.this, result.msgText);
                                 break;
                         }
                     }
@@ -414,51 +390,12 @@ public class ShopCartActivity extends BaseActivity
                     public void call(Throwable throwable)
                     {
                         dismissLoadingPopup();
-                        SuperActivityToast.create(ShopCartActivity.this, "删除商品发生错误哎", Style.DURATION_LONG)
-                                .setGravity(Gravity.TOP)
-                                .show();
+                        GeneralUtils.showToast(ShopCartActivity.this, "删除商品发生错误哎");
                         throwable.printStackTrace();
                     }
                 }));
     }
 
-
-    private GeneralLoadingPopup loadingPopup;
-    private void showLoadingPopup()
-    {
-        if (loadingPopup == null)
-        {
-            loadingPopup = new GeneralLoadingPopup();
-        }
-        loadingPopup.show(getSupportFragmentManager(), "generalLoadingPopup");
-    }
-
-    private void dismissLoadingPopup()
-    {
-        if (loadingPopup != null)
-        {
-            loadingPopup.dismiss();
-        }
-    }
-
-    private DialogPopup mDialogPopup;
-    private void showDialogPopup()
-    {
-        if (mDialogPopup == null)
-        {
-            mDialogPopup = DialogPopup.newInstance(getResources().getString(R.string.change_supplier_popup_title));
-        }
-
-        mDialogPopup.show(getSupportFragmentManager(), "dialogPopup");
-    }
-
-    private void dismissDialogPopup()
-    {
-        if (mDialogPopup != null)
-        {
-            mDialogPopup.dismiss();
-        }
-    }
 
     private void showEmptyShop()
     {

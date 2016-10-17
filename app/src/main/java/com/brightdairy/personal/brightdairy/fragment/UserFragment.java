@@ -14,6 +14,7 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.UserApi;
 import com.brightdairy.personal.brightdairy.R;
+import com.brightdairy.personal.brightdairy.activity.AppSettingActivity;
 import com.brightdairy.personal.brightdairy.activity.LoginSmsActivity;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
@@ -21,6 +22,9 @@ import com.brightdairy.personal.brightdairy.view.badgeview.BadgeRadioButton;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.entity.UserInfoLite;
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
@@ -93,7 +97,17 @@ public class UserFragment extends LazyLoadFragment
 
     private void initListener()
     {
-
+        mCompositeSubscription.add(RxView.clicks(flUserSetting)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        Intent gotoSettingActivity = new Intent(getActivity(), AppSettingActivity.class);
+                        startActivity(gotoSettingActivity);
+                    }
+                }));
     }
 
     private UserInfoLite userInfoLite;

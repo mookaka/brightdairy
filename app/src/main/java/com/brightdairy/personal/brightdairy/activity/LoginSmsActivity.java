@@ -10,10 +10,9 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.SendSms;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -98,7 +97,7 @@ public class LoginSmsActivity extends Activity
 
                         } else
                         {
-                            SuperActivityToast.create(LoginSmsActivity.this, "能不能好好填号码:(", Style.DURATION_LONG).show();
+                            GeneralUtils.showToast(LoginSmsActivity.this, "能不能好好填号码:(");
                         }
 
                     }
@@ -176,7 +175,7 @@ public class LoginSmsActivity extends Activity
 
             default:
 
-                SuperActivityToast.create(LoginSmsActivity.this, text, Style.DURATION_LONG).show();
+                GeneralUtils.showToast(LoginSmsActivity.this, text);
                 getValidNum.setEnabled(true);
 
                 break;

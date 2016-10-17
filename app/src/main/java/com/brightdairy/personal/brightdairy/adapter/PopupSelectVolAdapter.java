@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.ViewHolder.PopSelectVolVH;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.model.Event.VolChangeEvent;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.bumptech.glide.Glide;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperToast;
 
 import java.util.ArrayList;
 
@@ -97,7 +96,7 @@ public class PopupSelectVolAdapter extends RecyclerView.Adapter<PopSelectVolVH> 
                 mRxBus.dispatchEvent(new VolChangeEvent(productVols.get(currentChecked).AsscProd));
             }
         } else {
-            SuperToast.create(GlobalConstants.APPLICATION_CONTEXT, "正在奋力获取产品信息", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(GlobalConstants.APPLICATION_CONTEXT, "正在奋力获取产品信息");
         }
 
     }

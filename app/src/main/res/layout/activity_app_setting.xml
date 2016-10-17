@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhiterLight">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#1f9bd4">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/nav_back"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:text="系统设置"/>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_setting_modify_usr_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_person"
+            android:drawablePadding="5dp"
+            android:text="修改个人信息"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/fl_setting_modify_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_password"
+            android:drawablePadding="5dp"
+            android:text="修改密码"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/fl_setting_check_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_notice"
+            android:drawablePadding="5dp"
+            android:text="开启/关闭消息通知"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center"
+            android:button="@drawable/selector_checkbox_btn"
+            android:background="@color/colorTransparent"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_setting_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_rubbish"
+            android:drawablePadding="5dp"
+            android:text="清除缓存"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center"
+            android:button="@drawable/selector_checkbox_btn"
+            android:background="@color/colorTransparent"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_setting_auto_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_clear"
+            android:drawablePadding="5dp"
+            android:text="自动清除缓存（每次启动）"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center"
+            android:button="@drawable/selector_checkbox_btn"
+            android:background="@color/colorTransparent"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_setting_complian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_write"
+            android:drawablePadding="5dp"
+            android:text="意见反馈"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_setting_statement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_agreement"
+            android:drawablePadding="5dp"
+            android:text="用户协议/版权声明"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_setting_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_about"
+            android:drawablePadding="5dp"
+            android:text="关于光明随心订"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_setting_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhiterPure">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:drawableLeft="@mipmap/setting_telephone"
+            android:drawablePadding="5dp"
+            android:text="热线服务"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@color/colorTransparent"
+            android:src="@mipmap/forward"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

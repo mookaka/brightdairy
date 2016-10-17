@@ -24,11 +24,11 @@ public class OrderCenterPageFragment extends LazyLoadFragment
     public static OrderCenterPageFragment newInstance(String pageType)
     {
         OrderCenterPageFragment orderCenterPageFragment = new OrderCenterPageFragment();
-        Bundle additionData = new Bundle();
+//        Bundle additionData = new Bundle();
 
-        additionData.putString("pageType", pageType);
-
-        orderCenterPageFragment.setArguments(additionData);
+//        additionData.putString("pageType", pageType);
+//
+//        orderCenterPageFragment.setArguments(additionData);
 
         return orderCenterPageFragment;
 

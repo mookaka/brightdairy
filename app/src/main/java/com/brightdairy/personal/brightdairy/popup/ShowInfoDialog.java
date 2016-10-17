@@ -96,7 +96,7 @@ public class ShowInfoDialog extends BasePopup
         thisWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        thisWindow.setLayout((int) (displayMetrics.widthPixels * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
+        thisWindow.setLayout((int) (displayMetrics.widthPixels * 0.6), ViewGroup.LayoutParams.WRAP_CONTENT);
         thisWindow.setGravity(Gravity.CENTER);
     }
 

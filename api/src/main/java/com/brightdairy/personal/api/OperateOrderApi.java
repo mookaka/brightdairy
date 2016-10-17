@@ -2,11 +2,13 @@ package com.brightdairy.personal.api;
 
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.ConfirmOrder;
-import com.brightdairy.personal.model.HttpReqBody.QuikBuyInfo;
+import com.brightdairy.personal.model.HttpReqBody.CreateAppOrder;
 import com.brightdairy.personal.model.entity.ConfirmOrderInfos;
+import com.brightdairy.personal.model.entity.CreateAppOrderResult;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
+import com.brightdairy.personal.model.entity.ValidatePromoCode;
+import com.brightdairy.personal.model.entity.checkPromoCodeResult;
 
-import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -37,5 +39,19 @@ public interface OperateOrderApi
                                                            @Body ProductSendInfo quikBuyInfo);
 
 
+    @POST("productStore/checkPromoCode")
+    @Headers("Content Type: application/json")
+    Observable<DataResult<checkPromoCodeResult>> checkPromoCode(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                                @Body ValidatePromoCode checkPromoCode);
 
+    @POST("order/createAppOrder")
+    @Headers("Content Type: application/json")
+    Observable<DataResult<CreateAppOrderResult>> createAppOrder(@Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.UID) String uid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.TID) String tid,
+                                                                @Header(GlobalHttpConfig.HTTP_HEADER.PIN) String pin,
+                                                                @Body CreateAppOrder createAppOrder);
 }

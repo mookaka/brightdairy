@@ -12,14 +12,13 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.SendSms;
 import com.brightdairy.personal.model.HttpReqBody.UserRegister;
 import com.brightdairy.personal.model.entity.LoginResult;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -158,19 +157,19 @@ public class RegisterInputPwdActivity extends Activity {
     {
         if(TextUtils.isEmpty(validCode) || !validCode.matches("^\\d{4,6}$"))
         {
-            SuperActivityToast.create(RegisterInputPwdActivity.this, "验证码好像有问题唉，检查一下吧:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(RegisterInputPwdActivity.this, "验证码好像有问题唉，检查一下吧:)");
             return;
         }
 
         if(TextUtils.isEmpty(passWord))
         {
-            SuperActivityToast.create(RegisterInputPwdActivity.this, "密码不能为空哦:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(RegisterInputPwdActivity.this, "密码不能为空哦:)");
             return;
         }
 
         if(TextUtils.isEmpty(comfirmPwd) || !comfirmPwd.endsWith(passWord))
         {
-            SuperActivityToast.create(RegisterInputPwdActivity.this, "干嘛呀！两次输入密码不一致哎:)", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(RegisterInputPwdActivity.this, "干嘛呀！两次输入密码不一致哎:)");
             return;
         }
 
@@ -229,7 +228,7 @@ public class RegisterInputPwdActivity extends Activity {
             case GlobalHttpConfig.API_MSGCODE.VALID_CODE_EXPIRED:
             case GlobalHttpConfig.API_MSGCODE.REQUST_FAILED:
 
-                SuperActivityToast.create(RegisterInputPwdActivity.this, "验证码好像有问题唉，点击重新获取验证码吧:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(RegisterInputPwdActivity.this, "验证码好像有问题唉，点击重新获取验证码吧:)");
                 resendSms.setText("重新获取验证码");
                 resendSms.setEnabled(true);
 
@@ -237,7 +236,7 @@ public class RegisterInputPwdActivity extends Activity {
 
             case GlobalHttpConfig.API_MSGCODE.PHONE_NUM_DOUBLE_REGISTER:
 
-                SuperActivityToast.create(RegisterInputPwdActivity.this, "这个手机号已经注册过了:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(RegisterInputPwdActivity.this, "这个手机号已经注册过了:)");
                 Intent RegisterIntent = new Intent(RegisterInputPwdActivity.this, RegisterActivity.class);
                 startActivity(RegisterIntent);
                 finish();
@@ -285,7 +284,7 @@ public class RegisterInputPwdActivity extends Activity {
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_FAILED:
             case GlobalHttpConfig.API_MSGCODE.SEND_SMS_INVALID_PHONE_NUM:
 
-                SuperActivityToast.create(RegisterInputPwdActivity.this, "验证码发送失败，再试试:)", Style.DURATION_LONG).show();
+                GeneralUtils.showToast(RegisterInputPwdActivity.this, "验证码发送失败，再试试:)");
                 resendSms.setEnabled(true);
 
                 break;

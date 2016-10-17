@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.brightdairy.personal.api.GlobalHttpConfig;
@@ -17,6 +18,7 @@ import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.popup.OrderSendModePopup;
 import com.brightdairy.personal.brightdairy.popup.QuikBuyInfoPopup;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.Banner;
@@ -31,8 +33,6 @@ import com.brightdairy.personal.model.entity.ProductDetail;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.brightdairy.personal.model.entity.ShopCart;
 import com.bumptech.glide.Glide;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -57,6 +57,7 @@ public class ProductDetailActivity extends FragmentActivity
     private TextView txtviewCampannyName;
     private ImageButton popupSendModeSelector;
     private ImageView imgviewProductDetail;
+    private LinearLayout llSendMode;
 
     private TextView txtviewSendTime;
     private TextView txtviewSendMode;
@@ -94,6 +95,9 @@ public class ProductDetailActivity extends FragmentActivity
         txtviewProductVol = (TextView) findViewById(R.id.txtview_product_detail_vol);
         txtviewOrderNorms = (TextView) findViewById(R.id.txtview_product_detail_order_norms);
         txtviewCampannyName = (TextView) findViewById(R.id.txtview_companny_name);
+
+        llSendMode = (LinearLayout) findViewById(R.id.ll_product_detail_send_time);
+
         popupSendModeSelector = (ImageButton)findViewById(R.id.imgbtn_select_send_mode);
         imgviewProductDetail = (ImageView) findViewById(R.id.imgview_product_detail);
 
@@ -255,7 +259,10 @@ public class ProductDetailActivity extends FragmentActivity
 
         txtviewCampannyName.setText(productDetail.companyName);
 
-        Glide.with(this).load(GlobalConstants.PRODUCT_DETAIL_IMG_URL_BASE + productDetail.productId + GlobalConstants.PRODUCT_DETAIL_SUFIXX).asBitmap().into(imgviewProductDetail);
+        Glide.with(this)
+                .load(GlobalConstants.PRODUCT_DETAIL_IMG_URL_BASE + productDetail.productId + GlobalConstants.PRODUCT_DETAIL_SUFIXX)
+                .asBitmap()
+                .into(imgviewProductDetail);
 
         freshSendModePopup(productDetail);
     }
@@ -264,22 +271,6 @@ public class ProductDetailActivity extends FragmentActivity
     private OrderSendModePopup orderSendModePopup;
     private void initListener()
     {
-        mCompositeSubscription.add(RxView.clicks(popupSendModeSelector)
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .subscribe(new Action1<Void>()
-                {
-                    @Override
-                    public void call(Void aVoid)
-                    {
-                        if(orderSendModePopup == null)
-                        {
-                            orderSendModePopup = new OrderSendModePopup();
-                        }
-                        orderSendModePopup.show(getSupportFragmentManager(), "orderSendModePopup");
-                    }
-                }));
-
-
         mCompositeSubscription.add(RxView.clicks(bdbtnShopCart)
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(new Action1<Void>()
@@ -313,6 +304,21 @@ public class ProductDetailActivity extends FragmentActivity
                     {
                         QuikBuyInfoPopup quikBuyInfoPopup = QuikBuyInfoPopup.newInstance(mProductSendModeInfo);
                         quikBuyInfoPopup.show(getSupportFragmentManager(), "quickBuyInfo");
+                    }
+                }));
+
+        mCompositeSubscription.add(RxView.clicks(llSendMode)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        if(orderSendModePopup == null)
+                        {
+                            orderSendModePopup = new OrderSendModePopup();
+                        }
+                        orderSendModePopup.show(getSupportFragmentManager(), "orderSendModePopup");
                     }
                 }));
 
@@ -350,7 +356,7 @@ public class ProductDetailActivity extends FragmentActivity
                                 showAddToCartAnim();
                                 break;
                             default:
-                                SuperActivityToast.create(ProductDetailActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ProductDetailActivity.this, result.msgText);
                                 break;
                         }
                     }

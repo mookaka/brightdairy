@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
         <service android:name="com.amap.api.location.APSService"/>
         <meta-data android:name="com.amap.api.v2.apikey" android:value="29a14f21c3928ed2a8326cdc726a04b7"/>
-        <activity android:name=".activity.MainActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.AdPageActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.LaunchPageActivity" android:launchMode="singleTask">
             <intent-filter>
@@ -43,6 +43,8 @@
         <activity android:name=".activity.ConfirmOrderActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.ModifyAddressActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.EditAddressActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.AppSettingActivity" android:launchMode="singleTask"/>
+        <activity android:name=".activity.UserInfoDetailActivity" android:launchMode="singleTask"/>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.adapter.AddressInfosAdapter;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.RxBus;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
@@ -19,8 +20,6 @@ import com.brightdairy.personal.model.Event.DeleteAddressEvent;
 import com.brightdairy.personal.model.Event.SetAddressDefaultEvent;
 import com.brightdairy.personal.model.Event.UpdateAddressEvent;
 import com.brightdairy.personal.model.entity.AddressInfo;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
@@ -68,7 +67,6 @@ public class ModifyAddressActivity extends BaseActivity
 
         initHandleRxBusEvent();
 
-        fetchData();
     }
 
 
@@ -77,6 +75,7 @@ public class ModifyAddressActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
+        fetchData();
     }
 
 
@@ -167,7 +166,7 @@ public class ModifyAddressActivity extends BaseActivity
                             case GlobalHttpConfig.API_MSGCODE.ADDRESS_DONT_EXIST:
                             case GlobalHttpConfig.API_MSGCODE.DELETE_ADDRESS_NOT_EXIST:
                             case GlobalHttpConfig.API_MSGCODE.DELETE_ADDRESS_ERR:
-                                SuperActivityToast.create(ModifyAddressActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ModifyAddressActivity.this, result.msgText);
                                 break;
                         }
                     }
@@ -215,7 +214,7 @@ public class ModifyAddressActivity extends BaseActivity
                                 break;
                             case GlobalHttpConfig.API_MSGCODE.ADDRESS_DONT_EXIST:
                             case GlobalHttpConfig.API_MSGCODE.UPDATE_ADDRESS_ERR:
-                                SuperActivityToast.create(ModifyAddressActivity.this, result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(ModifyAddressActivity.this, result.msgText);
                                 break;
                         }
                     }

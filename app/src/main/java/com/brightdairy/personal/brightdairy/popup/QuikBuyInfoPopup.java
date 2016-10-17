@@ -22,21 +22,17 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.GlobalRetrofit;
 import com.brightdairy.personal.api.OperateOrderApi;
 import com.brightdairy.personal.brightdairy.R;
-import com.brightdairy.personal.brightdairy.activity.ConfirmOrderActivity;
-import com.brightdairy.personal.brightdairy.activity.LoginSmsActivity;
 import com.brightdairy.personal.brightdairy.activity.ModifyAddressActivity;
 import com.brightdairy.personal.brightdairy.adapter.ConfirmOrderAdapter;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.view.AddSubtractionBtn;
 import com.brightdairy.personal.brightdairy.view.ExpandBarLinearLayoutManager;
 import com.brightdairy.personal.brightdairy.view.RecyclerviewItemDecoration.VerticalSpaceItemDecoration;
 import com.brightdairy.personal.model.DataResult;
-import com.brightdairy.personal.model.HttpReqBody.QuikBuyInfo;
 import com.brightdairy.personal.model.entity.AddrInfo;
 import com.brightdairy.personal.model.entity.ConfirmOrderInfos;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 
@@ -166,7 +162,7 @@ public class QuikBuyInfoPopup extends BasePopup
                                 dismiss();
                                 break;
                             default:
-                                SuperActivityToast.create(getActivity(), result.msgText, Style.DURATION_LONG).show();
+                                GeneralUtils.showToast(getActivity(), result.msgText);
                                 break;
                         }
                     }
@@ -217,7 +213,7 @@ public class QuikBuyInfoPopup extends BasePopup
 
     private void fillViewWithData()
     {
-        rclProductLists.setAdapter(new ConfirmOrderAdapter(mConfirmOrderInfos.cartItems));
+        rclProductLists.setAdapter(new ConfirmOrderAdapter(getActivity(), mConfirmOrderInfos.cartItems));
 
         if (mConfirmOrderInfos.defaultAddr != null)
         {

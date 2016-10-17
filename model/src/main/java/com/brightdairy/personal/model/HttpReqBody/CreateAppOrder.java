@@ -14,6 +14,6 @@ public class CreateAppOrder
     public String paymethod = "EXT_ONLINE_PAY";
     public String companyId;
     public String salesChannelEnumId = "APP_SALES_CHANNEL";
-    public HashMap<String,String> promocodeinfo;
+    public HashMap<String,String> promocodeinfo = new HashMap<>();
     public String pointsUsed;
 }

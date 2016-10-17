@@ -23,6 +23,7 @@ public class ConfirmOrderItemVH extends RecyclerView.ViewHolder
     public TextView txtviewProductPrice;
     public EditText editPromoCode;
     public TextView txtviewValidatePromoCode;
+    public TextView txtviewAbandonPromoCode;
     public LinearLayout llPromotion;
 
 
@@ -39,5 +40,6 @@ public class ConfirmOrderItemVH extends RecyclerView.ViewHolder
         llPromotion = (LinearLayout) itemView.findViewById(R.id.ll_item_confirm_order_promotion);
         editPromoCode = (EditText) itemView.findViewById(R.id.edit_item_confirm_order_input_promotion_code);
         txtviewValidatePromoCode = (TextView) itemView.findViewById(R.id.btn_item_confirm_order_validate);
+        txtviewAbandonPromoCode = (TextView) itemView.findViewById(R.id.btn_item_confirm_order_abandon);
     }
 }

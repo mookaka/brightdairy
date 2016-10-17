@@ -11,13 +11,12 @@ import com.brightdairy.personal.api.GlobalHttpConfig;
 import com.brightdairy.personal.api.LoginRegisterHttp;
 import com.brightdairy.personal.brightdairy.R;
 import com.brightdairy.personal.brightdairy.utils.AppLocalUtils;
+import com.brightdairy.personal.brightdairy.utils.GeneralUtils;
 import com.brightdairy.personal.brightdairy.utils.GlobalConstants;
 import com.brightdairy.personal.brightdairy.utils.PrefUtil;
 import com.brightdairy.personal.model.DataResult;
 import com.brightdairy.personal.model.HttpReqBody.UserLogin;
 import com.brightdairy.personal.model.entity.LoginResult;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -125,13 +124,13 @@ public class LoginPwdActivity extends Activity
     {
         if(TextUtils.isEmpty(userName))
         {
-            SuperActivityToast.create(LoginPwdActivity.this, "用户名不能为空哦:(", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(LoginPwdActivity.this, "用户名不能为空哦:(");
             return;
         }
 
         if(TextUtils.isEmpty(userPwd))
         {
-            SuperActivityToast.create(LoginPwdActivity.this, "密码不能为空哦:(", Style.DURATION_LONG).show();
+            GeneralUtils.showToast(LoginPwdActivity.this, "密码不能为空哦:(");
             return;
         }
 
@@ -183,7 +182,7 @@ public class LoginPwdActivity extends Activity
                 break;
             default:
 
-                SuperActivityToast.create(LoginPwdActivity.this, result.msgText, Style.DURATION_LONG).show();
+                GeneralUtils.showToast(LoginPwdActivity.this, result.msgText);
                 loginByUsrName.setEnabled(true);
 
                 break;

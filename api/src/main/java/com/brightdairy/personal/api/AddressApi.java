@@ -21,6 +21,10 @@ import rx.Observable;
  */
 public interface AddressApi
 {
+
+    int POPUP_ADDRESS_PARTID = 0x001;
+    int POPUP_ADDRESS = 0x002;
+
     @GET("userStore/getShipAddressList/{cityCode}/{addInfo}")
     Observable<DataResult<ArrayList<AddressInfo>>> getShipAddressList(
             @Header(GlobalHttpConfig.HTTP_HEADER.PID) String pid,

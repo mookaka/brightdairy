@@ -19,6 +19,13 @@ import com.brightdairy.personal.brightdairy.R;
 public class GeneralLoadingPopup extends BasePopup
 {
 
+    public static GeneralLoadingPopup newInstance()
+    {
+        GeneralLoadingPopup generalLoadingPopup = new GeneralLoadingPopup();
+
+        return generalLoadingPopup;
+    }
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle state)
     {

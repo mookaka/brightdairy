@@ -54,6 +54,8 @@
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
             android:textSize="12sp"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textColorHint="@color/colorWhiterDarker"
             android:hint="留下您的大名吧"/>
 
@@ -87,6 +89,8 @@
             android:background="@color/colorTransparent"
             android:inputType="phone"
             android:textColorHint="@color/colorWhiterDarker"
+            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="12sp"
             android:hint="留下您的联系方式呗"/>
 
@@ -151,7 +155,7 @@
             android:drawableLeft="@mipmap/product_local"
             android:textSize="10sp"
             android:textColorHint="@color/colorWhiterDarker"
-            android:hint="点击定位"/>
+            android:hint="点击显示地图"/>
 
     </FrameLayout>
 
@@ -168,6 +172,8 @@
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
             android:textColorHint="@color/colorWhiterDarker"
+            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="12sp"
             android:hint="在这里留下详细地址"/>
 
@@ -201,6 +207,8 @@
             android:layout_gravity="center_vertical|right"
             android:background="@color/colorTransparent"
             android:textColorHint="@color/colorWhiterDarker"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textSize="12sp"
             android:hint="您的门牌号"/>
 

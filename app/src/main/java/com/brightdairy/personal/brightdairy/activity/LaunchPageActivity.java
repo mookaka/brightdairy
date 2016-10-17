@@ -1,19 +1,15 @@
 package com.brightdairy.personal.brightdairy.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 import com.brightdairy.personal.api.AppConfigHttp;
 import com.brightdairy.personal.api.GlobalHttpConfig;
@@ -31,11 +27,8 @@ import com.brightdairy.personal.model.entity.CityZoneCode;
 import com.brightdairy.personal.model.entity.LaunchAd;
 import com.brightdairy.personal.model.entity.LaunchPage;
 import com.bumptech.glide.Glide;
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperActivityToast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 import java.util.ArrayList;
 
@@ -129,6 +122,8 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
 
         String oldPid = PrefUtil.getString(GlobalConstants.AppConfig.PID_LOCAL, "");
 
+        GlobalHttpConfig.UID = PrefUtil.getString(GlobalConstants.AppConfig.UID_LOCAL, "");
+
         mCompositeSubscription.add(appConfigHttp.getAppPid(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
@@ -210,7 +205,8 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
        mCompositeSubscription.add( appConfigHttp.getImgBaseUrl(GlobalHttpConfig.PID,
                GlobalHttpConfig.UID,
                GlobalHttpConfig.TID,
-               GlobalHttpConfig.PIN).subscribeOn(Schedulers.io())
+               GlobalHttpConfig.PIN)
+               .subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(new Subscriber<DataResult<String>>() {
                    @Override
@@ -239,7 +235,8 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
         mCompositeSubscription.add(launchPageHttpService.getLaunchPageConfig(GlobalHttpConfig.PID,
                 GlobalHttpConfig.UID,
                 GlobalHttpConfig.TID,
-                GlobalHttpConfig.PIN,GlobalConstants.ZONE_CODE)
+                GlobalHttpConfig.PIN,
+                GlobalConstants.ZONE_CODE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DataResult<LaunchPage>>()
@@ -331,6 +328,7 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
             if (location.getErrorCode() == 0)
             {
                 GlobalConstants.CURR_ZONE_CN_NAME = location.getCity();
+                GlobalConstants.LOCATION_CORRECT = true;
             }
             else
             {
@@ -360,13 +358,13 @@ public class LaunchPageActivity extends FragmentActivity implements AMapLocation
     @OnPermissionDenied({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
     void onLocationDenied()
     {
-        SuperActivityToast.create(this, getResources().getString(R.string.deny_location_permission), Style.DURATION_LONG).show();
+        GeneralUtils.showToast(LaunchPageActivity.this, getResources().getString(R.string.deny_location_permission));
     }
 
     @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
     void onLocationNeverAskAgain()
     {
-        SuperActivityToast.create(this, getResources().getString(R.string.never_ask_location_permission), Style.DURATION_LONG).show();
+        GeneralUtils.showToast(LaunchPageActivity.this, getResources().getString(R.string.never_ask_location_permission));
     }
 
     @OnShowRationale({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})

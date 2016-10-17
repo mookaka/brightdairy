@@ -28,9 +28,9 @@ public class OrderCenterPagesAdapter extends FragmentPagerAdapter
     {
         super(fm);
         this.mOrderCenterPageFragments = orderCenterPages;
-        this.mOrderCenterPageTitles = FragmentHelper.getOrderCenterPageTitles();
-        this.mOrderCenterUnIncon = FragmentHelper.getOrderCenterUnIcon();
-        this.mOrderCenterIcon = FragmentHelper.getOrderCenterIcon();
+//        this.mOrderCenterPageTitles = FragmentHelper.getOrderCenterPageTitles();
+//        this.mOrderCenterUnIncon = FragmentHelper.getOrderCenterUnIcon();
+//        this.mOrderCenterIcon = FragmentHelper.getOrderCenterIcon();
     }
 
 

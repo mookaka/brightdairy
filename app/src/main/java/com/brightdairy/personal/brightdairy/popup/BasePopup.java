@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -82,45 +83,50 @@ public abstract class BasePopup extends DialogFragment
     protected void clearResOnDestroyView() {}
 
 
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //avoid the exception of java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
     //when displaying dialogFragment instance after actiivty has called its onSaveState method
     private static final Class clz = DialogFragment.class;
 
-    public void showAllowingStateLoss(FragmentManager manager, String tag)
-    {
-        try
-        {
+    public void showAllowingStateLoss(FragmentManager manager, String tag) {
+        try {
             Field dismissed = clz.getDeclaredField("mDismissed");
             dismissed.setAccessible(true);
             dismissed.set(this, false);
-        }
-        catch (NoSuchFieldException e)
-        {
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-
-        try
-        {
+        try {
             Field shown = clz.getDeclaredField("mShownByMe");
             shown.setAccessible(true);
             shown.set(this, true);
-        }
-        catch (NoSuchFieldException e)
-        {
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.add(this, tag);
-        fragmentTransaction.commitAllowingStateLoss();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
     }
+
 }
