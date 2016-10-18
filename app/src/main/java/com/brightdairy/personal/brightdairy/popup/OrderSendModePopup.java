@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.brightdairy.personal.model.Event.UnitQuantityChangeEvent;
 import com.brightdairy.personal.model.entity.ProductDetail;
 import com.brightdairy.personal.model.entity.ProductSendInfo;
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxRadioGroup;
 
 import java.util.concurrent.TimeUnit;
@@ -46,6 +48,7 @@ public class OrderSendModePopup extends BasePopup {
     private RadioGroup radiogpSendModeOther;
     private RadioGroup radiogpSendTime;
     private AddSubtractionBtn addSubtractionBtn;
+    private ImageButton closePopup;
 
     private ProductDetail productDetail;
     private ProductSendInfo productSendModeInfo;
@@ -59,6 +62,7 @@ public class OrderSendModePopup extends BasePopup {
         productName = (TextView) sendModeSelectorView.findViewById(R.id.txtview_popup_product_name);
         productPrice = (TextView) sendModeSelectorView.findViewById(R.id.txtview_popup_product_price);
         volSelectors = (RecyclerView) sendModeSelectorView.findViewById(R.id.rclview_popup_vol_selector);
+        closePopup = (ImageButton) sendModeSelectorView.findViewById(R.id.imgbtn_popup_exit);
         addSubtractionBtn = (AddSubtractionBtn) sendModeSelectorView.findViewById(R.id.addsubbtn_popup_per_nums);
         radiogpSendMode = (RadioGroup) sendModeSelectorView.findViewById(R.id.rdgroup_popup_send_mode);
         radiogpSendModeOther = (RadioGroup) sendModeSelectorView.findViewById(R.id.rdgroup_popup_send_mode_other);
@@ -141,6 +145,17 @@ public class OrderSendModePopup extends BasePopup {
                     public void call(Integer integer)
                     {
                         afterSendTimeChangeHandler(integer);
+                    }
+                }));
+
+        mCompositeSubscription.add(RxView.clicks(closePopup)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>()
+                {
+                    @Override
+                    public void call(Void aVoid)
+                    {
+                        dismiss();
                     }
                 }));
     }

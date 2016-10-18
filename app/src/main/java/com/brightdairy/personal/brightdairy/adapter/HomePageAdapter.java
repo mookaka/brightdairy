@@ -215,11 +215,13 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void OnBannerClick(View view, int position)
                     {
+                        position -= 1;
                         switch (actions.get(position))
                         {
                             case "h5":
 
                                 Intent webBrowserIntent = new Intent(GlobalConstants.APPLICATION_CONTEXT, WebBrowserContainerActivity.class);
+                                webBrowserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 webBrowserIntent.putExtra("actionUrl", actionUrls.get(position));
                                 GlobalConstants.APPLICATION_CONTEXT.startActivity(webBrowserIntent);
                                 break;
